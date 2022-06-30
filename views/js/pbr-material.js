@@ -13,7 +13,7 @@ const defaultSceneConfiguration = {
 
 	"displacement.url" : null,
 	"displacement.encoding" : "linear",
-	"displacement.scale" : 0.25,
+	"displacement.scale" : 0.05,
 
 	"roughness.url" : null,
 	"roughness.encoding" : "linear",
@@ -55,12 +55,12 @@ const threeNormalMapType = {
 // STATE
 // Change some initial values so that the update mechanism becomes active
 
-let oldSceneConfiguration = {};
+let currentSceneConfiguration = {};
 
 // EVENT LISTENERS
 
 window.addEventListener('hashchange', function() { 
-	updateSceneConfiguration(parseHashString());
+	updateSceneConfiguration(parseHashString(),true);
 });
 
 // Window resizing
@@ -91,15 +91,20 @@ function parseHashString(){
 	return output;
 }
 
-function updateSceneConfiguration(incomingSceneConfiguration){
+function updateSceneConfiguration(incomingSceneConfiguration,fallbackToDefault){
 
 	console.log("INCOMING SCENE CONFIGURATION");
 	console.log(incomingSceneConfiguration);
 
-	console.log("OLD SCENE CONFIGURATION");
-	console.log(oldSceneConfiguration);
+	console.log("CURRENT SCENE CONFIGURATION");
+	console.log(currentSceneConfiguration);
 
-	newSceneConfiguration = structuredClone(defaultSceneConfiguration);
+	if(fallbackToDefault){
+		newSceneConfiguration = structuredClone(defaultSceneConfiguration);
+	}else{
+		newSceneConfiguration = structuredClone(currentSceneConfiguration);
+	}
+
 	
 	for(var key in incomingSceneConfiguration){
 		if(newSceneConfiguration[key] !== undefined){
@@ -115,7 +120,7 @@ function updateSceneConfiguration(incomingSceneConfiguration){
 
 	for(var mapName in threeMapNames){
 
-		if( oldSceneConfiguration[`${mapName}.url`] != newSceneConfiguration[`${mapName}.url`]){
+		if( currentSceneConfiguration[`${mapName}.url`] != newSceneConfiguration[`${mapName}.url`]){
 			if(newSceneConfiguration[`${mapName}.url`] != null){
 				var texture = textureLoader.load(newSceneConfiguration[`${mapName}.url`]);
 				texture.wrapS = THREE.RepeatWrapping;
@@ -129,7 +134,7 @@ function updateSceneConfiguration(incomingSceneConfiguration){
 			mesh.material[threeMapNames[mapName]] = texture;
 			mesh.material.needsUpdate = true;
 		}
-		else if( oldSceneConfiguration[`${mapName}.encoding`] != newSceneConfiguration[`${mapName}.encoding`]){
+		else if( currentSceneConfiguration[`${mapName}.encoding`] != newSceneConfiguration[`${mapName}.encoding`]){
 			if(mesh.material[threeMapNames[mapName]] != null){
 				mesh.material[threeMapNames[mapName]].encoding = threeEncodings[newSceneConfiguration[`${mapName}.encoding`]];
 			}
@@ -139,13 +144,13 @@ function updateSceneConfiguration(incomingSceneConfiguration){
 
 	// Test for changes in displacement strength
 
-	if(oldSceneConfiguration["displacement.scale"] != newSceneConfiguration["displacement.scale"]){
-		mesh.material.displacementScale = newSceneConfiguration["displacementScale"];
+	if(currentSceneConfiguration["displacement.scale"] != newSceneConfiguration["displacement.scale"]){
+		mesh.material.displacementScale = newSceneConfiguration["displacement.scale"];
 	}
 
 	// Set Environment
 
-	if(oldSceneConfiguration["environment.url"] != newSceneConfiguration["environment.url"]){
+	if(currentSceneConfiguration["environment.url"] != newSceneConfiguration["environment.url"]){
 		new THREE.RGBELoader().load(newSceneConfiguration["environment.url"], texture => {
 			const gen = new THREE.PMREMGenerator(renderer);
 			const envMap = gen.fromEquirectangular(texture).texture;
@@ -158,14 +163,11 @@ function updateSceneConfiguration(incomingSceneConfiguration){
 
 	// Normal map type
 
-	if(oldSceneConfiguration["normal.type"] != newSceneConfiguration["normal.type"] || oldSceneConfiguration["normal.scale"] != newSceneConfiguration["normal.scale"]){
+	if(currentSceneConfiguration["normal.type"] != newSceneConfiguration["normal.type"] || currentSceneConfiguration["normal.scale"] != newSceneConfiguration["normal.scale"]){
 		mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal.scale"],newSceneConfiguration["normal.scale"]).multiply(threeNormalMapType[newSceneConfiguration["normal.type"]]);
 	}
 
-
-
-
-	oldSceneConfiguration = structuredClone(newSceneConfiguration);
+	currentSceneConfiguration = structuredClone(newSceneConfiguration);
 }
 
 function animate() {
@@ -207,5 +209,5 @@ mesh.material.transparent = true;
 document.querySelector('main').appendChild( renderer.domElement );
 
 // start
-updateSceneConfiguration(parseHashString());
 animate();
+updateSceneConfiguration(parseHashString(),true);

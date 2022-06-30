@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Initial Document</title>
-</head>
-<body>
-	<main></main>
-    <script src="./lib/three.r142.min.js"></script>
-	<script src="./lib/OrbitControls.r142.js"></script>
-	<script src="./lib/RGBELoader.r142.js"></script>
-	<script src="./js/pbr-material.js"></script>
-	
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./css/pbr-material.css">
+		<title>Initial Document</title>
+	</head>
+	<body>
+		<main>
+			<form>
+				<input 
+					type="range"
+					min="0"
+					max="5"
+					value="1"
+					class="slider"
+					id="myRange"
+					step="0.05"
+					oninput="updateSceneConfiguration({'normal.scale':this.value},false);"
+				>
+				<input 
+					type="range"
+					min="0"
+					max="0.33"
+					value="0.05"
+					class="slider"
+					id="myRange"
+					step="0.01"
+					on
+					oninput="updateSceneConfiguration({'displacement.scale':this.value},false);"
+				>
+			</form>
+		</main>
+		<script src="./lib/three.r142.min.js"></script>
+		<script src="./lib/OrbitControls.r142.js"></script>
+		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./js/pbr-material.js"></script>
+	</body>
 </html>
