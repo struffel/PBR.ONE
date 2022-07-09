@@ -1,0 +1,34 @@
+body{
+	box-sizing: border-box;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body, main{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+nav {
+	position: absolute;
+	top:0px;
+	left:20px;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: min-content auto;
+	background-color: #00000050;
+	color:#ffffff;
+
+	border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+nav input{
+	margin: 10px;
+}
+
+nav label{
+	margin: 10px;
+	white-space: nowrap;
+}

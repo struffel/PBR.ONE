@@ -1,6 +1,6 @@
-// CONSTANTS
+// VARIABLES AND CONSTANTS
 
-let scene, camera, renderer, mesh, controls, textureLoader, normalMapMode;
+let scene, camera, renderer,  mesh, controls, textureLoader, normalMapMode;
 
 const defaultSceneConfiguration = {
 	"color.url" : null,
@@ -29,6 +29,10 @@ const defaultSceneConfiguration = {
 
 	"environment.url" : "https://cdn3.struffelproductions.com/file/ambientCG/media/panorama/OutdoorHDRI001_HDR.hdr",
 
+	"geometry.type" : "plane",
+	"geometry.subdivisions" : 500,
+
+	//TODO
 	"scale.x" : 1.0,
 	"scale.y" : 1.0
 };
@@ -53,12 +57,13 @@ const threeNormalMapType = {
 }
 
 // STATE
-// Change some initial values so that the update mechanism becomes active
 
+// Change some initial values so that the update mechanism becomes active
 let currentSceneConfiguration = {};
 
 // EVENT LISTENERS
 
+// Changes in the hash
 window.addEventListener('hashchange', function() { 
 	updateSceneConfiguration(parseHashString(),true);
 });
@@ -73,12 +78,8 @@ function resizeRenderingArea() {
 
 // FUNCTIONS
 
-function getHashString(){
-	return window.location.href.substring(window.location.href.indexOf('#') + 1);
-}
-
 function parseHashString(){
-	var hashString = getHashString();
+	var hashString = window.location.href.substring(window.location.href.indexOf('#') + 1);;
 	var hashStringFragments = hashString.split(',');
 
 	var output = {};
@@ -93,12 +94,6 @@ function parseHashString(){
 
 function updateSceneConfiguration(incomingSceneConfiguration,fallbackToDefault){
 
-	console.log("INCOMING SCENE CONFIGURATION");
-	console.log(incomingSceneConfiguration);
-
-	console.log("CURRENT SCENE CONFIGURATION");
-	console.log(currentSceneConfiguration);
-
 	if(fallbackToDefault){
 		newSceneConfiguration = structuredClone(defaultSceneConfiguration);
 	}else{
@@ -111,10 +106,6 @@ function updateSceneConfiguration(incomingSceneConfiguration,fallbackToDefault){
 			newSceneConfiguration[key] = incomingSceneConfiguration[key];
 		}
 	};
-
-	console.log("NEW SCENE CONFIGURATION");
-	console.log(newSceneConfiguration);
-
 	
 	// Test for changes in url and encoding
 
@@ -142,9 +133,33 @@ function updateSceneConfiguration(incomingSceneConfiguration,fallbackToDefault){
 
 	}
 
+	// Set new geometry subdivisions
+
+	if(currentSceneConfiguration["geometry.subdivisions"] != newSceneConfiguration["geometry.subdivisions"] |  currentSceneConfiguration["geometry.type"] != newSceneConfiguration["geometry.type"]){
+		switch (newSceneConfiguration["geometry.type"]) {
+			case "cube":
+				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				break;
+			case "cylinder":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				break;
+			case "sphere":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				break;
+			case "plane":
+			default:
+				mesh.rotation.x = 0.75 * 2 * Math.PI;
+				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				break;
+		}
+	}
+
 	// Test for changes in displacement strength
 
 	if(currentSceneConfiguration["displacement.scale"] != newSceneConfiguration["displacement.scale"]){
+		mesh.material.displacementBias = newSceneConfiguration["displacement.scale"] / -2;
 		mesh.material.displacementScale = newSceneConfiguration["displacement.scale"];
 	}
 
@@ -192,8 +207,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.outputEncoding = THREE.sRGBEncoding;
 
 // preview object
-mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,500,500) , new THREE.MeshPhysicalMaterial() );
-mesh.rotation.x = 0.75 * 2 * Math.PI
+mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,1,1), new THREE.MeshPhysicalMaterial() );
 scene.add(mesh);
 
 // orbit controls
