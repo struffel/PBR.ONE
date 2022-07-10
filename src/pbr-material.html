@@ -10,25 +10,25 @@
 	<body>
 		<main>
 			<nav>
-					<label for="normal_scale" title="normal_scale">Normal Scale</label>
-					<input 
-						type="range"
-						min="0"
-						max="5"
-						id="normal_scale"
-						step="0.05"
-						oninput="updateScene({'normal_scale':this.value},PBR1_FALLBACK.current);"
-					>
+				<label for="normal_scale" title="normal_scale">Normal Scale</label>
+				<input 
+					type="range"
+					min="0"
+					max="5"
+					id="normal_scale"
+					step="0.05"
+					oninput="updateScene({'normal_scale':this.value},PBR1_FALLBACK.current);"
+				>
 
-					<label for="displacement_scale" title="displacement_scale">Displacement Scale</label>
-					<input 
-						type="range"
-						min="0"
-						max="0.33"
-						id="displacement_scale"
-						step="0.01"
-						oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
-					>
+				<label for="displacement_scale" title="displacement_scale">Displacement Scale</label>
+				<input 
+					type="range"
+					min="0"
+					max="0.33"
+					id="displacement_scale"
+					step="0.01"
+					oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
+				>
 			</nav>
 		</main>
 		<script src="./lib/three.r142.min.js"></script>
