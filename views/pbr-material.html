@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="./css/main.css">
+		<link rel="stylesheet" href="./css/pbr1.css">
 		<title>Initial Document</title>
 	</head>
 	<body>
@@ -18,7 +18,7 @@
 						value="1"
 						id="normal.scale"
 						step="0.05"
-						oninput="updateSceneConfiguration({'normal.scale':this.value},false);"
+						oninput="updateScene({'normal.scale':this.value},PBR1_FALLBACK.current);"
 					>
 
 					<label for="displacement.scale">Displacement Intensity</label>
@@ -29,13 +29,14 @@
 						value="0.05"
 						id="displacement.scale"
 						step="0.01"
-						oninput="updateSceneConfiguration({'displacement.scale':this.value},false);"
+						oninput="updateScene({'displacement.scale':this.value},PBR1_FALLBACK.current);"
 					>
 			</nav>
 		</main>
 		<script src="./lib/three.r142.min.js"></script>
 		<script src="./lib/OrbitControls.r142.js"></script>
 		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./js/main.js"></script>
 		<script src="./js/pbr-material.js"></script>
 	</body>
 </html>

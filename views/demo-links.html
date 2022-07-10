@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstrationslinks</title>
+    <style>
+        #LinkList{
+            font-size: larger;
+            line-height: 2.5;
+        }
+    </style>
+</head>
+<body>
+    <ul id="LinkList"></ul>
+    <script>
+
+        var links = {
+            "Leer" : "",
+            "Rote Pflastersteine (Color / Normal / Displacement / Roughness)" : "color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/PavingStones114/PavingStones114_Color.jpg,displacement.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/PavingStones114/PavingStones114_Displacement.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/PavingStones114/PavingStones114_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/PavingStones114/PavingStones114_Roughness.jpg",
+            "Holz (Color / Normal / Roughness)" : "color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Wood048/Wood048_Color.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Wood048/Wood048_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Wood048/Wood048_Roughness.jpg",
+            "Fassade (Color / Normal / Roughness / Emission / Metalness)" : "metalness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Facade020B/Facade020B_Metalness.jpg,emission.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Facade020B/Facade020B_Emission.jpg,color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Facade020B/Facade020B_Color.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Facade020B/Facade020B_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Facade020B/Facade020B_Roughness.jpg",
+            "Zaun (Color / Normal / Roughness / Opacity / Metalness)" : "metalness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Fence008B/Fence008B_Metalness.jpg,opacity.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Fence008B/Fence008B_Opacity.jpg,color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Fence008B/Fence008B_Color.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Fence008B/Fence008B_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Fence008B/Fence008B_Roughness.jpg",
+            "Stahl (Color / Normal / Roughness / Metalness)" : "metalness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Metal038/Metal038_Metalness.jpg,color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Metal038/Metal038_Color.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Metal038/Metal038_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Metal038/Metal038_Roughness.jpg",
+			"Mauer 2x1 (Color / Normal / Displacement / Roughness)" : "color.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Bricks078/Bricks078_Color.jpg,displacement.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Bricks078/Bricks078_Displacement.jpg,normal.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Bricks078/Bricks078_Normal.jpg,roughness.url=https://f003.backblazeb2.com/file/ambientCG/media/maps/Bricks078/Bricks078_Roughness.jpg"
+        }
+
+        var linkList = document.getElementById('LinkList');
+
+        Object.keys(links).forEach(l => {
+            linkList.innerHTML += `<li><a href="./views/pbr-material.html#${links[l]}" target="_blank">${l}</a></li>`
+        });
+
+    </script>
+</body>
+</html>

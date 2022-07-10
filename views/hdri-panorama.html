@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./css/pbr1.css">
+		<title>Initial Document</title>
+	</head>
+	<body>
+		<main>
+			<nav>
+				<label for="environment.exposure">Exposure</label>
+				<input 
+					type="range"
+					min="-16"
+					max="16"
+					value="0"
+					id="environment.exposure"
+					step="0.25"
+					oninput="updateScene({'environment.exposure':this.value},PBR1_FALLBACK.current);",
+					onload="updateScene({'environment.exposure':this.value},PBR1_FALLBACK.current);"
+				>
+				<label for="environment.tonemapping">Tone Mapping</label>
+				<select 
+					id="environment.tonemapping"
+					onchange="updateScene({'environment.tonemapping':this.value},PBR1_FALLBACK.current);"
+					onload="updateScene({'environment.tonemapping':this.value},PBR1_FALLBACK.current);"
+				>
+					<option value="filmic">ACES filmic</option>
+					<option value="linear">Linear</option>
+					
+				</select>
+				<label for="spheres.enable">Show spheres</label>
+				<input 
+					checked="checked"
+					type="checkbox"
+					id="spheres.enable"
+					onchange="updateScene({'spheres.enable':this.checked},PBR1_FALLBACK.current);"
+				>
+			</nav>
+		</main>
+		<script src="./lib/three.r142.min.js"></script>
+		<script src="./lib/OrbitControls.r142.js"></script>
+		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./lib/EXRLoader.r142.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/hdri-panorama.js"></script>
+	</body>
+</html>
