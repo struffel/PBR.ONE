@@ -10,32 +10,31 @@
 	<body>
 		<main>
 			<nav>
-					<label for="normal.scale">Normal Intensity</label>
+					<label for="normal_scale" title="normal_scale">Normal Scale</label>
 					<input 
 						type="range"
 						min="0"
 						max="5"
-						value="1"
-						id="normal.scale"
+						id="normal_scale"
 						step="0.05"
-						oninput="updateScene({'normal.scale':this.value},PBR1_FALLBACK.current);"
+						oninput="updateScene({'normal_scale':this.value},PBR1_FALLBACK.current);"
 					>
 
-					<label for="displacement.scale">Displacement Intensity</label>
+					<label for="displacement_scale" title="displacement_scale">Displacement Scale</label>
 					<input 
 						type="range"
 						min="0"
 						max="0.33"
-						value="0.05"
-						id="displacement.scale"
+						id="displacement_scale"
 						step="0.01"
-						oninput="updateScene({'displacement.scale':this.value},PBR1_FALLBACK.current);"
+						oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
 					>
 			</nav>
 		</main>
 		<script src="./lib/three.r142.min.js"></script>
 		<script src="./lib/OrbitControls.r142.js"></script>
 		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./lib/EXRLoader.r142.js"></script>
 		<script src="./js/main.js"></script>
 		<script src="./js/pbr-material.js"></script>
 	</body>

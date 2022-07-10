@@ -1,13 +1,13 @@
 // VARIABLES AND CONSTANTS
 
-let PBR1_SCENECONFIG = {
+const PBR1_SCENECONFIG = {
 	"default" : {
 
-		"spheres.enable" : 1,
+		"spheres_enable" : 1,
 	
-		"environment.tonemapping" : "filmic",
-		"environment.exposure" : 0.0,
-		"environment.url" : "./media/env-riverbed.exr",
+		"environment_tonemapping" : "filmic",
+		"environment_exposure" : 0.0,
+		"environment_url" : "./media/env-riverbed.exr",
 	},
 	"current" : {}
 }
@@ -16,7 +16,7 @@ let PBR1_SCENECONFIG = {
 
 // Zooming
 document.addEventListener( 'mousewheel', (event) => {
-    PBR1_ELEMENTS.camera.fov += event.deltaY/50;
+    PBR1_ELEMENTS.camera.fov = Math.min(Math.max(PBR1_ELEMENTS.camera.fov + event.deltaY/50, 1), 150);
 	PBR1_ELEMENTS.camera.updateProjectionMatrix();
 });
 
@@ -29,29 +29,29 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Exposure
 
-	if(PBR1_SCENECONFIG.current["environment.exposure"] != newSceneConfiguration["environment.exposure"]){
-		PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment.exposure"]);
+	if(PBR1_SCENECONFIG.current["environment_exposure"] != newSceneConfiguration["environment_exposure"]){
+		PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
 	}
 
-	if(PBR1_SCENECONFIG.current["environment.tonemapping"] != newSceneConfiguration["environment.tonemapping"]){
-		PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment.tonemapping"]];
+	if(PBR1_SCENECONFIG.current["environment_tonemapping"] != newSceneConfiguration["environment_tonemapping"]){
+		PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment_tonemapping"]];
 	}
 
-	if(PBR1_SCENECONFIG.current["spheres.enable"] != newSceneConfiguration["spheres.enable"]){
-		PBR1_ELEMENTS.scene.visible = Boolean(newSceneConfiguration["spheres.enable"]);
+	if(PBR1_SCENECONFIG.current["spheres_enable"] != newSceneConfiguration["spheres_enable"]){
+		PBR1_ELEMENTS.scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
 	}
 
 	// Set Environment
 
-	if(PBR1_SCENECONFIG.current["environment.url"] != newSceneConfiguration["environment.url"]){
+	if(PBR1_SCENECONFIG.current["environment_url"] != newSceneConfiguration["environment_url"]){
 
-		if(newSceneConfiguration["environment.url"].endsWith(".hdr")){
+		if(newSceneConfiguration["environment_url"].endsWith(".hdr")){
 			var envLoader = new THREE.RGBELoader();
-		}else if(newSceneConfiguration["environment.url"].endsWith(".exr")){
+		}else if(newSceneConfiguration["environment_url"].endsWith(".exr")){
 			var envLoader = new THREE.EXRLoader();
 		}
 		
-		envLoader.load(newSceneConfiguration["environment.url"], texture => {
+		envLoader.load(newSceneConfiguration["environment_url"], texture => {
 			const gen = new THREE.PMREMGenerator(PBR1_ELEMENTS.renderer);
 			const envMap = gen.fromEquirectangular(texture).texture;
 			PBR1_ELEMENTS.scene.environment = envMap;
@@ -59,13 +59,14 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			texture.dispose()
 			gen.dispose()
 
-			PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment.exposure"]);
-			PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment.tonemapping"]];
+			PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
+			PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment_tonemapping"]];
 		});
 		
 	}
 
 	PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
+	updateGuiFromCurrentSceneConfiguration();
 }
 
 // MAIN
@@ -115,6 +116,6 @@ PBR1_ELEMENTS.controls.enableDamping = true;
 // rendering canvas
 document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
 
-// start
+// START
 animate();
 updateScene(parseHashString(),PBR1_FALLBACK.default);

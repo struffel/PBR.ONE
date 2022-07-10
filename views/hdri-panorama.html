@@ -10,33 +10,34 @@
 	<body>
 		<main>
 			<nav>
-				<label for="environment.exposure">Exposure</label>
+				<label for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
 					type="range"
 					min="-16"
 					max="16"
 					value="0"
-					id="environment.exposure"
+					id="environment_exposure"
 					step="0.25"
-					oninput="updateScene({'environment.exposure':this.value},PBR1_FALLBACK.current);",
-					onload="updateScene({'environment.exposure':this.value},PBR1_FALLBACK.current);"
+					ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);";
+					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
+					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
 				>
-				<label for="environment.tonemapping">Tone Mapping</label>
+				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
 				<select 
-					id="environment.tonemapping"
-					onchange="updateScene({'environment.tonemapping':this.value},PBR1_FALLBACK.current);"
-					onload="updateScene({'environment.tonemapping':this.value},PBR1_FALLBACK.current);"
+					id="environment_tonemapping"
+					onchange="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
+					onload="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
 				>
-					<option value="filmic">ACES filmic</option>
-					<option value="linear">Linear</option>
+					<option title="filmic" value="filmic">ACES filmic</option>
+					<option title="linear" value="linear">Linear</option>
 					
 				</select>
-				<label for="spheres.enable">Show spheres</label>
+				<label for="spheres_enable" title="spheres_enable">Show spheres</label>
 				<input 
 					checked="checked"
 					type="checkbox"
-					id="spheres.enable"
-					onchange="updateScene({'spheres.enable':this.checked},PBR1_FALLBACK.current);"
+					id="spheres_enable"
+					onchange="updateScene({'spheres_enable':this.checked ? 1 : 0},PBR1_FALLBACK.current);"
 				>
 			</nav>
 		</main>

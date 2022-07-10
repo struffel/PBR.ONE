@@ -2,38 +2,37 @@
 
 const PBR1_SCENECONFIG = {
 	"default":{
-		"color.url" : null,
-		"color.encoding" : "sRGB",
+		"color_url" : null,
+		"color_encoding" : "sRGB",
 	
-		"normal.url" : null,
-		"normal.encoding" : "linear",
-		"normal.scale" : 1.0,
-		"normal.type" : "directx",
+		"normal_url" : null,
+		"normal_encoding" : "linear",
+		"normal_scale" : 1.0,
+		"normal_type" : "directx",
 	
-		"displacement.url" : null,
-		"displacement.encoding" : "linear",
-		"displacement.scale" : 0.05,
+		"displacement_url" : null,
+		"displacement_encoding" : "linear",
+		"displacement_scale" : 0.01,
 	
-		"roughness.url" : null,
-		"roughness.encoding" : "linear",
+		"roughness_url" : null,
+		"roughness_encoding" : "linear",
 	
-		"metalness.url" : null,
-		"metalness.encoding" : "linear",
+		"metalness_url" : null,
+		"metalness_encoding" : "linear",
 	
-		"ambientocclusion.url" : null,
-		"ambientocclusion.encoding" : "linear",
+		"ambientocclusion_url" : null,
+		"ambientocclusion_encoding" : "linear",
 	
-		"opacity.url" : null,
-		"opacity.encoding" : "linear",
+		"opacity_url" : null,
+		"opacity_encoding" : "linear",
 	
-		"environment.url" : "https://cdn3.struffelproductions.com/file/ambientCG/media/panorama/OutdoorHDRI001_HDR.hdr",
+		"environment_url" : "./media/env-sunny.exr",
 	
-		"geometry.type" : "plane",
-		"geometry.subdivisions" : 500,
+		"geometry_type" : "plane",
+		"geometry_subdivisions" : 500,
 	
-		//TODO
-		"scale.x" : 1.0,
-		"scale.y" : 1.0
+		"scale_x" : 1.0,
+		"scale_y" : 1.0
 	},
 	"current":{}
 };
@@ -48,12 +47,12 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	for(var mapName in PBR1_THREEJSMAPPING.mapNames){
 
-		if( PBR1_SCENECONFIG.current[`${mapName}.url`] != newSceneConfiguration[`${mapName}.url`]){
-			if(newSceneConfiguration[`${mapName}.url`] != null){
-				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}.url`]);
+		if( PBR1_SCENECONFIG.current[`${mapName}_url`] != newSceneConfiguration[`${mapName}_url`]){
+			if(newSceneConfiguration[`${mapName}_url`] != null){
+				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`]);
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
-				texture.encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}.encoding`]];
+				texture.encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
 				texture.repeat.set( 1, 1 );
 			}else{
 				var texture = null;
@@ -62,9 +61,9 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] = texture;
 			PBR1_ELEMENTS.mesh.material.needsUpdate = true;
 		}
-		else if( PBR1_SCENECONFIG.current[`${mapName}.encoding`] != newSceneConfiguration[`${mapName}.encoding`]){
+		else if( PBR1_SCENECONFIG.current[`${mapName}_encoding`] != newSceneConfiguration[`${mapName}_encoding`]){
 			if(PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] != null){
-				PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}.encoding`]];
+				PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
 			}
 		}
 
@@ -72,38 +71,45 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set new geometry subdivisions
 
-	if(PBR1_SCENECONFIG.current["geometry.subdivisions"] != newSceneConfiguration["geometry.subdivisions"] |  PBR1_SCENECONFIG.current["geometry.type"] != newSceneConfiguration["geometry.type"]){
-		switch (newSceneConfiguration["geometry.type"]) {
+	if(PBR1_SCENECONFIG.current["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] |  PBR1_SCENECONFIG.current["geometry_type"] != newSceneConfiguration["geometry_type"]){
+		switch (newSceneConfiguration["geometry_type"]) {
 			case "cube":
-				PBR1_ELEMENTS.mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				PBR1_ELEMENTS.mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				break;
 			case "cylinder":
 				PBR1_ELEMENTS.mesh.rotation.x = 0;
-				PBR1_ELEMENTS.mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				PBR1_ELEMENTS.mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				break;
 			case "sphere":
 				PBR1_ELEMENTS.mesh.rotation.x = 0;
-				PBR1_ELEMENTS.mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				PBR1_ELEMENTS.mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				break;
 			case "plane":
 			default:
 				PBR1_ELEMENTS.mesh.rotation.x = 0.75 * 2 * Math.PI;
-				PBR1_ELEMENTS.mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry.subdivisions"],newSceneConfiguration["geometry.subdivisions"]);
+				PBR1_ELEMENTS.mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				break;
 		}
 	}
 
 	// Test for changes in displacement strength
 
-	if(PBR1_SCENECONFIG.current["displacement.scale"] != newSceneConfiguration["displacement.scale"]){
-		PBR1_ELEMENTS.mesh.material.displacementBias = newSceneConfiguration["displacement.scale"] / -2;
-		PBR1_ELEMENTS.mesh.material.displacementScale = newSceneConfiguration["displacement.scale"];
+	if(PBR1_SCENECONFIG.current["displacement_scale"] != newSceneConfiguration["displacement_scale"]){
+		PBR1_ELEMENTS.mesh.material.displacementBias = newSceneConfiguration["displacement_scale"] / -2;
+		PBR1_ELEMENTS.mesh.material.displacementScale = newSceneConfiguration["displacement_scale"];
 	}
 
 	// Set Environment
 
-	if(PBR1_SCENECONFIG.current["environment.url"] != newSceneConfiguration["environment.url"]){
-		new THREE.RGBELoader().load(newSceneConfiguration["environment.url"], texture => {
+	if(PBR1_SCENECONFIG.current["environment_url"] != newSceneConfiguration["environment_url"]){
+
+		if(newSceneConfiguration["environment_url"].endsWith(".hdr")){
+			var envLoader = new THREE.RGBELoader();
+		}else if(newSceneConfiguration["environment_url"].endsWith(".exr")){
+			var envLoader = new THREE.EXRLoader();
+		}
+		
+		envLoader.load(newSceneConfiguration["environment_url"], texture => {
 			const gen = new THREE.PMREMGenerator(PBR1_ELEMENTS.renderer);
 			const envMap = gen.fromEquirectangular(texture).texture;
 			PBR1_ELEMENTS.scene.environment = envMap;
@@ -111,15 +117,17 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			texture.dispose()
 			gen.dispose()
 		});
+		
 	}
 
 	// Normal map type
 
-	if(PBR1_SCENECONFIG.current["normal.type"] != newSceneConfiguration["normal.type"] || PBR1_SCENECONFIG.current["normal.scale"] != newSceneConfiguration["normal.scale"]){
-		PBR1_ELEMENTS.mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal.scale"],newSceneConfiguration["normal.scale"]).multiply(PBR1_THREEJSMAPPING.normalMapType[newSceneConfiguration["normal.type"]]);
+	if(PBR1_SCENECONFIG.current["normal_type"] != newSceneConfiguration["normal_type"] || PBR1_SCENECONFIG.current["normal_scale"] != newSceneConfiguration["normal_scale"]){
+		PBR1_ELEMENTS.mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal_scale"],newSceneConfiguration["normal_scale"]).multiply(PBR1_THREEJSMAPPING.normalMapType[newSceneConfiguration["normal_type"]]);
 	}
 
 	PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
+	updateGuiFromCurrentSceneConfiguration();
 }
 
 // SCENE SETUP
@@ -154,6 +162,6 @@ PBR1_ELEMENTS.mesh.material.transparent = true;
 // rendering canvas
 document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
 
-// start
+// START
 animate();
 updateScene(parseHashString(),PBR1_FALLBACK.default);

@@ -63,7 +63,6 @@ function parseHashString(){
 
 function buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType){
     if(fallbackType == PBR1_FALLBACK.default){
-        console.log("Fallback to default")
 		newSceneConfiguration = structuredClone(PBR1_SCENECONFIG.default);
 	}else if(fallbackType == PBR1_FALLBACK.current){
 		newSceneConfiguration = structuredClone(PBR1_SCENECONFIG.current);
@@ -79,6 +78,18 @@ function buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType){
 	};
 
     return newSceneConfiguration;
+}
+
+function updateGuiFromCurrentSceneConfiguration(){
+	for(var key in PBR1_SCENECONFIG.current){
+		var target = document.getElementById(key)
+		if(target != null && target.value != undefined){
+			target.value = PBR1_SCENECONFIG.current[key];
+		}
+		if(target != null && target.checked != undefined){
+			target.checked = Boolean(parseInt(PBR1_SCENECONFIG.current[key]));
+		}
+	}
 }
 
 function animate() {
