@@ -74,6 +74,3 @@ The parameters for `pbr-material` are:
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
 | `scale_x` | Texture scaling (X). | Integer or floating point number. |
 | `scale_y` | Texture scaling (Y). | Integer or floating point number. |
-
-
-# Cross Origin Resource Sharing (CORS)
