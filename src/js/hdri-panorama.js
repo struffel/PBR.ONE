@@ -117,5 +117,4 @@ PBR1_ELEMENTS.controls.enableDamping = true;
 document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
 
 // START
-animate();
-updateScene(parseHashString(),PBR1_FALLBACK.default);
+main()

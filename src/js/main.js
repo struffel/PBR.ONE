@@ -97,3 +97,9 @@ function animate() {
 	PBR1_ELEMENTS.controls.update();
     PBR1_ELEMENTS.renderer.render( PBR1_ELEMENTS.scene, PBR1_ELEMENTS.camera );
 }
+
+function main(){
+	document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
+	animate();
+	updateScene(parseHashString(),PBR1_FALLBACK.default);
+}

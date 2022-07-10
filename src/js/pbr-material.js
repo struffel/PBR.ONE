@@ -159,9 +159,5 @@ PBR1_ELEMENTS.textureLoader = new THREE.TextureLoader()
 // default normal map settings
 PBR1_ELEMENTS.mesh.material.transparent = true;
 
-// rendering canvas
-document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
-
 // START
-animate();
-updateScene(parseHashString(),PBR1_FALLBACK.default);
+main()
