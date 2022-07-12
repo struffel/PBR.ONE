@@ -20,6 +20,25 @@ const PBR1_THREEJSMAPPING = {
         "metalness"		: "metalnessMap",
         "opacity"		: "alphaMap"
     },
+
+	// These are the "base" settings for ThreeJS if a specific map is active.
+	// This ensures, for example, that the metalness property is always actually active (set to 1) if a metalness map is used.
+	mapActiveSettings : {
+		"color" : ["color",new THREE.Color( 0xffffff )],
+		"normal": [null,null],
+		"roughness":["roughness",1],
+		"displacement":[null,null],
+		"metalness":["metalness",1],
+		"opacity":["opacity",1]
+	},
+	mapInactiveSettings: {
+		"color" : ["color",new THREE.Color( 0xdddddd )],
+		"normal": [null,null],
+		"roughness":["roughness",0.5],
+		"displacement":[null,null],
+		"metalness":["metalness",0],
+		"opacity":["opacity",1]
+	},
     encoding : {
         "sRGB": THREE.sRGBEncoding,
         "linear": THREE.LinearEncoding

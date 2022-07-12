@@ -54,7 +54,23 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 				texture.wrapT = THREE.RepeatWrapping;
 				texture.encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
 				texture.repeat.set( 1, 1 );
+
+				// Apply additional settings to ensure that the maps actually have an effect
+
+				if(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0] != null){
+					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapActiveSettings[mapName][1];
+					console.log(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]);
+				}
+
 			}else{
+
+				// Apply additional settings to ensure that the missing map is replaced with a sensible default
+
+				if(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0] != null){
+					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapInactiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapInactiveSettings[mapName][1];
+					console.log(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]);
+				}
+
 				var texture = null;
 			}
 
