@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./css/main.css">
+		<link rel="stylesheet" href="./css/hdri-flat.css">
+		<title>Initial Document</title>
+	</head>
+	<body>
+		<main id="renderer_target">
+			<nav>
+				<label for="environment_exposure" title="environment_exposure">Exposure</label>
+				<input 
+					type="range"
+					min="-16"
+					max="16"
+					value="0"
+					id="environment_exposure"
+					step="0.25"
+					ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);";
+					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
+					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
+				>
+				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
+				<select 
+					id="environment_tonemapping"
+					onchange="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
+					onload="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
+				>
+					<option title="filmic" value="filmic">ACES filmic</option>
+					<option title="linear" value="linear">Linear</option>
+					
+				</select>
+			</nav>
+		</main>
+		<script src="./lib/three.r142.min.js"></script>
+		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./lib/EXRLoader.r142.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/hdri-flat.js"></script>
+	</body>
+</html>
