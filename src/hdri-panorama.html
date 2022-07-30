@@ -10,7 +10,7 @@
 	<body>
 		<main id="renderer_target">
 			<nav>
-				<label for="environment_exposure" title="environment_exposure">Exposure</label>
+				<label ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
 					type="range"
 					min="-16"
