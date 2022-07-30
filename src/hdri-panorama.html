@@ -8,7 +8,7 @@
 		<title>Initial Document</title>
 	</head>
 	<body>
-		<main>
+		<main id="renderer_target">
 			<nav>
 				<label for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
@@ -22,16 +22,6 @@
 					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
 					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
 				>
-				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
-				<select 
-					id="environment_tonemapping"
-					onchange="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
-					onload="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
-				>
-					<option title="filmic" value="filmic">ACES filmic</option>
-					<option title="linear" value="linear">Linear</option>
-					
-				</select>
 				<label for="spheres_enable" title="spheres_enable">Show spheres</label>
 				<input 
 					checked="checked"

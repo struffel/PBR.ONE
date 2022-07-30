@@ -34,7 +34,10 @@ const PBR1_SCENECONFIG = {
 		"scale_x" : 1.0,
 		"scale_y" : 1.0
 	},
-	"current":{}
+	"current":{},
+	"internal":{
+		"aspect":null
+	}
 };
 
 // FUNCTIONS
@@ -59,7 +62,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 				if(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0] != null){
 					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapActiveSettings[mapName][1];
-					console.log(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]);
 				}
 
 			}else{
@@ -68,7 +70,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 				if(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0] != null){
 					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapInactiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapInactiveSettings[mapName][1];
-					console.log(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]);
 				}
 
 				var texture = null;

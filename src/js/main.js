@@ -57,11 +57,22 @@ window.addEventListener('hashchange', function() {
 });
 
 // Window resizing
-window.addEventListener('resize', resizeRenderingArea, false)
+window.addEventListener('resize', resizeRenderingArea, false);
 function resizeRenderingArea() {
-	PBR1_ELEMENTS.camera.aspect = window.innerWidth / window.innerHeight;
+
+	if(PBR1_SCENECONFIG.internal.aspect == null){
+		var aspect = window.innerWidth / window.innerHeight;
+		var sizeX = window.innerWidth;
+		var sizeY = window.innerHeight;
+	}else{
+		var aspect =  PBR1_SCENECONFIG.internal.aspect;
+		var sizeX = Math.min(window.innerWidth,window.innerHeight/aspect);
+		var sizeY = Math.min(window.innerWidth*aspect,window.innerHeight);
+	}
+
+	PBR1_ELEMENTS.camera.aspect = aspect;
 	PBR1_ELEMENTS.camera.updateProjectionMatrix();
-	PBR1_ELEMENTS.renderer.setSize(window.innerWidth, window.innerHeight);
+	PBR1_ELEMENTS.renderer.setSize(sizeX, sizeY);
 }
 
 // FUNCTIONS
@@ -88,7 +99,7 @@ function buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType){
 	}else{
         throw "Invalid fallback type for scene configuration."
     }
-
+	
 	
 	for(var key in incomingSceneConfiguration){
 		if(newSceneConfiguration[key] !== undefined){
@@ -118,7 +129,7 @@ function animate() {
 }
 
 function main(){
-	document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
+	document.querySelector('#renderer_target').appendChild( PBR1_ELEMENTS.renderer.domElement );
 	animate();
 	updateScene(parseHashString(),PBR1_FALLBACK.default);
 }

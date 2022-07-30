@@ -9,7 +9,10 @@ const PBR1_SCENECONFIG = {
 		"environment_exposure" : 0.0,
 		"environment_url" : "./media/env-riverbed.exr",
 	},
-	"current" : {}
+	"current" : {},
+	"internal":{
+		"aspect":null
+	}
 }
 
 // EVENT LISTENERS
@@ -111,10 +114,6 @@ PBR1_ELEMENTS.controls = new THREE.OrbitControls(PBR1_ELEMENTS.camera, PBR1_ELEM
 PBR1_ELEMENTS.controls.enableZoom = false;
 PBR1_ELEMENTS.controls.enablePan = false;
 PBR1_ELEMENTS.controls.enableDamping = true;
-
-
-// rendering canvas
-document.querySelector('main').appendChild( PBR1_ELEMENTS.renderer.domElement );
 
 // START
 main()
