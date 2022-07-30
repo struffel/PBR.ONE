@@ -112,6 +112,7 @@ PBR1_ELEMENTS.renderer.outputEncoding = THREE.sRGBEncoding;
 // orbit controls
 PBR1_ELEMENTS.controls = new THREE.OrbitControls(PBR1_ELEMENTS.camera, PBR1_ELEMENTS.renderer.domElement);
 PBR1_ELEMENTS.controls.enableZoom = true;
+PBR1_ELEMENTS.controls.minDistance = PBR1_ELEMENTS.controls.maxDistance = 2;
 PBR1_ELEMENTS.controls.enablePan = false;
 PBR1_ELEMENTS.controls.enableDamping = true;
 
