@@ -69,10 +69,12 @@ function resizeRenderingArea() {
 		var sizeX = Math.min(window.innerWidth,window.innerHeight/aspect);
 		var sizeY = Math.min(window.innerWidth*aspect,window.innerHeight);
 	}
-
-	PBR1_ELEMENTS.camera.aspect = aspect;
-	PBR1_ELEMENTS.camera.updateProjectionMatrix();
-	PBR1_ELEMENTS.renderer.setSize(sizeX, sizeY);
+	if(PBR1_ELEMENTS.camera && PBR1_ELEMENTS.renderer){
+		PBR1_ELEMENTS.camera.aspect = aspect;
+		PBR1_ELEMENTS.camera.updateProjectionMatrix();
+		PBR1_ELEMENTS.renderer.setSize(sizeX, sizeY);
+	}
+	
 }
 
 // FUNCTIONS
