@@ -40,9 +40,9 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	if(PBR1_SCENECONFIG.current["environment_url"] != newSceneConfiguration["environment_url"]){
 
-		if(newSceneConfiguration["environment_url"].endsWith(".hdr")){
+		if(newSceneConfiguration["environment_url"].split("?")[0].split("#")[0].endsWith(".hdr")){
 			var envLoader = new THREE.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"].endsWith(".exr")){
+		}else if(newSceneConfiguration["environment_url"].split("?")[0].split("#")[0].endsWith(".exr")){
 			var envLoader = new THREE.EXRLoader();
 		}
 		
