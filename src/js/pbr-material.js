@@ -26,7 +26,7 @@ const PBR1_SCENECONFIG = {
 		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : ["./media/env-sunny.exr","./media/env-lab.exr","./media/env-streetlamps.exr","./media/env-riverbed.exr"],
+		"environment_url" : ["./media/env-sunny.exr"],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,
@@ -38,7 +38,7 @@ const PBR1_SCENECONFIG = {
 		"material_name":[],
 
 		"environment_index":0,
-		"environment_name":["Park","Lab","Bridge","Riverbed"]
+		"environment_name":[]
 	},
 	"current":{},
 	"internal":{
