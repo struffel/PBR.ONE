@@ -105,7 +105,12 @@ function buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType){
 	
 	for(var key in incomingSceneConfiguration){
 		if(newSceneConfiguration[key] !== undefined){
-			newSceneConfiguration[key] = incomingSceneConfiguration[key];
+			if(Array.isArray(newSceneConfiguration[key])){
+				newSceneConfiguration[key] = incomingSceneConfiguration[key].split(";");
+			}else{
+				newSceneConfiguration[key] = incomingSceneConfiguration[key];
+			}
+			
 		}
 	};
 
@@ -113,6 +118,8 @@ function buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType){
 }
 
 function updateGuiFromCurrentSceneConfiguration(){
+
+	// Iterate over all elements by id and set their value
 	for(var key in PBR1_SCENECONFIG.current){
 		var target = document.getElementById(key)
 		if(target != null && target.value != undefined){
@@ -122,6 +129,38 @@ function updateGuiFromCurrentSceneConfiguration(){
 			target.checked = Boolean(parseInt(PBR1_SCENECONFIG.current[key]));
 		}
 	}
+
+
+	// Show or hide nav elements that are only necessary for multivalued inputs (like choosing multiple maps/materials).
+	// Select all Elements with the 'pbr1-onlyshowifmultivalued' attribute
+	document.querySelectorAll("*[pbr1-onlyshowifmultivalued]").forEach((element) =>{
+		// Get the value of the attribute to determine which key of the scene configuration must me multivalued for this element to be visible
+		var targetConfigurationParameter = element.attributes['pbr1-onlyshowifmultivalued'].value;
+
+		// Check if the target parameter exists and is multivalued
+
+		if( Array.isArray(PBR1_SCENECONFIG.current[targetConfigurationParameter]) && PBR1_SCENECONFIG.current[targetConfigurationParameter].length > 1){
+			element.style.display="unset";
+		}else{
+			element.style.display="none";
+		}
+
+	});
+
+
+	//Update dropdown options
+	document.querySelectorAll("*[pbr1-optionsource]").forEach((element) =>{
+		element.innerHTML = '';
+		var targetConfigurationParameter = element.attributes['pbr1-onlyshowifmultivalued'].value;
+		for (let i = 0; i < PBR1_SCENECONFIG.current[targetConfigurationParameter].length; i++) {
+			var opt = document.createElement('option');
+			opt.value = i;
+			opt.selected = PBR1_SCENECONFIG.current[element.attributes['pbr1-selectedsource'].value] == i;
+			opt.innerHTML = PBR1_SCENECONFIG.current[targetConfigurationParameter][i];
+			element.appendChild(opt);
+		}
+	});
+
 }
 
 function animate() {

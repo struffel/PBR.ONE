@@ -2,14 +2,15 @@
 
 const PBR1_SCENECONFIG = {
 	"default" : {
-		"texture_url" : "",
+		"texture_url" : [],
+		"texture_name": [],
+		"texture_index":0 // If texture_url is multivalued then this value keeps track of the currently selected index
 	},
 	"current" : {},
 	"internal":{
-		"aspect": null,
 		"background_x":0,
 		"background_y":0,
-		"background_size":200,
+		"background_size":512,
 		"mouse_down":false
 	}
 }
@@ -69,12 +70,11 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	newSceneConfiguration = buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType);
 
 	// CSS Background
-	PBR1_ELEMENTS.targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url']}')`;
-	PBR1_ELEMENTS.targetDomElement.style.backgroundSize = `${PBR1_SCENECONFIG.internal.background_size}px`;
+	PBR1_ELEMENTS.targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url'][newSceneConfiguration['texture_index']]}')`;
+	
 	PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
 	updateGuiFromCurrentSceneConfiguration();
 }
 
 // MAIN
-
 updateScene(parseHashString(),0);
