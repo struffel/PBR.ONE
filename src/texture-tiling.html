@@ -11,7 +11,14 @@
 		<main id="renderer_target">
 			<nav>
 				<label pbr1-onlyshowifmultivalued="texture_name" for="texture_url" title="texture_url">Texture</label>
-				<select onchange="updateScene({'texture_index':this.value},PBR1_FALLBACK.current);" pbr1-onlyshowifmultivalued="texture_name" pbr1-optionsource="texture_name" pbr1-selectedsource="texture_index" id="texture_url" name="texture_url">
+				<select 
+					onchange="updateScene({'texture_index':this.value},PBR1_FALLBACK.current);"
+					pbr1-onlyshowifmultivalued="texture_name"
+					pbr1-optionsource="texture_name"
+					pbr1-selectedsource="texture_index"
+					id="texture_url"
+					name="texture_url"
+				>
 				</select>
 			</nav>
 		</main>

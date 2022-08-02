@@ -163,6 +163,13 @@ function updateGuiFromCurrentSceneConfiguration(){
 
 }
 
+function arrayEquals(a, b) {
+	return Array.isArray(a) &&
+	  Array.isArray(b) &&
+	  a.length === b.length &&
+	  a.every((val, index) => val === b[index]);
+}
+
 function animate() {
     requestAnimationFrame( animate );
 	PBR1_ELEMENTS.controls.update();

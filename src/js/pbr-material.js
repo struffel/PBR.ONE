@@ -2,37 +2,43 @@
 
 const PBR1_SCENECONFIG = {
 	"default":{
-		"color_url" : null,
+		"color_url" : [],
 		"color_encoding" : "sRGB",
 	
-		"normal_url" : null,
+		"normal_url" : [],
 		"normal_encoding" : "linear",
 		"normal_scale" : 1.0,
 		"normal_type" : "directx",
 	
-		"displacement_url" : null,
+		"displacement_url" : [],
 		"displacement_encoding" : "linear",
 		"displacement_scale" : 0.01,
 	
-		"roughness_url" : null,
+		"roughness_url" : [],
 		"roughness_encoding" : "linear",
 	
-		"metalness_url" : null,
+		"metalness_url" : [],
 		"metalness_encoding" : "linear",
 	
-		"ambientocclusion_url" : null,
+		"ambientocclusion_url" : [],
 		"ambientocclusion_encoding" : "linear",
 	
-		"opacity_url" : null,
+		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : "./media/env-sunny.exr",
+		"environment_url" : ["./media/env-sunny.exr","./media/env-lab.exr","./media/env-streetlamps.exr","./media/env-riverbed.exr"],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,
 	
 		"scale_x" : 1.0,
-		"scale_y" : 1.0
+		"scale_y" : 1.0,
+
+		"material_index":0,
+		"material_name":[],
+
+		"environment_index":0,
+		"environment_name":["Park","Lab","Bridge","Riverbed"]
 	},
 	"current":{},
 	"internal":{
@@ -50,15 +56,16 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	for(var mapName in PBR1_THREEJSMAPPING.mapNames){
 
-		if( PBR1_SCENECONFIG.current[`${mapName}_url`] != newSceneConfiguration[`${mapName}_url`]){
-			if(newSceneConfiguration[`${mapName}_url`] != null){
-				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`]);
+		if( PBR1_SCENECONFIG.current.material_index != newSceneConfiguration.material_index || !arrayEquals(PBR1_SCENECONFIG.current[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])){
+			if(!arrayEquals(newSceneConfiguration[`${mapName}_url`],[])){
+				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`][newSceneConfiguration['material_index']]);
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
 				texture.encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
 				texture.repeat.set( 1, 1 );
 
 				// Apply additional settings to ensure that the maps actually have an effect
+				// (like setting the object color to white to avoid a color tint on the texture)
 
 				if(PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0] != null){
 					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapActiveSettings[mapName][1];
@@ -78,7 +85,8 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] = texture;
 			PBR1_ELEMENTS.mesh.material.needsUpdate = true;
 		}
-		else if( PBR1_SCENECONFIG.current[`${mapName}_encoding`] != newSceneConfiguration[`${mapName}_encoding`]){
+		
+		if( PBR1_SCENECONFIG.current[`${mapName}_encoding`] != newSceneConfiguration[`${mapName}_encoding`]){
 			if(PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] != null){
 				PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
 			}
@@ -118,15 +126,15 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 
-	if(PBR1_SCENECONFIG.current["environment_url"] != newSceneConfiguration["environment_url"]){
+	if(PBR1_SCENECONFIG.current.environment_index != newSceneConfiguration.environment_index || !arrayEquals(PBR1_SCENECONFIG.current['environment_url'],newSceneConfiguration['environment_url'])){
 
-		if(newSceneConfiguration["environment_url"].endsWith(".hdr")){
+		if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".hdr")){
 			var envLoader = new THREE.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"].endsWith(".exr")){
+		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".exr")){
 			var envLoader = new THREE.EXRLoader();
 		}
 		
-		envLoader.load(newSceneConfiguration["environment_url"], texture => {
+		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]], texture => {
 			const gen = new THREE.PMREMGenerator(PBR1_ELEMENTS.renderer);
 			const envMap = gen.fromEquirectangular(texture).texture;
 			PBR1_ELEMENTS.scene.environment = envMap;
