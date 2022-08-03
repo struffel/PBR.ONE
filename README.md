@@ -72,5 +72,4 @@ The parameters for `pbr-material` are:
 | `environment_url` | Link to an equirectangular HDR panorama in `hdr` or `exr` file format.|URL ending in `.hdr` or `.exr`.|
 | `geometry_type` | Defines the preview object. | `cube` `cylinder` `sphere` `plane` |
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
-| `scale_x` | Texture scaling (X). | Integer or floating point number. |
-| `scale_y` | Texture scaling (Y). | Integer or floating point number. |
+| `tiling_scale` | Texture scaling. | Integer or floating point number. |
