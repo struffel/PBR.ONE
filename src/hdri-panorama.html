@@ -21,7 +21,7 @@
 				>
 				</select>
 
-				<label ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
+				<label ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
 					type="range"
 					min="-16"
@@ -29,7 +29,7 @@
 					value="0"
 					id="environment_exposure"
 					step="0.25"
-					ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);";
+					ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);";
 					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
 					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
 				>
