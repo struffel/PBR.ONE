@@ -4,7 +4,9 @@ const PBR1_SCENECONFIG = {
 	"default" : {
 		"environment_tonemapping" : "linear",
 		"environment_exposure" : 0.0,
-		"environment_url" : "./media/env-riverbed.exr",
+		"environment_url" : ["./media/env-riverbed.exr"],
+		"environment_name": [],
+		"environment_index":0
 	},
 	"current" : {},
 	"internal":{
@@ -38,15 +40,15 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	
 	// Set Environment
 
-	if(PBR1_SCENECONFIG.current["environment_url"] != newSceneConfiguration["environment_url"]){
+	if(PBR1_SCENECONFIG.current.environment_index != newSceneConfiguration.environment_index || !arrayEquals(PBR1_SCENECONFIG.current["environment_url"],newSceneConfiguration["environment_url"])){
 
-		if(newSceneConfiguration["environment_url"].split("?")[0].split("#")[0].endsWith(".hdr")){
+		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
 			var envLoader = new THREE.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"].split("?")[0].split("#")[0].endsWith(".exr")){
+		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".exr")){
 			var envLoader = new THREE.EXRLoader();
 		}
 		
-		envLoader.load(newSceneConfiguration["environment_url"], texture => {
+		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index], texture => {
 			PBR1_ELEMENTS.previewPlane.material.map = texture;
 			PBR1_ELEMENTS.previewPlane.material.needsUpdate = true;
 			texture.dispose()
