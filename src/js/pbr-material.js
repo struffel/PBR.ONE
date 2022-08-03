@@ -31,8 +31,7 @@ const PBR1_SCENECONFIG = {
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,
 	
-		"scale_x" : 1.0,
-		"scale_y" : 1.0,
+		"tiling_scale" : 1,
 
 		"material_index":0,
 		"material_name":[],
@@ -58,14 +57,24 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	for(var mapName in PBR1_THREEJSMAPPING.mapNames){
 
-		if( PBR1_SCENECONFIG.current.clayrender_enable != newSceneConfiguration.clayrender_enable || PBR1_SCENECONFIG.current.material_index != newSceneConfiguration.material_index || !arrayEquals(PBR1_SCENECONFIG.current[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])){
+		if( PBR1_SCENECONFIG.current.clayrender_enable != newSceneConfiguration.clayrender_enable ||
+			PBR1_SCENECONFIG.current.material_index != newSceneConfiguration.material_index || 
+			!arrayEquals(PBR1_SCENECONFIG.current[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`]
+			)){
 			if(!arrayEquals(newSceneConfiguration[`${mapName}_url`],[]) && (mapName != "color" || newSceneConfiguration.clayrender_enable != 1 )){
-				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`][newSceneConfiguration['material_index']]);
+				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`][newSceneConfiguration['material_index']],function(texture){
+					var ratio = texture.source.data.width / texture.source.data.height;
+					if(ratio > 1){
+						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
+					}else{
+						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
+					}
+					
+				});
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
 				texture.encoding = PBR1_THREEJSMAPPING.encoding[newSceneConfiguration[`${mapName}_encoding`]];
-				texture.repeat.set( 1, 1 );
-
+				
 				// Apply additional settings to ensure that the maps actually have an effect
 				// (like setting the object color to white to avoid a color tint on the texture)
 
@@ -73,7 +82,8 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapActiveSettings[mapName][0]] = PBR1_THREEJSMAPPING.mapActiveSettings[mapName][1];
 				}
 
-			}else{
+			}
+			else{
 
 				// Apply additional settings to ensure that the missing map is replaced with a sensible default
 
@@ -87,6 +97,19 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] = texture;
 			PBR1_ELEMENTS.mesh.material.needsUpdate = true;
 		}
+
+		if(PBR1_SCENECONFIG.current.tiling_scale != newSceneConfiguration.tiling_scale){
+			if(PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] != null && PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].source != null && PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].source.data != null){
+				var ratio = PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].source.data.width / PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].source.data.height;
+				if(ratio > 1){
+					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
+				}else{
+					PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
+				}
+				//console.log(ratio);
+				
+			}
+		}
 		
 		if( PBR1_SCENECONFIG.current[`${mapName}_encoding`] != newSceneConfiguration[`${mapName}_encoding`]){
 			if(PBR1_ELEMENTS.mesh.material[PBR1_THREEJSMAPPING.mapNames[mapName]] != null){
@@ -96,7 +119,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	}
 
-	// Set new geometry subdivisions
+	// Set new geometry subdivisions and type
 
 	if(PBR1_SCENECONFIG.current["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] || PBR1_SCENECONFIG.current["geometry_type"] != newSceneConfiguration["geometry_type"]){
 		switch (newSceneConfiguration["geometry_type"]) {

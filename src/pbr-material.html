@@ -30,6 +30,17 @@
 					oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
 				>
 
+				<label for="tiling_scale" title="Tiling_scale" ondblclick="updateScene({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},PBR1_FALLBACK.current);">Tiling Scale</label>
+				<input
+					ondblclick="updateScene({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},PBR1_FALLBACK.current);"
+					type="range"
+					min="0.1"
+					max="10"
+					id="tiling_scale"
+					step="0.1"
+					oninput="updateScene({'tiling_scale':this.value},PBR1_FALLBACK.current);"
+				>
+
 				<label for="clayrender_enable" title="clayrender_enable">Clay Render</label>
 				<input 
 					checked="unchecked"
