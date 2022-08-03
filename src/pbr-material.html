@@ -30,6 +30,27 @@
 					oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
 				>
 
+				<label for="clayrender_enable" title="clayrender_enable">Clay Render</label>
+				<input 
+					checked="unchecked"
+					type="checkbox"
+					id="clayrender_enable"
+					onchange="updateScene({'clayrender_enable':this.checked ? 1 : 0},PBR1_FALLBACK.current);"
+				>
+
+				<label for="geometry_type" title="geometry_type">Geometry</label>
+				<select 
+					onchange="updateScene({'geometry_type':this.value},PBR1_FALLBACK.current);"
+					id="geometry_type"
+					name="geometry_type"
+				>
+					<option id="plane" name="plane" value="plane">Plane</option>
+					<option id="cube" name="cube" value="cube">Cube</option>
+					<option id="sphere" name="sphere" value="sphere">Sphere</option>
+					<option id="cylinder" name="cylinder" value="cylinder">Cylinder</option>
+				</select>
+				
+
 				<label pbr1-onlyshowifmultivalued="material_name" for="material_name" title="material_name">Texture</label>
 				<select 
 					onchange="updateScene({'material_index':this.value},PBR1_FALLBACK.current);"

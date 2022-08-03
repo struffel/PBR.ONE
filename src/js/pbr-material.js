@@ -37,6 +37,8 @@ const PBR1_SCENECONFIG = {
 		"material_index":0,
 		"material_name":[],
 
+		"clayrender_enable":0,
+
 		"environment_index":0,
 		"environment_name":[]
 	},
@@ -56,8 +58,8 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	for(var mapName in PBR1_THREEJSMAPPING.mapNames){
 
-		if( PBR1_SCENECONFIG.current.material_index != newSceneConfiguration.material_index || !arrayEquals(PBR1_SCENECONFIG.current[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])){
-			if(!arrayEquals(newSceneConfiguration[`${mapName}_url`],[])){
+		if( PBR1_SCENECONFIG.current.clayrender_enable != newSceneConfiguration.clayrender_enable || PBR1_SCENECONFIG.current.material_index != newSceneConfiguration.material_index || !arrayEquals(PBR1_SCENECONFIG.current[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])){
+			if(!arrayEquals(newSceneConfiguration[`${mapName}_url`],[]) && (mapName != "color" || newSceneConfiguration.clayrender_enable != 1 )){
 				var texture = PBR1_ELEMENTS.textureLoader.load(newSceneConfiguration[`${mapName}_url`][newSceneConfiguration['material_index']]);
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
@@ -96,7 +98,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set new geometry subdivisions
 
-	if(PBR1_SCENECONFIG.current["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] |  PBR1_SCENECONFIG.current["geometry_type"] != newSceneConfiguration["geometry_type"]){
+	if(PBR1_SCENECONFIG.current["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] || PBR1_SCENECONFIG.current["geometry_type"] != newSceneConfiguration["geometry_type"]){
 		switch (newSceneConfiguration["geometry_type"]) {
 			case "cube":
 				PBR1_ELEMENTS.mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
