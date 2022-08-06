@@ -8,7 +8,7 @@ const PBR1_SCENECONFIG = {
 		"environment_tonemapping" : "filmic",
 		"environment_exposure" : 0.0,
 
-		"environment_url" : ["./media/env-riverbed.exr"],
+		"environment_url" : ["./media/env-full-riverbed-lq.exr"],
 		"environment_name": [],
 		"environment_index":0
 	},

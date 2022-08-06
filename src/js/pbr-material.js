@@ -26,7 +26,7 @@ const PBR1_SCENECONFIG = {
 		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : ["./media/env-sunny.exr"],
+		"environment_url" : ["./media/env-half-sunny-lq.exr"],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,

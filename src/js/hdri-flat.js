@@ -4,7 +4,7 @@ const PBR1_SCENECONFIG = {
 	"default" : {
 		"environment_tonemapping" : "linear",
 		"environment_exposure" : 0.0,
-		"environment_url" : ["./media/env-riverbed.exr"],
+		"environment_url" : ["./media/env-full-riverbed-lq.exr"],
 		"environment_name": [],
 		"environment_index":0
 	},
