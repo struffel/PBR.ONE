@@ -1,6 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI (Main)
+name: CI (PBR.ONE Website)
 
 # Controls when the action will run. 
 on:
@@ -35,8 +33,6 @@ jobs:
           username: ${{secrets.FTP_LOGIN}}
           # ftp password
           password: ${{secrets.FTP_PASSWORD}}
-          # Server port to connect to (read your web hosts docs)
           # Path to upload to on the server. Must end with trailing slash /
           server-dir: /
           local-dir: ./web/
-          # Path and name of the state file - this file is used to track which files have been deployed
