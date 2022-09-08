@@ -9,13 +9,32 @@ const PBR1_SCENECONFIG = {
 		"environment_index":0
 	},
 	"current" : {},
-	"internal":{
-		"aspect": 0.5
-	}
 }
 
 // EVENT LISTENERS
+window.addEventListener('resize', adjustAspectRatio, false);
+function adjustAspectRatio(){
 
+	var windowAspect = window.innerWidth / window.innerHeight;
+	var imageAspect = PBR1_ELEMENTS.previewPlane.scale.x / PBR1_ELEMENTS.previewPlane.scale.y;
+
+	if(PBR1_ELEMENTS.camera){
+		if(windowAspect > imageAspect){
+			PBR1_ELEMENTS.camera.left = -windowAspect;
+			PBR1_ELEMENTS.camera.right = windowAspect;
+			PBR1_ELEMENTS.camera.bottom = -1;
+			PBR1_ELEMENTS.camera.top = 1;
+		}else{
+			PBR1_ELEMENTS.camera.left = -imageAspect;
+			PBR1_ELEMENTS.camera.right = imageAspect;
+			PBR1_ELEMENTS.camera.bottom =-imageAspect/windowAspect;
+			PBR1_ELEMENTS.camera.top = imageAspect/windowAspect;
+		}
+		PBR1_ELEMENTS.camera.updateProjectionMatrix();
+	}
+
+
+}
 
 // FUNCTIONS
 
@@ -50,7 +69,10 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 		
 		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index], texture => {
 			PBR1_ELEMENTS.previewPlane.material.map = texture;
+			PBR1_ELEMENTS.previewPlane.scale.x = PBR1_ELEMENTS.previewPlane.material.map.image.width / PBR1_ELEMENTS.previewPlane.material.map.image.height;
+			PBR1_ELEMENTS.previewPlane.scale.y = 1;
 			PBR1_ELEMENTS.previewPlane.material.needsUpdate = true;
+			adjustAspectRatio();
 			texture.dispose()
 
 			PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
@@ -64,23 +86,18 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 }
 
 // MAIN
-
 PBR1_ELEMENTS.scene = new THREE.Scene();
 
 // Preview Plane
 PBR1_ELEMENTS.previewPlane = new THREE.Mesh(
-	new THREE.PlaneGeometry(2,1),
+	new THREE.PlaneGeometry(2,2),
 	new THREE.MeshBasicMaterial({"color":0xFFFFFF})
 	);
 PBR1_ELEMENTS.scene.add(PBR1_ELEMENTS.previewPlane);
 
-
 // camera
-const aspect = window.innerWidth / window.innerHeight;
-PBR1_ELEMENTS.camera = new THREE.OrthographicCamera( -1, 1, 0.5, -0.5 , 0, 100 );
+PBR1_ELEMENTS.camera = new THREE.OrthographicCamera( -1, 1, 1, -1 , 0, 100 );
 PBR1_ELEMENTS.camera.position.z = 1;
-
-
 
 // renderer
 PBR1_ELEMENTS.renderer = new THREE.WebGLRenderer();
@@ -91,4 +108,4 @@ PBR1_ELEMENTS.renderer.outputEncoding = THREE.sRGBEncoding;
 PBR1_ELEMENTS.controls = {update:function(){}};
 
 // START
-main()
+main();

@@ -13,9 +13,6 @@ const PBR1_SCENECONFIG = {
 		"environment_index":0
 	},
 	"current" : {},
-	"internal":{
-		"aspect":null
-	}
 }
 
 // EVENT LISTENERS

@@ -60,19 +60,10 @@ window.addEventListener('hashchange', function() {
 window.addEventListener('resize', resizeRenderingArea, false);
 function resizeRenderingArea() {
 
-	if(PBR1_SCENECONFIG.internal.aspect == null){
-		var aspect = window.innerWidth / window.innerHeight;
-		var sizeX = window.innerWidth;
-		var sizeY = window.innerHeight;
-	}else{
-		var aspect =  PBR1_SCENECONFIG.internal.aspect;
-		var sizeX = Math.min(window.innerWidth,window.innerHeight/aspect);
-		var sizeY = Math.min(window.innerWidth*aspect,window.innerHeight);
-	}
 	if(PBR1_ELEMENTS.camera && PBR1_ELEMENTS.renderer){
-		PBR1_ELEMENTS.camera.aspect = aspect;
+		PBR1_ELEMENTS.camera.aspect = window.innerWidth / window.innerHeight;
 		PBR1_ELEMENTS.camera.updateProjectionMatrix();
-		PBR1_ELEMENTS.renderer.setSize(sizeX, sizeY);
+		PBR1_ELEMENTS.renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 	
 }

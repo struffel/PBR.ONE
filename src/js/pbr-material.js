@@ -42,9 +42,6 @@ const PBR1_SCENECONFIG = {
 		"environment_name":[]
 	},
 	"current":{},
-	"internal":{
-		"aspect":null
-	}
 };
 
 // FUNCTIONS
