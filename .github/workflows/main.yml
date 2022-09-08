@@ -1,4 +1,4 @@
-name: CI (PBR.ONE Website)
+name: CD (PBR.ONE Website)
 
 # Controls when the action will run. 
 on:
