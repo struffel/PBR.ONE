@@ -5,6 +5,11 @@ body{
     font-size: larger;
 }
 
+.main-title{
+    font-size: 5em;
+    font-weight: bolder;
+}
+
 iframe{
     width: 100%;
     height: 100%;
@@ -39,6 +44,34 @@ iframe{
 }
 
 .banner .text-element p{
-    max-width: 350px;
+    max-width: 400px;
     text-align: justify;
+    padding:8px;
+}
+
+.code{
+    font-family: monospace;
+}
+
+.imprint{
+    width: 100%;
+    font-size: small;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1000px) {
+    .forward{
+        grid-template-areas:    "text-element"
+                                "iframe";
+    }
+    
+    .backward{
+        grid-template-areas:    "text-element"
+                                "iframe";
+    }
+    
+    .banner{
+        grid-template-columns: 100%;
+        min-height: 1200px;
+    }
 }
