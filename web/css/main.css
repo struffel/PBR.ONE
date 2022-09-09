@@ -49,6 +49,13 @@ iframe{
     padding:8px;
 }
 
+.project-link{
+    border:1px solid black;
+    padding: 8px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
 .code{
     font-family: monospace;
 }
