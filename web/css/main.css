@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    box-sizing: border-box;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
+}
+
+.forward{
+    grid-template-areas: "iframe text-element";
+}
+
+.backward{
+    grid-template-areas: "text-element iframe";
+}
+
+.banner{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: 0 auto;
+    min-height: 800px;
+}
+
+.banner iframe{
+    grid-area: iframe;
+}
+
+.banner .text-element{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-area: text-element;
+    text-align: center;
+}
+
+.banner .text-element p{
+    max-width: 350px;
+    text-align: justify;
+}
