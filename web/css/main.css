@@ -1,0 +1,84 @@
+body{
+    margin: 0;
+    box-sizing: border-box;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+}
+
+.main-title{
+    font-size: 5em;
+    font-weight: bolder;
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
+}
+
+.forward{
+    grid-template-areas: "iframe text-element";
+}
+
+.backward{
+    grid-template-areas: "text-element iframe";
+}
+
+.banner{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: 0 auto;
+    min-height: 800px;
+}
+
+.banner iframe{
+    grid-area: iframe;
+}
+
+.banner .text-element{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-area: text-element;
+    text-align: center;
+}
+
+.banner .text-element p{
+    max-width: 400px;
+    text-align: justify;
+    padding:8px;
+}
+
+.project-link{
+    border:1px solid black;
+    padding: 8px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.code{
+    font-family: monospace;
+}
+
+.imprint{
+    width: 100%;
+    font-size: small;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1000px) {
+    .forward{
+        grid-template-areas:    "text-element"
+                                "iframe";
+    }
+    
+    .backward{
+        grid-template-areas:    "text-element"
+                                "iframe";
+    }
+    
+    .banner{
+        grid-template-columns: 100%;
+        min-height: 1200px;
+    }
+}
