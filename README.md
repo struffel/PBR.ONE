@@ -9,8 +9,7 @@ Here is what a link to one of these views might look like:
 ```
 
 # Installation
-## On your own website
-### Via local Hosting
+## On your own website via local hosting
 You can embed PBR.ONE on your site like this:
 
 1. Clone this Repo or download it from Github.com
@@ -26,7 +25,7 @@ You can embed PBR.ONE on your site like this:
 
 <iframe src= "https://example.com/previews/hdri-panorama.html#environment_url=./media/env-sunny.exr,environment_exposure=-2">
 ```
-### Without your own website or via CDN
+## Without your own website or via CDN
 (Coming soon).
 
 # Crafting the Hashstring
