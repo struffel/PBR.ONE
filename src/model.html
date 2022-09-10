@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./css/main.css">
+		<title>Initial Document</title>
+	</head>
+	<body>
+		<main id="renderer_target">
+			<nav>
+				<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
+				<select 
+					onchange="updateScene({'environment_index':this.value},PBR1_FALLBACK.current);"
+					pbr1-onlyshowifmultivalued="environment_name"
+					pbr1-optionsource="environment_name"
+					pbr1-selectedsource="environment_index"
+					id="environment_name"
+					name="environment_name"
+				>
+				</select>
+
+				<label ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
+				<input 
+					type="range"
+					min="-16"
+					max="16"
+					value="0"
+					id="environment_exposure"
+					step="0.25"
+					ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);";
+					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
+					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
+				>
+				<label for="spheres_enable" title="spheres_enable">Show Spheres</label>
+				<input 
+					checked="checked"
+					type="checkbox"
+					id="spheres_enable"
+					onchange="updateScene({'spheres_enable':this.checked ? 1 : 0},PBR1_FALLBACK.current);"
+				>
+			</nav>
+		</main>
+		<script src="./lib/three.r142.min.js"></script>
+		<script src="./lib/OrbitControls.r142.js"></script>
+		<script src="./lib/RGBELoader.r142.js"></script>
+		<script src="./lib/EXRLoader.r142.js"></script>
+        <script src="./lib/OBJLoader.r142.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/model.js"></script>
+	</body>
+</html>
