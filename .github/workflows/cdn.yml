@@ -1,4 +1,4 @@
-name: CD (PBR.ONE Website)
+name: CD (PBR.ONE CDN)
 
 # Controls when the action will run. 
 on:
@@ -28,11 +28,11 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           # ftp server
-          server: ${{secrets.FTP_SERVER}}
+          server: ${{secrets.CDN_FTP_SERVER}}
           # ftp username
-          username: ${{secrets.FTP_LOGIN}}
+          username: ${{secrets.CDN_FTP_LOGIN}}
           # ftp password
-          password: ${{secrets.FTP_PASSWORD}}
+          password: ${{secrets.CDN_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: /
-          local-dir: ./web/
+          server-dir: /main/
+          local-dir: ./src/
