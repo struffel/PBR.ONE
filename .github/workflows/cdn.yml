@@ -34,5 +34,5 @@ jobs:
           # ftp password
           password: ${{secrets.CDN_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: ./main/
+          server-dir: main/
           local-dir: ./src/
