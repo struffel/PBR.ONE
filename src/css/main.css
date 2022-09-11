@@ -41,3 +41,25 @@ nav label{
 	margin: 10px;
 	white-space: nowrap;
 }
+
+.watermark{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	color:#ffffff60;
+	text-decoration: none;
+}
+
+.watermark-off{
+	display: none;
+}
+
+.watermark-small{
+	display: block;
+	font-size: large;
+}
+
+.watermark-large{
+	display:block;
+	font-size: x-large;
+}

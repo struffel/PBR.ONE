@@ -79,4 +79,4 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 }
 
 // MAIN
-updateScene(parseHashString(),0);
+updateSiteFromHashstring();

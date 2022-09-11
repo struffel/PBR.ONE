@@ -52,9 +52,7 @@ const PBR1_THREEJSMAPPING = {
 // EVENT LISTENERS
 
 // Changes in the hash
-window.addEventListener('hashchange', function() { 
-	updateScene(parseHashString(),false);
-});
+window.addEventListener('hashchange', updateSiteFromHashstring);
 
 // Window resizing
 window.addEventListener('resize', resizeRenderingArea, false);
@@ -161,14 +159,40 @@ function arrayEquals(a, b) {
 	  a.every((val, index) => val === b[index]);
 }
 
+function updateWatermark(newStyle){
+	var newWatermarkClass = "watermark ";
+	switch (newStyle) {
+		case 'off':
+			newWatermarkClass += "watermark-off";
+			break;
+		case 'small':
+			newWatermarkClass += "watermark-small";
+			break;
+		case 'large':
+			newWatermarkClass += "watermark-large";
+			break;
+		default:
+			console.log("default");
+			newWatermarkClass += "watermark-large";
+			break;
+	}
+	document.querySelector('.watermark').setAttribute("class",newWatermarkClass);
+}
+
 function animate() {
     requestAnimationFrame( animate );
 	PBR1_ELEMENTS.controls.update();
     PBR1_ELEMENTS.renderer.render( PBR1_ELEMENTS.scene, PBR1_ELEMENTS.camera );
 }
 
+function updateSiteFromHashstring(){
+	var hashString = parseHashString();
+	updateWatermark(hashString['watermark']);
+	updateScene(hashString,PBR1_FALLBACK.default);
+}
+
 function main(){
 	document.querySelector('#renderer_target').appendChild( PBR1_ELEMENTS.renderer.domElement );
 	animate();
-	updateScene(parseHashString(),PBR1_FALLBACK.default);
+	updateSiteFromHashstring();
 }
