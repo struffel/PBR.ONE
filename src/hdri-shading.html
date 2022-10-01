@@ -20,8 +20,8 @@
 					name="environment_name"
 				>
 				</select>
-				
-				<label ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
+
+				<label ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
 					type="range"
 					min="-16"
@@ -29,27 +29,25 @@
 					value="0"
 					id="environment_exposure"
 					step="0.25"
-					ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);";
+					ondblclick="updateScene({'environment_exposure':PBR1_SCENECONFIG.default.environment_exposure},PBR1_FALLBACK.current);";
 					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
 					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
 				>
-				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
-				<select 
-					id="environment_tonemapping"
-					onchange="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
-					onload="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
+				<label for="spheres_enable" title="spheres_enable">Show Spheres</label>
+				<input 
+					checked="checked"
+					type="checkbox"
+					id="spheres_enable"
+					onchange="updateScene({'spheres_enable':this.checked ? 1 : 0},PBR1_FALLBACK.current);"
 				>
-					<option title="filmic" value="filmic">ACES filmic</option>
-					<option title="linear" value="linear">Linear</option>
-					
-				</select>
 			</nav>
 			<a class="watermark watermark-off" href="https://pbr.one">🔮 PBR.ONE</a>
 		</main>
 		<script src="./lib/three.r142.min.js"></script>
+		<script src="./lib/OrbitControls.r142.js"></script>
 		<script src="./lib/RGBELoader.r142.js"></script>
 		<script src="./lib/EXRLoader.r142.js"></script>
 		<script src="./js/main.js"></script>
-		<script src="./js/hdri-flat.js"></script>
+		<script src="./js/hdri-shading.js"></script>
 	</body>
 </html>

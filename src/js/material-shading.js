@@ -27,6 +27,8 @@ const PBR1_SCENECONFIG = {
 		"opacity_encoding" : "linear",
 	
 		"environment_url" : ["./media/env-half-sunny-lq.exr"],
+		"environment_index":0,
+		"environment_name":[],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,
@@ -36,10 +38,9 @@ const PBR1_SCENECONFIG = {
 		"material_index":0,
 		"material_name":[],
 
-		"clayrender_enable":0,
+		"clayrender_enable":0
 
-		"environment_index":0,
-		"environment_name":[]
+		
 	},
 	"current":{},
 };
