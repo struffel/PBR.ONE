@@ -7,7 +7,7 @@ const PBR1_SCENECONFIG = {
 		"texture_index":0, // If texture_url is multivalued then this value keeps track of the currently selected index
 		"background_x":0,
 		"background_y":0,
-		"background_size":512,
+		"texture_size":512,
 		"mouse_down":false
 	},
 	"current" : {},
@@ -25,10 +25,10 @@ window.addEventListener('pageshow',function(){
 window.addEventListener('wheel', function(event){
 	event.preventDefault();
 	var scaling_factor = 1 + event.deltaY/1000;
-	PBR1_SCENECONFIG.current.background_size *= scaling_factor;
-	PBR1_SCENECONFIG.current.background_size = Math.min(Math.max(PBR1_SCENECONFIG.current.background_size,16),32768);
-	PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x,PBR1_SCENECONFIG.current.background_size);
-	PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y,PBR1_SCENECONFIG.current.background_size);
+	PBR1_SCENECONFIG.current.texture_size *= scaling_factor;
+	PBR1_SCENECONFIG.current.texture_size = Math.min(Math.max(PBR1_SCENECONFIG.current.texture_size,16),32768);
+	PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x,PBR1_SCENECONFIG.current.texture_size);
+	PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y,PBR1_SCENECONFIG.current.texture_size);
 	updateBackgroundPosition();
 	updateBackgroundSize();
 },{passive:false});
@@ -43,8 +43,8 @@ window.addEventListener('mouseup', function(){
 
 window.addEventListener('mousemove', function(event){
 	if(PBR1_SCENECONFIG.current.mouse_down){
-		PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x + event.movementX, PBR1_SCENECONFIG.current.background_size);
-		PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y + event.movementY, PBR1_SCENECONFIG.current.background_size);
+		PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x + event.movementX, PBR1_SCENECONFIG.current.texture_size);
+		PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y + event.movementY, PBR1_SCENECONFIG.current.texture_size);
 		updateBackgroundPosition();
 	}
 },{passive:false});
@@ -55,7 +55,7 @@ function mod(n, m) {
 }
 
 function updateBackgroundSize(){
-	PBR1_ELEMENTS.targetDomElement.style.backgroundSize = `${PBR1_SCENECONFIG.current.background_size}px`;
+	PBR1_ELEMENTS.targetDomElement.style.backgroundSize = `${PBR1_SCENECONFIG.current.texture_size}px`;
 }
 function updateBackgroundPosition(){
 	var new_x = PBR1_SCENECONFIG.current.background_x + window.innerWidth / 2;
