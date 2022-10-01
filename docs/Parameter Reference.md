@@ -1,11 +1,15 @@
 # Hashstring Parameters
-The hashstring defines the parameters for the preview.
+The hashstring (everything after the `#`) defines the parameters for the preview.
 Parameters follow the pattern:
 ```
 #<key>=<value>,<key>=<value>, ...
 ```
+Some parameters allow multiple values for users to choose from. In that case the pattern looks like this:
+```
+#<key>=<valueA>;<valueB>,<key>=<valueA>;<valueB>, ...
+```
+You don't need to set all parameters by hand, only those that actually want to change about. The rest will be populated with default values. Below are the possible parameters for every view.
 
-You don't need to set all parameters by hand, only those that you care about. The rest will be populated with default values. Below are the possible parameters for every kind of preview.
 ## `hdri-exposure.html`
 This view shows the HDRI as-is to evaluate its dynamic range.
 |Key|Description|Possible Values|
@@ -57,3 +61,13 @@ This view shows a full PBR material on a preview object.
 | `geometry_type` | Defines the preview object. | `cube`, `cylinder`, `sphere`, `plane` |
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
 | `tiling_scale` | Texture scaling. | Integer or floating point number. |
+
+## `texture-tiling.html`
+This view shows a full PBR material on a preview object.
+
+|Key|Description|Possible Values|
+| --- | --- | --- |
+| `texture_url` | URL to one or multiple textures. | Semicolon-separated list of URLs to image files. |
+| `texture_name`| List of names for the textures. Required if more than one texture is used. |Semicolon-separated list of Strings.|
+| `texture_index`|Describes which environment should be displayed (if multiple are specified).|
+| `texture_size` | Default scaling of the. | Integer or floating point number. |
