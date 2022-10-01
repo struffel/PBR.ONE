@@ -43,10 +43,21 @@ iframe{
     text-align: center;
 }
 
-.banner .text-element p{
+.banner .text-element .text-justified{
     max-width: 400px;
     text-align: justify;
     padding:8px;
+}
+
+.banner .text-element .text-example{
+    width:90%;
+    text-align: justify;
+    padding:8px;
+}
+
+.banner .text-element textarea{
+    width: 90%;
+    height: 180px;
 }
 
 .project-link{
@@ -54,6 +65,10 @@ iframe{
     padding: 8px;
     border-radius: 3px;
     text-decoration: none;
+}
+
+.project-link:hover{
+    background-color: #dddddd;
 }
 
 .code{
@@ -64,6 +79,23 @@ iframe{
     width: 100%;
     font-size: small;
     text-align: center;
+}
+
+header {
+    font-size:large;
+    min-height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    
+}
+
+header a{
+    padding: 10px;
+    text-decoration: none;
+}
+
+header a:hover{
+    background-color: #dddddd;
 }
 
 @media only screen and (max-width: 1000px) {

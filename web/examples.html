@@ -1,0 +1,178 @@
+<html>
+	<head>
+		<title>PBR.ONE</title>
+		<link rel="stylesheet" href="/css/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="UTF-8">
+        <script src="/js/examples.js" defer></script>
+	</head>
+	<body>
+        <header>
+            <a href="/">Home</a>
+            <a href="/examples.html">Examples</a>
+            <a href="https://github.com/StruffelProductions/PBR.ONE">GitHub</a>
+        </header>
+        </section>
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>material-shading.html - Basic Example</h1>
+                <p class="text-example">
+                    This example shows a single PBR material of a brick wall with multiple maps referenced via URL.
+                    Additional parameters like the tiling scale are set as well.
+                    <strong>At the moment the clay render mode is still enabled. Try changing clayrender_enable to 0.</strong>
+                </p>
+                <textarea data-example-id="material-shading-basic">
+color_url=https://pbr.one/media/bricks_col.jpg,
+normal_url=https://pbr.one/media/bricks_nrm.jpg,
+roughness_url=https://pbr.one/media/bricks_rgh.jpg,
+displacement_url=https://pbr.one/media/bricks_dsp.jpg,
+displacement_scale=0.01,
+tiling_scale=2,
+geometry_type=plane,
+clayrender_enable=1,
+geometry_subdivisions=400
+</textarea>
+            </div>
+            <iframe data-example-id="material-shading-basic" data-base-src="https://cdn.pbr.one/0.3.0/pbr-material.html#" src="https://cdn.pbr.one/0.3.0/pbr-material.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>hdri-exposure.html - Basic Example</h1>
+                <p class="text-example">
+                    This view can be used to see the full dynamic range of an HDRI panorama.
+                    <strong>The environment_exposure is currently set to a very dark -6 EVs. You can adjust the value in the text field or using the slider.</strong>
+                </p>
+                <textarea data-example-id="hdri-exposure-basic">
+environment_url=https://pbr.one/media/park.exr,
+environment_exposure=-6,
+environment_tonemapping=linear
+</textarea>
+            </div>
+            <iframe data-example-id="hdri-exposure-basic" data-base-src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>hdri-shading.html - Basic Example</h1>
+                <p class="text-example">
+                    This view allows displays the HDRI as an actual environment with several dummy objects placed in the center to see the shading and reflections.
+                    <strong>These preview objects are currenly disabled. You can enable them by setting spheres_enable to 1 in the text field.</strong>
+                </p>
+                <textarea data-example-id="hdri-shading-basic">
+environment_url=https://pbr.one/media/park.exr,
+spheres_enable=0
+</textarea>
+            </div>
+            <iframe data-example-id="hdri-shading-basic" data-base-src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>texture-tiling.html - Basic Example</h1>
+                <p class="text-example">
+                    This view simply creates a tiled preview of a texture.
+                </p>
+                <textarea data-example-id="texture-tiling-basic">
+texture_url=https://pbr.one/media/bricks_col.jpg
+</textarea>
+            </div>
+            <iframe data-example-id="texture-tiling-basic" data-base-src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>material-shading.html - Advanced Example</h1>
+                <p class="text-example">
+                    Multiple PBR materials can be loaded by specifying multiple maps for every channel.
+                    <strong>You can use the "Texture" dropdown to switch to the other material and the "Environment" dropdown to change the environment.</strong>
+                </p>
+                <textarea data-example-id="material-shading-advanced">
+material_name=Bricks;Rusty-Metal,
+
+color_url=https://pbr.one/media/bricks_col.jpg;https://pbr.one/media/rustymetal_col.jpg,
+normal_url=https://pbr.one/media/bricks_nrm.jpg;https://pbr.one/media/rustymetal_nrm.jpg,
+roughness_url=https://pbr.one/media/bricks_rgh.jpg;https://pbr.one/media/rustymetal_rgh.jpg,
+displacement_url=https://pbr.one/media/bricks_dsp.jpg;https://pbr.one/media/rustymetal_dsp.jpg,
+metalness_url=;https://pbr.one/media/rustymetal_met.jpg,
+
+environment_url=https://pbr.one/media/park.exr;https://pbr.one/media/plaza.exr,
+environment_name=Park;Nightly-Plaza,
+
+displacement_scale=0.005,
+tiling_scale=2,
+geometry_type=plane,
+clayrender_enable=0,
+geometry_subdivisions=400
+</textarea>
+            </div>
+            <iframe data-example-id="material-shading-advanced" data-base-src="https://cdn.pbr.one/0.3.0/pbr-material.html#" src="https://cdn.pbr.one/0.3.0/pbr-material.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>hdri-exposure.html - Advanced Example</h1>
+                <p class="text-example">
+                    This view can be used to see the full dynamic range of an HDRI panorama.
+                    <strong>In this example two HDRIs are loaded which can be selected using the "Environment" dropdown.</strong>
+                </p>
+                <textarea data-example-id="hdri-exposure-advanced">
+environment_url=https://pbr.one/media/plaza.exr;https://pbr.one/media/park.exr,
+environment_name=Nightly-Plaza;Park,
+environment_exposure=0,
+environment_tonemapping=linear
+</textarea>
+            </div>
+            <iframe data-example-id="hdri-exposure-advanced" data-base-src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>hdri-shading.html - Advanced Example</h1>
+                <p class="text-example">
+                    Like all the others this view also supports multiple HDRIs.
+                </p>
+                <textarea data-example-id="hdri-shading-advanced">
+environment_url=https://pbr.one/media/plaza.exr;https://pbr.one/media/park.exr,
+environment_name=Nightly-Plaza;Park,
+environment_exposure=0
+</textarea>
+            </div>
+            <iframe data-example-id="hdri-shading-advanced" data-base-src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <section class="banner forward">
+            <div class="text-element">
+                <h1>texture-tiling.html - Advanced Example</h1>
+                <p class="text-example">
+                    More than one texture can be loaded in this view to show off all the maps of a PBR material.
+                </p>
+                <textarea data-example-id="texture-tiling-advanced">
+texture_url=https://pbr.one/media/bricks_col.jpg;https://pbr.one/media/bricks_dsp.jpg;https://pbr.one/media/bricks_nrm.jpg;https://pbr.one/media/bricks_rgh.jpg;https://pbr.one/media/bricks_ao.jpg,
+texture_name=Color;Displacement;Normal;Roughness;AmbientOcclusion
+</textarea>
+            </div>
+            <iframe data-example-id="texture-tiling-advanced" data-base-src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" frameborder="0" allowfullscreen></iframe>
+        </section>
+
+
+
+        <p class="imprint">
+            <a href="https://ambientcg.com/legal">Imprint</a>
+        </p>
+	</body>
+</html>
