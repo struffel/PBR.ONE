@@ -61,6 +61,7 @@ This view shows a full PBR material on a preview object.
 | `geometry_type` | Defines the preview object. | `cube`, `cylinder`, `sphere`, `plane` |
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
 | `tiling_scale` | Texture scaling. | Integer or floating point number. |
+| `clayrender_enable`| Displays a clayrender (by disabling the color map)|`0` or `1`|
 
 ## `texture-tiling.html`
 This view shows a full PBR material on a preview object.
