@@ -8,6 +8,7 @@
 		<title>Initial Document</title>
 	</head>
 	<body>
+		<script type="module" src="./js/hdri-shading.js"></script>
 		<main id="renderer_target">
 			<nav>
 				<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
@@ -47,15 +48,5 @@
 		<script src="./lib/OrbitControls.r142.js"></script>
 		<script src="./lib/RGBELoader.r142.js"></script>
 		<script src="./lib/EXRLoader.r142.js"></script>-->
-		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-		<script type="importmap">
-			{
-			  "imports": {
-				"three": "https://unpkg.com/three@0.142.0/build/three.module.js"
-			  }
-			}
-		</script>
-		<script type="module" src="./js/main.js"></script>
-		<script type="module" src="./js/hdri-shading.js"></script>
 	</body>
 </html>
