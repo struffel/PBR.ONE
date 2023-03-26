@@ -1,6 +1,10 @@
+// IMPORTS
+
+import * as THREE from '../lib/xyz';
+
 // CONSTANTS
 
-let PBR1_ELEMENTS = {};
+var PBR1_ELEMENTS = {};
 
 const PBR1_FALLBACK = {
     "default":0,

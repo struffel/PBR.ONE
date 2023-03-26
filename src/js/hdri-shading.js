@@ -1,3 +1,8 @@
+// IMPORTS
+
+import * as THREE from 'three';
+import * as MAIN from "./main.js"
+
 // VARIABLES AND CONSTANTS
 
 const PBR1_SCENECONFIG = {
@@ -71,8 +76,8 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	updateGuiFromCurrentSceneConfiguration();
 }
 
-// MAIN
-
+//
+MAIN.An
 PBR1_ELEMENTS.scene = new THREE.Scene();
 
 // camera

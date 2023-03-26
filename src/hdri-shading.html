@@ -43,11 +43,19 @@
 			</nav>
 			<a class="watermark watermark-off" href="https://pbr.one">🔮 PBR.ONE</a>
 		</main>
-		<script src="./lib/three.r142.min.js"></script>
+		<!--<script src="./lib/three.r142.min.js"></script>
 		<script src="./lib/OrbitControls.r142.js"></script>
 		<script src="./lib/RGBELoader.r142.js"></script>
-		<script src="./lib/EXRLoader.r142.js"></script>
-		<script src="./js/main.js"></script>
-		<script src="./js/hdri-shading.js"></script>
+		<script src="./lib/EXRLoader.r142.js"></script>-->
+		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+		<script type="importmap">
+			{
+			  "imports": {
+				"three": "https://unpkg.com/three@0.142.0/build/three.module.js"
+			  }
+			}
+		</script>
+		<script type="module" src="./js/main.js"></script>
+		<script type="module" src="./js/hdri-shading.js"></script>
 	</body>
 </html>
