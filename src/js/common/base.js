@@ -3,6 +3,19 @@ import * as CONSTANTS from './constants.js';
 import * as SCENESTATE from './scenestate.js';
 import * as MISC from "./misc.js"
 
+// GLOBAL FUNCTIONS
+
+/**
+ * A small function assigned to the global window object that makes it possible to trigger scene configuration updates using inline JS.
+ * @param {*} changedConfig 
+ * @param {*} resetValues 
+ */
+window.PBR1_CHANGE = function(changedConfig,resetValues = false){
+    var evt = new CustomEvent('PBR1_CHANGE',{"detail": {"changedConfiguration": changedConfig,"resetValues":resetValues}});
+    document.dispatchEvent(evt);
+}
+
+
 // FUNCTIONS
 
 /**
