@@ -1,12 +1,12 @@
 // IMPORTS
-import * as THREE from "./threejs/three.module.js";
-import * as ORBIT_CONTROLS from './threejs/OrbitControls.js';
-import * as RGBE_LOADER from './threejs/RGBELoader.js';
-import * as EXR_LOADER from './threejs/EXRLoader.js';
-import * as BASE from "./base.js";
-import * as SCENESTATE from "./scenestate.js";
-import * as CONSTANTS from "./constants.js";
-import * as MISC from "./misc.js";
+import * as THREE from "../threejs/three.module.js";
+import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
+import * as RGBE_LOADER from '../threejs/RGBELoader.js';
+import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as BASE from "../common/base.js";
+import * as SCENESTATE from "../common/scenestate.js";
+import * as CONSTANTS from "../common/constants.js";
+import * as MISC from "../common/misc.js";
 
 // VARIABLES AND CONSTANTS
 
@@ -23,15 +23,11 @@ SCENESTATE.initializeDefaultConfiguration({
 
 });
 
-// EVENT LISTENERS
-
-// Zooming
-
-
-
 // FUNCTIONS
 
 function updateScene(incomingSceneConfiguration,fallbackType){
+
+	console.debug("UPDATE",incomingSceneConfiguration,fallbackType);
 
 	// Load configurations
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
@@ -132,7 +128,6 @@ function initializeScene(){
 		camera.updateProjectionMatrix();
 	}
 	document.addEventListener( 'mousewheel', (e) =>{zoomHandler(e,camera)});
-	
 
 	// Set up renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );

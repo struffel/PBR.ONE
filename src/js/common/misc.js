@@ -28,14 +28,14 @@ export function arrayEquals(a, b) {
 export function parseHashString(){
 
 	if(!window.location.href.includes('#')){
-		return null;
+		return {};
 	}
 
 	var hashString = window.location.href.substring(window.location.href.indexOf('#') + 1);
 	console.debug("Read hashstring: #",hashString);
 
 	if(hashString == ""){
-		return null;
+		return {};
 	}
 
 	var hashStringFragments = hashString.split(',');
@@ -61,7 +61,7 @@ export function parseHashString(){
  * Sets the watermark style.
  * @param {*} newStyle 
  */
-function updateWatermark(newStyle){
+export function updateWatermark(newStyle){
 	var newWatermarkClass = "watermark ";
 	switch (newStyle) {
 		case 'off':
