@@ -1,111 +1,127 @@
+// IMPORTS
+import * as THREE from "../threejs/three.module.js";
+import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
+import * as RGBE_LOADER from '../threejs/RGBELoader.js';
+import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as BASE from "../common/base.js";
+import * as SCENESTATE from "../common/scenestate.js";
+import * as CONSTANTS from "../common/constants.js";
+import * as MISC from "../common/misc.js";
+
 // VARIABLES AND CONSTANTS
 
-const PBR1_SCENECONFIG = {
-	"default" : {
-		"environment_tonemapping" : "linear",
-		"environment_exposure" : 0.0,
-		"environment_url" : ["./media/env-full-riverbed-lq.exr"],
-		"environment_name": [],
-		"environment_index":0
-	},
-	"current" : {},
-}
+var scene, renderer, camera, previewPlane,controls;
+
+SCENESTATE.initializeDefaultConfiguration({
+	"environment_tonemapping" : "linear",
+	"environment_exposure" : 0.0,
+	"environment_url" : ["./media/env-full-riverbed-lq.exr"],
+	"environment_name": [],
+	"environment_index":0
+});
 
 // EVENT LISTENERS
 window.addEventListener('resize', adjustAspectRatio, false);
 function adjustAspectRatio(){
 
 	var windowAspect = window.innerWidth / window.innerHeight;
-	var imageAspect = PBR1_ELEMENTS.previewPlane.scale.x / PBR1_ELEMENTS.previewPlane.scale.y;
+	var imageAspect = previewPlane.scale.x / previewPlane.scale.y;
+	console.debug("WIN",windowAspect,"IMG",imageAspect);
 
-	if(PBR1_ELEMENTS.camera){
+	if(camera){
 		if(windowAspect > imageAspect){
-			PBR1_ELEMENTS.camera.left = -windowAspect;
-			PBR1_ELEMENTS.camera.right = windowAspect;
-			PBR1_ELEMENTS.camera.bottom = -1;
-			PBR1_ELEMENTS.camera.top = 1;
+			camera.left = -windowAspect;
+			camera.right = windowAspect;
+			camera.bottom = -1;
+			camera.top = 1;
 		}else{
-			PBR1_ELEMENTS.camera.left = -imageAspect;
-			PBR1_ELEMENTS.camera.right = imageAspect;
-			PBR1_ELEMENTS.camera.bottom =-imageAspect/windowAspect;
-			PBR1_ELEMENTS.camera.top = imageAspect/windowAspect;
+			camera.left = -imageAspect;
+			camera.right = imageAspect;
+			camera.bottom =-imageAspect/windowAspect;
+			camera.top = imageAspect/windowAspect;
 		}
-		PBR1_ELEMENTS.camera.updateProjectionMatrix();
+		camera.updateProjectionMatrix();
 	}
-
-
 }
 
 // FUNCTIONS
-
 function updateScene(incomingSceneConfiguration,fallbackType){
 
-	newSceneConfiguration = buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType);
+	console.debug("UPDATE",incomingSceneConfiguration,fallbackType);
+
+	// Load configurations
+	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
+	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
 
 	// Exposure
-
-	if(PBR1_SCENECONFIG.current["environment_exposure"] != newSceneConfiguration["environment_exposure"]){
-		PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
-	}
-
-	if(PBR1_SCENECONFIG.current["environment_tonemapping"] != newSceneConfiguration["environment_tonemapping"]){
-		PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment_tonemapping"]];
-	}
-
-	if(PBR1_SCENECONFIG.current["spheres_enable"] != newSceneConfiguration["spheres_enable"]){
-		PBR1_ELEMENTS.scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
-	}
+	renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration.environment_exposure);
+	renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration.environment_tonemapping];
 
 	
 	// Set Environment
-
-	if(PBR1_SCENECONFIG.current.environment_index != newSceneConfiguration.environment_index || !arrayEquals(PBR1_SCENECONFIG.current["environment_url"],newSceneConfiguration["environment_url"])){
+	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index ||
+		 !MISC.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
 
 		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
-			var envLoader = new THREE.RGBELoader();
+			var envLoader = new RGBE_LOADER.RGBELoader();
 		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".exr")){
-			var envLoader = new THREE.EXRLoader();
+			var envLoader = new EXR_LOADER.EXRLoader();
 		}
 		
 		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index], texture => {
-			PBR1_ELEMENTS.previewPlane.material.map = texture;
-			PBR1_ELEMENTS.previewPlane.scale.x = PBR1_ELEMENTS.previewPlane.material.map.image.width / PBR1_ELEMENTS.previewPlane.material.map.image.height;
-			PBR1_ELEMENTS.previewPlane.scale.y = 1;
-			PBR1_ELEMENTS.previewPlane.material.needsUpdate = true;
+			previewPlane.material.map = texture;
+			previewPlane.scale.x = previewPlane.material.map.image.width / previewPlane.material.map.image.height;
+			previewPlane.scale.y = 1;
+			previewPlane.material.needsUpdate = true;
 			adjustAspectRatio();
 			texture.dispose()
 
-			PBR1_ELEMENTS.renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
-			PBR1_ELEMENTS.renderer.toneMapping = PBR1_THREEJSMAPPING.toneMapping[newSceneConfiguration["environment_tonemapping"]];
+			console.debug("LOADED ENV");
+
+			renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
+			renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
 		});
 		
 	}
 
-	PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
-	updateGuiFromCurrentSceneConfiguration();
+	MISC.updateGuiFromCurrentSceneConfiguration();
 }
 
-// MAIN
-PBR1_ELEMENTS.scene = new THREE.Scene();
-
-// Preview Plane
-PBR1_ELEMENTS.previewPlane = new THREE.Mesh(
-	new THREE.PlaneGeometry(2,2),
-	new THREE.MeshBasicMaterial({"color":0xFFFFFF})
+function initializeScene(){
+	scene = new THREE.Scene();
+	previewPlane = new THREE.Mesh(
+		new THREE.PlaneGeometry(2,2),
+		new THREE.MeshBasicMaterial({"color":0xFFFFFF})
 	);
-PBR1_ELEMENTS.scene.add(PBR1_ELEMENTS.previewPlane);
 
-// camera
-PBR1_ELEMENTS.camera = new THREE.OrthographicCamera( -1, 1, 1, -1 , 0, 100 );
-PBR1_ELEMENTS.camera.position.z = 1;
+	previewPlane.material.side = THREE.DoubleSide;
+	window.previewPlane = previewPlane;
+	scene.add(previewPlane);
 
-// renderer
-PBR1_ELEMENTS.renderer = new THREE.WebGLRenderer();
-resizeRenderingArea();
-PBR1_ELEMENTS.renderer.outputEncoding = THREE.sRGBEncoding;
+	window.scene = scene;
+
+	//camera = new THREE.PerspectiveCamera();
+	camera = new THREE.OrthographicCamera( -1, 1, 1, -1 , 0, 100 );
+	camera.position.z = 1;
+
+	window.camera = camera;
+
+	renderer = new THREE.WebGLRenderer();
+	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
+
+	MISC.resizeRenderingArea(camera,renderer);
+
+	document.querySelector('#renderer_target').appendChild( renderer.domElement );
+
+}
+
+function animate() {
+    requestAnimationFrame( animate );
+    renderer.render( scene, camera );
+}
 
 // orbit controls
-PBR1_ELEMENTS.controls = {update:function(){}};
+//PBR1_ELEMENTS.controls = {update:function(){}};
 
 // START
-main();
+BASE.start(initializeScene,updateScene,animate);
