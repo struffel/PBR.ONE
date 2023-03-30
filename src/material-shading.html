@@ -18,7 +18,7 @@
 					max="5"
 					id="normal_scale"
 					step="0.05"
-					oninput="updateScene({'normal_scale':this.value},PBR1_FALLBACK.current);"
+					oninput="window.PBR1_CHANGE({'normal_scale':this.value});"
 				>
 
 				<label for="displacement_scale" title="displacement_scale">Displacement Scale</label>
@@ -28,18 +28,18 @@
 					max="0.33"
 					id="displacement_scale"
 					step="0.01"
-					oninput="updateScene({'displacement_scale':this.value},PBR1_FALLBACK.current);"
+					oninput="window.PBR1_CHANGE({'displacement_scale':this.value});"
 				>
 
-				<label for="tiling_scale" title="Tiling_scale" ondblclick="updateScene({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},PBR1_FALLBACK.current);">Tiling Scale</label>
+				<label for="tiling_scale" title="Tiling_scale" ondblclick="window.PBR1_CHANGE({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},true);">Tiling Scale</label>
 				<input
-					ondblclick="updateScene({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},PBR1_FALLBACK.current);"
+					ondblclick="window.PBR1_CHANGE({'tiling_scale':PBR1_SCENECONFIG.default.tiling_scale},true);"
 					type="range"
 					min="0.1"
 					max="10"
 					id="tiling_scale"
 					step="0.1"
-					oninput="updateScene({'tiling_scale':this.value},PBR1_FALLBACK.current);"
+					oninput="window.PBR1_CHANGE({'tiling_scale':this.value});"
 				>
 
 				<label for="clayrender_enable" title="clayrender_enable">Clay Render</label>
@@ -47,12 +47,12 @@
 					checked="unchecked"
 					type="checkbox"
 					id="clayrender_enable"
-					onchange="updateScene({'clayrender_enable':this.checked ? 1 : 0},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'clayrender_enable':this.checked ? 1 : 0});"
 				>
 
 				<label for="geometry_type" title="geometry_type">Geometry</label>
 				<select 
-					onchange="updateScene({'geometry_type':this.value},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'geometry_type':this.value});"
 					id="geometry_type"
 					name="geometry_type"
 				>
@@ -65,7 +65,7 @@
 
 				<label pbr1-onlyshowifmultivalued="material_name" for="material_name" title="material_name">Texture</label>
 				<select 
-					onchange="updateScene({'material_index':this.value},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'material_index':this.value});"
 					pbr1-onlyshowifmultivalued="material_name"
 					pbr1-optionsource="material_name"
 					pbr1-selectedsource="material_index"
@@ -76,7 +76,7 @@
 
 				<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
 				<select 
-					onchange="updateScene({'environment_index':this.value},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'environment_index':this.value});"
 					pbr1-onlyshowifmultivalued="environment_name"
 					pbr1-optionsource="environment_name"
 					pbr1-selectedsource="environment_index"
