@@ -32,7 +32,6 @@ export function parseHashString(){
 	}
 
 	var hashString = window.location.href.substring(window.location.href.indexOf('#') + 1);
-	console.debug("Read hashstring: #",hashString);
 
 	if(hashString == ""){
 		return {};
@@ -43,8 +42,6 @@ export function parseHashString(){
 	var output = {};
 
 	hashStringFragments.forEach(fragment => {
-		console.debug("Parsing fragment: ",fragment);
-
 		var keyValuePair = fragment.split('=');
 
 		if(keyValuePair[1].includes(';')){
