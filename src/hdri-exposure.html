@@ -13,7 +13,7 @@
 			<nav>
 				<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
 				<select 
-					onchange="updateScene({'environment_index':this.value},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'environment_index':this.value});"
 					pbr1-onlyshowifmultivalued="environment_name"
 					pbr1-optionsource="environment_name"
 					pbr1-selectedsource="environment_index"
@@ -22,7 +22,7 @@
 				>
 				</select>
 				
-				<label ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"; for="environment_exposure" title="environment_exposure">Exposure</label>
+				<label ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);" for="environment_exposure" title="environment_exposure">Exposure</label>
 				<input 
 					type="range"
 					min="-16"
@@ -30,15 +30,15 @@
 					value="0"
 					id="environment_exposure"
 					step="0.25"
-					ondblclick="this.value=0;updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);";
-					oninput="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);",
-					onload="updateScene({'environment_exposure':this.value},PBR1_FALLBACK.current);"
+					ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);"
+					oninput="window.PBR1_CHANGE({'environment_exposure':this.value});",
+					onload="window.PBR1_CHANGE({'environment_exposure':this.value});"
 				>
 				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
 				<select 
 					id="environment_tonemapping"
-					onchange="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
-					onload="updateScene({'environment_tonemapping':this.value},PBR1_FALLBACK.current);"
+					onchange="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
+					onload="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
 				>
 					<option title="filmic" value="filmic">ACES filmic</option>
 					<option title="linear" value="linear">Linear</option>

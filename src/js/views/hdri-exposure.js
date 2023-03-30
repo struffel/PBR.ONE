@@ -21,12 +21,11 @@ SCENESTATE.initializeDefaultConfiguration({
 });
 
 // EVENT LISTENERS
-window.addEventListener('resize', adjustAspectRatio, false);
+
 function adjustAspectRatio(){
 
 	var windowAspect = window.innerWidth / window.innerHeight;
 	var imageAspect = previewPlane.scale.x / previewPlane.scale.y;
-	console.debug("WIN",windowAspect,"IMG",imageAspect);
 
 	if(camera){
 		if(windowAspect > imageAspect){
@@ -44,10 +43,12 @@ function adjustAspectRatio(){
 	}
 }
 
-// FUNCTIONS
+/**
+ * Gets called whenever changes to the scne configuration are detected in order to implement the changes.
+ * @param {*} incomingSceneConfiguration 
+ * @param {CONSTANTS.fallbackType} fallbackType Defines the behavior if a value is not set in the incomingSceneConfiguration.
+ */
 function updateScene(incomingSceneConfiguration,fallbackType){
-
-	console.debug("UPDATE",incomingSceneConfiguration,fallbackType);
 
 	// Load configurations
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
@@ -76,8 +77,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			adjustAspectRatio();
 			texture.dispose()
 
-			console.debug("LOADED ENV");
-
+			// Reload exposure and tone mapping settings
 			renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
 			renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
 		});
@@ -87,6 +87,9 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	MISC.updateGuiFromCurrentSceneConfiguration();
 }
 
+/**
+ * Performs the initial scene setup.
+ */
 function initializeScene(){
 	scene = new THREE.Scene();
 	previewPlane = new THREE.Mesh(
@@ -110,9 +113,12 @@ function initializeScene(){
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
 	MISC.resizeRenderingArea(camera,renderer);
-	// Window resizing
-	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
 
+	// Window resizing event listeners
+	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', adjustAspectRatio, false);
+
+	// Activate renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
 
 }
