@@ -62,22 +62,26 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
 	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
 
-	// Test for changes in url and encoding
 
+	// Test for changes in url and encoding
+	
 	for(var mapName in CONSTANTS.mapNames){
 		if( oldSceneConfiguration.clayrender_enable != newSceneConfiguration.clayrender_enable ||
 			oldSceneConfiguration.material_index != newSceneConfiguration.material_index || 
 			!MISC.arrayEquals(oldSceneConfiguration[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])
 			){
+			
+
 			if(!MISC.arrayEquals(newSceneConfiguration[`${mapName}_url`],[]) && (mapName != "color" || newSceneConfiguration.clayrender_enable != 1 )){
-				var texture = textureLoader.load(newSceneConfiguration[`${mapName}_url`][newSceneConfiguration['material_index']],function(texture){
+				var mapUrlArray = [].concat(newSceneConfiguration[`${mapName}_url`]);
+				var mapUrl = mapUrlArray[newSceneConfiguration['material_index']];
+				var texture = textureLoader.load(mapUrl,function(texture){
 					var ratio = texture.source.data.width / texture.source.data.height;
 					if(ratio > 1){
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 					}else{
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
 					}
-					
 				});
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
@@ -92,7 +96,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 			}
 			else{
-
 				// Apply additional settings to ensure that the missing map is replaced with a sensible default
 
 				if(CONSTANTS.mapActiveSettings[mapName][0] != null){
@@ -113,9 +116,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 				}else{
 					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
-				}
-				//console.log(ratio);
-				
+				}	
 			}
 		}
 		
@@ -128,7 +129,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	}
 
 	// Set new geometry subdivisions and type
-
 	if(oldSceneConfiguration["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] || oldSceneConfiguration["geometry_type"] != newSceneConfiguration["geometry_type"]){
 		switch (newSceneConfiguration["geometry_type"]) {
 			case "cube":
@@ -159,7 +159,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 
-	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
+	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
 
 		if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".hdr")){
 			var envLoader = new RGBE_LOADER.RGBELoader();
@@ -174,17 +174,18 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			scene.background = envMap;
 			texture.dispose()
 			gen.dispose()
+			
 		});
 		
 	}
 
 	// Normal map type
-
+	
 	if(oldSceneConfiguration["normal_type"] != newSceneConfiguration["normal_type"] || oldSceneConfiguration["normal_scale"] != newSceneConfiguration["normal_scale"]){
 		mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal_scale"],newSceneConfiguration["normal_scale"]).multiply(CONSTANTS.normalMapType[newSceneConfiguration["normal_type"]]);
 	}
+	
 
-	oldSceneConfiguration = structuredClone(newSceneConfiguration);
 	MISC.updateGuiFromCurrentSceneConfiguration();
 }
 
@@ -198,9 +199,10 @@ function initializeScene(){
 	camera.position.y = 1;
 
 	renderer = new THREE.WebGLRenderer();
-	MISC.resizeRenderingArea(camera,renderer);
 	renderer.toneMapping = CONSTANTS.toneMapping.filmic;
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
+
+	MISC.resizeRenderingArea(camera,renderer);
 
 	mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,1,1), new THREE.MeshPhysicalMaterial() );
 	mesh.material.transparent = true;
@@ -210,6 +212,9 @@ function initializeScene(){
 	controls.enableDamping = true;
 
 	textureLoader = new THREE.TextureLoader();
+
+	// Set up renderer
+	document.querySelector('#renderer_target').appendChild( renderer.domElement );
 
 }
 
