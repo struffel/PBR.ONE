@@ -62,20 +62,29 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
 	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
 
+	console.debug("OLD",oldSceneConfiguration,"NEW",newSceneConfiguration);
 
 	// Test for changes in url and encoding
 	
 	for(var mapName in CONSTANTS.mapNames){
-		if( oldSceneConfiguration.clayrender_enable != newSceneConfiguration.clayrender_enable ||
-			oldSceneConfiguration.material_index != newSceneConfiguration.material_index || 
-			!MISC.arrayEquals(oldSceneConfiguration[`${mapName}_url`],newSceneConfiguration[`${mapName}_url`])
-			){
-			
 
-			if(!MISC.arrayEquals(newSceneConfiguration[`${mapName}_url`],[]) && (mapName != "color" || newSceneConfiguration.clayrender_enable != 1 )){
-				var mapUrlArray = [].concat(newSceneConfiguration[`${mapName}_url`]);
-				var mapUrl = mapUrlArray[newSceneConfiguration['material_index']];
-				var texture = textureLoader.load(mapUrl,function(texture){
+		var oldMapUrlArray = [].concat(oldSceneConfiguration[`${mapName}_url`]);
+		var oldMapUrl = oldMapUrlArray[newSceneConfiguration['material_index']];
+
+		var newMapUrlArray = [].concat(newSceneConfiguration[`${mapName}_url`]);
+		var newMapUrl = newMapUrlArray[newSceneConfiguration['material_index']];
+
+		if(mapName == "color" && newSceneConfiguration.clayrender_enable){
+			newMapUrl = null;
+		}
+
+		console.debug(mapName, oldMapUrl, newMapUrl);
+		console.debug("MAP URL CHANGED", oldMapUrl != newMapUrl);
+
+		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
+			console.debug("HANDLING CHANGE");
+			if(newMapUrl){
+				var texture = textureLoader.load(newMapUrl,function(texture){
 					var ratio = texture.source.data.width / texture.source.data.height;
 					if(ratio > 1){
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
@@ -89,7 +98,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 				
 				// Apply additional settings to ensure that the maps actually have an effect
 				// (like setting the object color to white to avoid a color tint on the texture)
-
 				if(CONSTANTS.mapActiveSettings[mapName][0] != null){
 					mesh.material[CONSTANTS.mapActiveSettings[mapName][0]] = CONSTANTS.mapActiveSettings[mapName][1];
 				}
@@ -97,7 +105,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			}
 			else{
 				// Apply additional settings to ensure that the missing map is replaced with a sensible default
-
 				if(CONSTANTS.mapActiveSettings[mapName][0] != null){
 					mesh.material[CONSTANTS.mapInactiveSettings[mapName][0]] = CONSTANTS.mapInactiveSettings[mapName][1];
 				}
@@ -215,6 +222,9 @@ function initializeScene(){
 
 	// Set up renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
+
+	// Window resizing
+	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
 
 }
 
