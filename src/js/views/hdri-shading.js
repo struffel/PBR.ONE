@@ -27,8 +27,6 @@ SCENESTATE.initializeDefaultConfiguration({
 
 function updateScene(incomingSceneConfiguration,fallbackType){
 
-	console.debug("UPDATE",incomingSceneConfiguration,fallbackType);
-
 	// Load configurations
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
 	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
