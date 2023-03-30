@@ -110,6 +110,8 @@ function initializeScene(){
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
 	MISC.resizeRenderingArea(camera,renderer);
+	// Window resizing
+	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
 
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
 
