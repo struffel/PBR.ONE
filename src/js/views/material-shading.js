@@ -62,7 +62,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
 	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
 
-	console.debug("OLD",oldSceneConfiguration,"NEW",newSceneConfiguration);
+	//console.debug("OLD",oldSceneConfiguration,"NEW",newSceneConfiguration);
 
 	// Test for changes in url and encoding
 	
@@ -78,11 +78,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			newMapUrl = null;
 		}
 
-		console.debug(mapName, oldMapUrl, newMapUrl);
-		console.debug("MAP URL CHANGED", oldMapUrl != newMapUrl);
-
 		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
-			console.debug("HANDLING CHANGE");
 			if(newMapUrl){
 				var texture = textureLoader.load(newMapUrl,function(texture){
 					var ratio = texture.source.data.width / texture.source.data.height;
