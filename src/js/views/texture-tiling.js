@@ -1,82 +1,108 @@
-// VARIABLES AND CONSTANTS
+// IMPORTS
+import * as THREE from "../threejs/three.module.js";
+import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
+import * as RGBE_LOADER from '../threejs/RGBELoader.js';
+import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as BASE from "../common/base.js";
+import * as SCENESTATE from "../common/scenestate.js";
+import * as CONSTANTS from "../common/constants.js";
+import * as MISC from "../common/misc.js";
 
-const PBR1_SCENECONFIG = {
-	"default" : {
-		"texture_url" : [],
-		"texture_name": [],
-		"texture_index":0, // If texture_url is multivalued then this value keeps track of the currently selected index
-		"background_x":0,
-		"background_y":0,
-		"texture_size":512,
-		"mouse_down":false
-	},
-	"current" : {},
-}
-
-PBR1_ELEMENTS.targetDomElement = document.querySelector('#renderer_target');
-
-// EVENT LISTENERS
-
-window.addEventListener('pageshow',function(){
-	updateBackgroundPosition();
-	updateBackgroundSize();
+SCENESTATE.initializeDefaultConfiguration({
+	"texture_url" : [],
+	"texture_name": [],
+	"texture_index":0, // If texture_url is multivalued then this value keeps track of the currently selected index
+	"texture_size":512
 });
 
-window.addEventListener('wheel', function(event){
-	event.preventDefault();
-	var scaling_factor = 1 + event.deltaY/1000;
-	PBR1_SCENECONFIG.current.texture_size *= scaling_factor;
-	PBR1_SCENECONFIG.current.texture_size = Math.min(Math.max(PBR1_SCENECONFIG.current.texture_size,16),32768);
-	PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x,PBR1_SCENECONFIG.current.texture_size);
-	PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y,PBR1_SCENECONFIG.current.texture_size);
-	updateBackgroundPosition();
-	updateBackgroundSize();
-},{passive:false});
 
-window.addEventListener('mousedown', function(){
-	PBR1_SCENECONFIG.current.mouse_down=true;
-});
 
-window.addEventListener('mouseup', function(){
-	PBR1_SCENECONFIG.current.mouse_down=false;
-});
+var targetDomElement;
+var isMouseDown;
+var basePositionX;
+var basePositionY;
+var baseSize;
 
-window.addEventListener('mousemove', function(event){
-	if(PBR1_SCENECONFIG.current.mouse_down){
-		PBR1_SCENECONFIG.current.background_x = mod(PBR1_SCENECONFIG.current.background_x + event.movementX, PBR1_SCENECONFIG.current.texture_size);
-		PBR1_SCENECONFIG.current.background_y = mod(PBR1_SCENECONFIG.current.background_y + event.movementY, PBR1_SCENECONFIG.current.texture_size);
-		updateBackgroundPosition();
-	}
-},{passive:false});
-
-// FUNCTIONS
-function mod(n, m) {
-	return ((n % m) + m) % m;
+function moveBackground(x,y){
+	basePositionX = basePositionX + x;
+	basePositionY = basePositionY + y;
+	targetDomElement.style.backgroundPosition = `${basePositionX + window.innerWidth/2}px ${basePositionY + window.innerHeight/2}px`;
 }
 
-function updateBackgroundSize(){
-	PBR1_ELEMENTS.targetDomElement.style.backgroundSize = `${PBR1_SCENECONFIG.current.texture_size}px`;
-}
-function updateBackgroundPosition(){
-	var new_x = PBR1_SCENECONFIG.current.background_x + window.innerWidth / 2;
-	var new_y = PBR1_SCENECONFIG.current.background_y + window.innerHeight / 2;
-	PBR1_ELEMENTS.targetDomElement.style.backgroundPosition = `${new_x}px ${new_y}px`;
+function scaleBackground(factor){
+	baseSize = baseSize * factor;
+	targetDomElement.style.backgroundSize = `${baseSize}px`;
+
+	basePositionY = basePositionY * factor;
+	basePositionX = basePositionX * factor;
+	targetDomElement.style.backgroundPosition = `${basePositionX + window.innerWidth/2}px ${basePositionY + window.innerHeight/2}px`;
 }
 
 function updateScene(incomingSceneConfiguration,fallbackType){
 
-	newSceneConfiguration = buildNewSceneConfiguration(incomingSceneConfiguration,fallbackType);
+	// Load configurations
+	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
+	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
 
-	// CSS Background
-	PBR1_ELEMENTS.targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url'][newSceneConfiguration['texture_index']]}')`;
+	// Set CSS Background
+	targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url'][newSceneConfiguration['texture_index']]}')`;
+
+	MISC.updateGuiFromCurrentSceneConfiguration();
+}
+
+function initializeScene(){
+
+	targetDomElement = document.querySelector('#renderer_target');
+	isMouseDown = false;
+	basePositionX = 0;
+	basePositionY = 0;
+	baseSize = SCENESTATE.getDefaultConfiguration().texture_size;
+
+	targetDomElement.addEventListener("mousedown", function(event) {
+		isMouseDown = true;
+	});
+
+	targetDomElement.addEventListener("mousemove", function(event) {
+		if (isMouseDown) {
+			moveBackground(event.movementX,event.movementY);
+		}
+	});
+
+	targetDomElement.addEventListener("mouseup", function() {
+		isMouseDown = false;
+	});
+
+	document.addEventListener("wheel", function(event) {
+		var factor = 1 + (event.deltaY * 0.001);
+		scaleBackground(factor);
+	});
+
+	/*targetDomElement.addEventListener("touchstart", function(event) {
+		isMouseDown = true;
+		startX = event.touches[0].clientX;
+		startY = event.touches[0].clientY;
+	});
+
+	targetDomElement.addEventListener("touchmove", function(event) {
+	if (isMouseDown) {
+		currentX = event.touches[0].clientX;
+		currentY = event.touches[0].clientY;
+		targetDomElement.style.left = (targetDomElement.offsetLeft - (startX - currentX)) + "px";
+		targetDomElement.style.top = (targetDomElement.offsetTop - (startY - currentY)) + "px";
+		startX = currentX;
+		startY = currentY;
+	}
+	});
+
+	targetDomElement.addEventListener("touchend", function() {
+		isMouseDown = false;
+	});*/
+
+	scaleBackground(1);
+	moveBackground(0,0);
 	
-	PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
-	updateGuiFromCurrentSceneConfiguration();
 
-	// Update background position and size for new texture
-	updateBackgroundPosition();
-	updateBackgroundSize();
 }
 
 // MAIN
-updateSiteFromHashstring();
+BASE.start(initializeScene,updateScene,null);

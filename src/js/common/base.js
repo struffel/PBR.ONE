@@ -60,7 +60,9 @@ export function start(initializationFunction,updateFunction,animationFunction){
 	});
 
 	handleHashStringChange(updateFunction);
-
-	animationFunction();
+	if(animationFunction){
+		animationFunction();
+	}
+	
 
 }
