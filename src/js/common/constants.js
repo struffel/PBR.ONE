@@ -45,8 +45,6 @@ export const normalMapType = {
 	"directx"	: new THREE.Vector2(1,-1)
 }
 
-// TODO: What do the arrays mean?
-
 /**
  * These are the settings for ThreeJS if a specific map is active.
  * This ensures, for example, that the metalness map never gets multiplied by zero, which would effectively disable it.

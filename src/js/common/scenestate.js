@@ -51,14 +51,6 @@ export function updateCurrentConfiguration(incomingConfiguration,fallbackType){
 	for(var key in incomingConfiguration){
 		if(newConfiguration[key] !== undefined){
 			newConfiguration[key] = incomingConfiguration[key];
-			
-			// Leaving this in in case it is still needed
-			/*if(Array.isArray(newConfiguration[key])){
-				newConfiguration[key] = incomingConfiguration[key].split(";");
-			}else{
-				newConfiguration[key] = incomingConfiguration[key];
-			}*/
-			
 		}
 	};
 

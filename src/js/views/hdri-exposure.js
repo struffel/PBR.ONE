@@ -6,7 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as MISC from "../common/misc.js";
+
 
 // VARIABLES AND CONSTANTS
 
@@ -61,7 +61,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	
 	// Set Environment
 	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index ||
-		 !MISC.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
+		 !BASE.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
 
 		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
 			var envLoader = new RGBE_LOADER.RGBELoader();
@@ -84,7 +84,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 		
 	}
 
-	MISC.updateGuiFromCurrentSceneConfiguration();
+	BASE.updateGuiFromCurrentSceneConfiguration();
 }
 
 /**
@@ -112,10 +112,10 @@ function initializeScene(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
-	MISC.resizeRenderingArea(camera,renderer);
+	BASE.resizeRenderingArea(camera,renderer);
 
 	// Window resizing event listeners
-	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
 	window.addEventListener('resize', adjustAspectRatio, false);
 
 	// Activate renderer

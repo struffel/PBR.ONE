@@ -6,7 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as MISC from "../common/misc.js";
+
 
 // VARIABLES AND CONSTANTS
 
@@ -43,7 +43,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
 
 	// Set Environment
-	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
+	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
 		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
 			var envLoader = new RGBE_LOADER.RGBELoader();
 		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".exr")){
@@ -65,7 +65,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	}
 
 	//PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
-	MISC.updateGuiFromCurrentSceneConfiguration();
+	BASE.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){
@@ -105,7 +105,7 @@ function initializeScene(){
 
 	// renderer
 	var renderer = new THREE.WebGLRenderer();
-	MISC.resizeRenderingArea(camera,renderer);
+	BASE.resizeRenderingArea(camera,renderer);
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 	SCENESTATE.registerSceneElement("RENDERER",renderer);
 
@@ -118,7 +118,7 @@ function initializeScene(){
 	SCENESTATE.registerSceneElement("CONTROLS",controls);
 
 	// Window resizing
-	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
 
 	// Zoom
 	var zoomHandler = function(event,camera) {

@@ -6,7 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as MISC from "../common/misc.js";
+
 
 SCENESTATE.initializeDefaultConfiguration({
 	"texture_url" : [],
@@ -52,7 +52,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	// Set CSS Background
 	targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url'][newSceneConfiguration['texture_index']]}')`;
 
-	MISC.updateGuiFromCurrentSceneConfiguration();
+	BASE.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){

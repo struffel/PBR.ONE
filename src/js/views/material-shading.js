@@ -6,7 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as MISC from "../common/misc.js";
+
 
 // VARIABLES AND CONSTANTS
 
@@ -162,7 +162,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 
-	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
+	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
 
 		if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".hdr")){
 			var envLoader = new RGBE_LOADER.RGBELoader();
@@ -189,7 +189,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	}
 	
 
-	MISC.updateGuiFromCurrentSceneConfiguration();
+	BASE.updateGuiFromCurrentSceneConfiguration();
 }
 
 
@@ -205,7 +205,7 @@ function initializeScene(){
 	renderer.toneMapping = CONSTANTS.toneMapping.filmic;
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
-	MISC.resizeRenderingArea(camera,renderer);
+	BASE.resizeRenderingArea(camera,renderer);
 
 	mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,1,1), new THREE.MeshPhysicalMaterial() );
 	mesh.material.transparent = true;
@@ -220,7 +220,7 @@ function initializeScene(){
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
 
 	// Window resizing
-	window.addEventListener('resize', (e) => { MISC.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
 
 }
 
