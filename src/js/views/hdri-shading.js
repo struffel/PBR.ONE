@@ -6,6 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
+import * as SCENEACTION from "../common/sceneactions.js"
 
 
 // VARIABLES AND CONSTANTS
@@ -44,25 +45,12 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
-		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
-			var envLoader = new RGBE_LOADER.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".exr")){
-			var envLoader = new EXR_LOADER.EXRLoader();
-		}
 		
-		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index], texture => {
-			const gen = new THREE.PMREMGenerator(renderer);
-			const envMap = gen.fromEquirectangular(texture).texture;
-			scene.environment = envMap;
-			scene.background = envMap;
-			texture.dispose()
-			gen.dispose()
-
-			renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
-			renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
-		});
+		var envFileUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
+		SCENEACTION.updateSceneEnvironment(envFileUrl,scene,renderer);
 		
 	}
+
 
 	//PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
 	BASE.updateGuiFromCurrentSceneConfiguration();
