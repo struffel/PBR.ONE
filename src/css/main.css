@@ -42,6 +42,30 @@ nav label{
 	white-space: nowrap;
 }
 
+.nav-toggle{
+	text-align: center;
+	width: 100%;
+	grid-column-start: span 2;
+}
+
+.loading-notes{
+	position:absolute;
+	bottom: 0px;
+	left: 20px;
+	color: white;
+	pointer-events:none;
+	user-select:none;
+	font-family: monospace;
+	background-color: #00000050;
+	border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+	padding: 10px;
+}
+
+.loading-notes:empty{
+	display: none;
+}
+
 .watermark{
 	position: absolute;
 	bottom: 10px;
