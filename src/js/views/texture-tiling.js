@@ -16,26 +16,31 @@ SCENESTATE.initializeDefaultConfiguration({
 });
 
 
+var targetDomElement, crosshairDomElement, mouseDown, backgroundPositionX, backgroundPositionY, backgroundSize;
 
-var targetDomElement;
-var isMouseDown;
-var basePositionX;
-var basePositionY;
-var baseSize;
+var previousTouchX, previousTouchY;
 
 function moveBackground(x,y){
-	basePositionX = basePositionX + x;
-	basePositionY = basePositionY + y;
-	targetDomElement.style.backgroundPosition = `${basePositionX + window.innerWidth/2}px ${basePositionY + window.innerHeight/2}px`;
+	backgroundPositionX = backgroundPositionX + x;
+	backgroundPositionY = backgroundPositionY + y;
+	targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
 }
 
 function scaleBackground(factor){
-	baseSize = baseSize * factor;
-	targetDomElement.style.backgroundSize = `${baseSize}px`;
+	backgroundSize = backgroundSize * factor;
+	targetDomElement.style.backgroundSize = `${backgroundSize}px`;
 
-	basePositionY = basePositionY * factor;
-	basePositionX = basePositionX * factor;
-	targetDomElement.style.backgroundPosition = `${basePositionX + window.innerWidth/2}px ${basePositionY + window.innerHeight/2}px`;
+	backgroundPositionY = backgroundPositionY * factor;
+	backgroundPositionX = backgroundPositionX * factor;
+	targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
+}
+
+function updateCrosshairDisplay(){
+	if(mouseDown){
+		crosshairDomElement.style.opacity = 1;
+	}else{
+		crosshairDomElement.style.opacity = 0;
+	}
 }
 
 function updateScene(incomingSceneConfiguration,fallbackType){
@@ -53,23 +58,27 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 function initializeScene(){
 
 	targetDomElement = document.querySelector('#renderer_target');
-	isMouseDown = false;
-	basePositionX = 0;
-	basePositionY = 0;
-	baseSize = SCENESTATE.getDefaultConfiguration().texture_size;
+	crosshairDomElement = document.querySelector('#crosshair');
+	mouseDown = false;
+	backgroundPositionX = 0;
+	backgroundPositionY = 0;
+	backgroundSize = SCENESTATE.getDefaultConfiguration().texture_size;
 
 	targetDomElement.addEventListener("mousedown", function(event) {
-		isMouseDown = true;
+		mouseDown = true;
+		updateCrosshairDisplay();
+		
 	});
 
 	targetDomElement.addEventListener("mousemove", function(event) {
-		if (isMouseDown) {
+		if (mouseDown) {
 			moveBackground(event.movementX,event.movementY);
 		}
 	});
 
 	targetDomElement.addEventListener("mouseup", function() {
-		isMouseDown = false;
+		mouseDown = false;
+		updateCrosshairDisplay();
 	});
 
 	document.addEventListener("wheel", function(event) {
@@ -77,31 +86,29 @@ function initializeScene(){
 		scaleBackground(factor);
 	});
 
-	/*targetDomElement.addEventListener("touchstart", function(event) {
-		isMouseDown = true;
-		startX = event.touches[0].clientX;
-		startY = event.touches[0].clientY;
-	});
+	targetDomElement.addEventListener("touchstart", function(event) {
+		mouseDown = true;
+		updateCrosshairDisplay();
+		previousTouchX = event.changedTouches[0].clientX;
+		previousTouchY = event.changedTouches[0].clientY;
+	},{ passive: true});
 
 	targetDomElement.addEventListener("touchmove", function(event) {
-	if (isMouseDown) {
-		currentX = event.touches[0].clientX;
-		currentY = event.touches[0].clientY;
-		targetDomElement.style.left = (targetDomElement.offsetLeft - (startX - currentX)) + "px";
-		targetDomElement.style.top = (targetDomElement.offsetTop - (startY - currentY)) + "px";
-		startX = currentX;
-		startY = currentY;
-	}
-	});
+		var touchDeltaX = event.changedTouches[0].clientX - previousTouchX;
+		var touchDeltaY = event.changedTouches[0].clientY - previousTouchY;
+		moveBackground(touchDeltaX,touchDeltaY);
+		previousTouchX = event.changedTouches[0].clientX;
+		previousTouchY = event.changedTouches[0].clientY;
+	},{ passive: true});
 
 	targetDomElement.addEventListener("touchend", function() {
-		isMouseDown = false;
-	});*/
+		mouseDown = false;
+		updateCrosshairDisplay();
+	});
 
 	scaleBackground(1);
 	moveBackground(0,0);
 	
-
 }
 
 // MAIN
