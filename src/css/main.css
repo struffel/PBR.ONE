@@ -14,16 +14,22 @@ body, main{
 	background-color: black;
 }
 
+.nav-main-elements{
+	display: grid;
+	grid-template-columns: min-content auto;
+	width: 100%;
+	overflow: hidden;
+}
+
 nav {
+	display: block;
 	position: absolute;
 	top:0px;
 	left:20px;
 	z-index: 1;
-	display: grid;
-	grid-template-columns: min-content auto;
 	background-color: #00000050;
 	color:#ffffff;
-
+	overflow: hidden;
 	border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -42,10 +48,23 @@ nav label{
 	white-space: nowrap;
 }
 
-.nav-toggle{
-	text-align: center;
+#gui_enable{
+	display:none;
+}
+
+#gui_enable_label{
 	width: 100%;
-	grid-column-start: span 2;
+    display: block;
+    text-align: center;
+    margin: 0px;
+	padding-bottom: 10px;
+	padding-top:10px;
+	font-size: 0.75em;
+}
+
+#gui_enable_label:hover{
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 .loading-notes{

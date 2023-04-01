@@ -49,9 +49,7 @@ export function updateCurrentConfiguration(incomingConfiguration,fallbackType){
 	}
 
 	for(var key in incomingConfiguration){
-		if(newConfiguration[key] !== undefined){
-			newConfiguration[key] = incomingConfiguration[key];
-		}
+		newConfiguration[key] = incomingConfiguration[key];
 	};
 
 	currentConfiguration = newConfiguration;

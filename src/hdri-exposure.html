@@ -11,39 +11,48 @@
 		<script type="module" src="./js/views/hdri-exposure.js"></script>
 		<main id="renderer_target">
 			<nav>
-				<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
-				<select 
-					onchange="window.PBR1_CHANGE({'environment_index':this.value});"
-					pbr1-onlyshowifmultivalued="environment_name"
-					pbr1-optionsource="environment_name"
-					pbr1-selectedsource="environment_index"
-					id="environment_name"
-					name="environment_name"
-				>
-				</select>
-				
-				<label ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);" for="environment_exposure" title="environment_exposure">Exposure</label>
-				<input 
-					type="range"
-					min="-16"
-					max="16"
-					value="0"
-					id="environment_exposure"
-					step="0.25"
-					ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);"
-					oninput="window.PBR1_CHANGE({'environment_exposure':this.value});",
-					onload="window.PBR1_CHANGE({'environment_exposure':this.value});"
-				>
-				<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
-				<select 
-					id="environment_tonemapping"
-					onchange="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
-					onload="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
-				>
-					<option title="filmic" value="filmic">ACES filmic</option>
-					<option title="linear" value="linear">Linear</option>
+				<div class="nav-main-elements">
+					<label pbr1-onlyshowifmultivalued="environment_name" for="environment_name" title="environment_name">Environment</label>
+					<select 
+						onchange="window.PBR1_CHANGE({'environment_index':this.value});"
+						pbr1-onlyshowifmultivalued="environment_name"
+						pbr1-optionsource="environment_name"
+						pbr1-selectedsource="environment_index"
+						id="environment_name"
+						name="environment_name"
+					>
+					</select>
 					
-				</select>
+					<label ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);" for="environment_exposure" title="environment_exposure">Exposure</label>
+					<input 
+						type="range"
+						min="-16"
+						max="16"
+						value="0"
+						id="environment_exposure"
+						step="0.25"
+						ondblclick="window.PBR1_CHANGE({'environment_exposure':null},true);"
+						oninput="window.PBR1_CHANGE({'environment_exposure':this.value});",
+						onload="window.PBR1_CHANGE({'environment_exposure':this.value});"
+					>
+					<label for="environment_tonemapping" title="environment_tonemapping">Tone Mapping</label>
+					<select 
+						id="environment_tonemapping"
+						onchange="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
+						onload="window.PBR1_CHANGE({'environment_tonemapping':this.value});"
+					>
+						<option title="filmic" value="filmic">ACES filmic</option>
+						<option title="linear" value="linear">Linear</option>
+						
+					</select>
+				</div>
+				<label id="gui_enable_label" for="gui_enable" title="gui_enable">hide</label>
+				<input 
+					checked="checked"
+					type="checkbox"
+					id="gui_enable"
+					onchange="window.PBR1_CHANGE({'gui_enable':this.checked ? '1' : '0'});"
+				>
 			</nav>
 			<a class="watermark watermark-off" href="https://pbr.one">🔮 PBR.ONE</a>
 			<span class="loading-notes" id="loadingNotes"></span>

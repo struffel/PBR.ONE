@@ -1,7 +1,6 @@
 import * as THREE from '../threejs/three.module.js';
 import * as CONSTANTS from './constants.js';
 import * as SCENESTATE from './scenestate.js';
-import './window.js';
 
 /**
  * Re-parses the current hashstring and runs the updateFunction supplied to it.
@@ -9,7 +8,7 @@ import './window.js';
  */
 function handleHashStringChange(updateFunction){
 	var parsedHashString = parseHashString();
-	updateWatermark(parsedHashString['watermark']);
+	updateWatermark(parsedHashString['watermark_enable']);
 	updateFunction(parsedHashString,CONSTANTS.fallback.default);
 }
 
@@ -117,13 +116,13 @@ export function parseHashString(){
 export function updateWatermark(newStyle){
 	var newWatermarkClass = "watermark ";
 	switch (newStyle) {
-		case 'off':
+		case '0':
 			newWatermarkClass += "watermark-off";
 			break;
-		case 'small':
+		case '1':
 			newWatermarkClass += "watermark-small";
 			break;
-		case 'large':
+		case '2':
 		default:
 			newWatermarkClass += "watermark-large";
 			break;
@@ -136,12 +135,50 @@ export function filenameFromUrl(url){
 }
 
 /**
+ * A small function assigned to the global window object that makes it possible to trigger scene configuration updates using inline JS.
+ * It is added to the window object to make it accessible everywhere, even outside module code.
+ * @param {*} changedConfig 
+ * @param {*} resetValues 
+ */
+window.PBR1_CHANGE = function(changedConfig,resetValues = false){
+    var evt = new CustomEvent('PBR1_CHANGE',{"detail": {"changedConfiguration": changedConfig,"resetValues":resetValues}});
+    document.dispatchEvent(evt);
+}
+
+
+/**
  * Updates all the settings in the GUI to match the current scene configuration.
  */
 export function updateGuiFromCurrentSceneConfiguration(){
 
 	// Get current scene configuration
 	var currentConfiguration = SCENESTATE.getCurrentConfiguration();
+
+	var guiEnable = currentConfiguration.gui_enable;
+	var navGuiEnableLabel = document.querySelector('#gui_enable_label');
+	var navFull = document.querySelector('nav');
+	var navMainElements = document.querySelector('.nav-main-elements');
+
+	// Update Gui display
+	switch (guiEnable) {
+		default:
+		case '1':
+			navFull.style.height = "unset";
+			navMainElements.style.height = "unset";
+			if(navGuiEnableLabel)navGuiEnableLabel.innerHTML = "Hide GUI";
+			break;
+		
+		case '0':
+			navFull.style.height = "unset";
+			navMainElements.style.height = 0;
+			if(navGuiEnableLabel)navGuiEnableLabel.innerHTML = "Show GUI";
+			break;
+
+		case '-1':
+			navFull.style.height = 0;
+			break;
+	}
+	
 	
 	// Iterate over all elements by id and set their value
 	// This updates sliders and checkboxes
