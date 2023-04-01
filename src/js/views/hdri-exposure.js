@@ -1,12 +1,13 @@
 // IMPORTS
 import * as THREE from "../threejs/three.module.js";
-import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
+import * as MISC from '../common/misc.js';
 import * as RGBE_LOADER from '../threejs/RGBELoader.js';
 import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
 import * as LOADING from "../common/loading.js";
+import * as GUI from "../common/gui.js";
 
 
 // VARIABLES AND CONSTANTS
@@ -62,7 +63,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	
 	// Set Environment
 	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index ||
-		!BASE.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
+		!MISC.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
 
 		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
 		
@@ -72,7 +73,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			var envLoader = new EXR_LOADER.EXRLoader();
 		}
 		
-		var loadingNote = new LOADING.LoadingNote(BASE.filenameFromUrl(envUrl),envUrl);
+		var loadingNote = new LOADING.LoadingNote(MISC.filenameFromUrl(envUrl),envUrl);
 		loadingNote.start();
 
 		envLoader.load(envUrl, texture => {
@@ -91,7 +92,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 		
 	}
 
-	BASE.updateGuiFromCurrentSceneConfiguration();
+	GUI.updateGuiFromCurrentSceneConfiguration();
 }
 
 /**

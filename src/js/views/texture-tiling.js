@@ -1,11 +1,7 @@
 // IMPORTS
-import * as THREE from "../threejs/three.module.js";
-import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
-import * as RGBE_LOADER from '../threejs/RGBELoader.js';
-import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as GUI from "../common/gui.js";
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
-import * as CONSTANTS from "../common/constants.js";
 
 
 SCENESTATE.initializeDefaultConfiguration({
@@ -44,7 +40,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	// Set CSS Background
 	targetDomElement.style.backgroundImage = `url('${newSceneConfiguration['texture_url'][newSceneConfiguration['texture_index']]}')`;
 
-	BASE.updateGuiFromCurrentSceneConfiguration();
+	GUI.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){

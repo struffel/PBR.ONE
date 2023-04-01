@@ -1,7 +1,7 @@
 import * as THREE from "../threejs/three.module.js";
 import * as RGBE_LOADER from '../threejs/RGBELoader.js';
 import * as EXR_LOADER from '../threejs/EXRLoader.js';
-import * as BASE from "../common/base.js";
+import * as MISC from "../common/misc.js";
 import * as LOADING from "../common/loading.js";
 
 /**
@@ -11,7 +11,7 @@ import * as LOADING from "../common/loading.js";
 export function updateSceneEnvironment(url,scene,renderer){
 
 	var envFileUrl = url;
-	var envFileName = BASE.filenameFromUrl(url);
+	var envFileName = MISC.filenameFromUrl(url);
 
 	if(envFileUrl.split("?")[0].split("#")[0].endsWith(".hdr")){
 		var envLoader = new RGBE_LOADER.RGBELoader();

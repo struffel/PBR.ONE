@@ -1,8 +1,8 @@
 // IMPORTS
 import * as THREE from "../threejs/three.module.js";
 import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
-import * as RGBE_LOADER from '../threejs/RGBELoader.js';
-import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as MISC from '../common/misc.js';
+import * as GUI from '../common/gui.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
@@ -44,7 +44,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
 
 	// Set Environment
-	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
+	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
 		
 		var envFileUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
 		SCENEACTION.updateSceneEnvironment(envFileUrl,scene,renderer);
@@ -53,7 +53,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 
 	//PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
-	BASE.updateGuiFromCurrentSceneConfiguration();
+	GUI.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){

@@ -1,13 +1,13 @@
 // IMPORTS
 import * as THREE from "../threejs/three.module.js";
 import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
-import * as RGBE_LOADER from '../threejs/RGBELoader.js';
-import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as MISC from '../common/misc.js';
+import * as GUI from '../common/gui.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
-import { updateSceneEnvironment } from "../common/sceneactions.js";
-import { LoadingNote } from "../common/loading.js";
+import * as SCENEACTION from "../common/sceneactions.js";
+import * as LOADINGNOTE from "../common/loading.js";
 
 
 // VARIABLES AND CONSTANTS
@@ -82,7 +82,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
 			if(newMapUrl){
 
-				var loadingNote = new LoadingNote(BASE.filenameFromUrl(newMapUrl),newMapUrl);
+				var loadingNote = new LOADINGNOTE.LoadingNote(BASE.filenameFromUrl(newMapUrl),newMapUrl);
 				loadingNote.start();
 
 				var texture = textureLoader.load(newMapUrl,function(texture,mapName){
@@ -169,9 +169,9 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 
-	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
+	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
 
-		updateSceneEnvironment(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]],scene,renderer);
+		SCENEACTION.updateSceneEnvironment(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]],scene,renderer);
 		
 	}
 
@@ -182,10 +182,8 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	}
 	
 
-	BASE.updateGuiFromCurrentSceneConfiguration();
+	GUI.updateGuiFromCurrentSceneConfiguration();
 }
-
-
 
 function initializeScene(){
 	scene = new THREE.Scene();
