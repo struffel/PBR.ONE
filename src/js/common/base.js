@@ -131,6 +131,10 @@ export function updateWatermark(newStyle){
 	document.querySelector('.watermark').setAttribute("class",newWatermarkClass);
 }
 
+export function filenameFromUrl(url){
+	return url.split('/').pop().split('?')[0];
+}
+
 /**
  * Updates all the settings in the GUI to match the current scene configuration.
  */

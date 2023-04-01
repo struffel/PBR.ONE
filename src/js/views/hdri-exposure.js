@@ -6,6 +6,7 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
+import * as LOADING from "../common/loading.js";
 
 
 // VARIABLES AND CONSTANTS
@@ -61,15 +62,20 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	
 	// Set Environment
 	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index ||
-		 !BASE.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
+		!BASE.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
 
-		if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".hdr")){
+		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
+		
+		if(envUrl.split("?")[0].split("#")[0].endsWith(".hdr")){
 			var envLoader = new RGBE_LOADER.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index].split("?")[0].split("#")[0].endsWith(".exr")){
+		}else if(envUrl.split("?")[0].split("#")[0].endsWith(".exr")){
 			var envLoader = new EXR_LOADER.EXRLoader();
 		}
 		
-		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index], texture => {
+		var loadingNote = new LOADING.LoadingNote(BASE.filenameFromUrl(envUrl),envUrl);
+		loadingNote.start();
+
+		envLoader.load(envUrl, texture => {
 			previewPlane.material.map = texture;
 			previewPlane.scale.x = previewPlane.material.map.image.width / previewPlane.material.map.image.height;
 			previewPlane.scale.y = 1;
@@ -80,6 +86,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			// Reload exposure and tone mapping settings
 			renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
 			renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
+			loadingNote.finish();
 		});
 		
 	}

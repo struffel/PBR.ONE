@@ -6,6 +6,8 @@ import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
 import * as SCENESTATE from "../common/scenestate.js";
 import * as CONSTANTS from "../common/constants.js";
+import { updateSceneEnvironment } from "../common/sceneactions.js";
+import { LoadingNote } from "../common/loading.js";
 
 
 // VARIABLES AND CONSTANTS
@@ -65,7 +67,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	//console.debug("OLD",oldSceneConfiguration,"NEW",newSceneConfiguration);
 
 	// Test for changes in url and encoding
-	
 	for(var mapName in CONSTANTS.mapNames){
 
 		var oldMapUrlArray = [].concat(oldSceneConfiguration[`${mapName}_url`]);
@@ -80,14 +81,20 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
 			if(newMapUrl){
-				var texture = textureLoader.load(newMapUrl,function(texture){
+
+				var loadingNote = new LoadingNote(BASE.filenameFromUrl(newMapUrl),newMapUrl);
+				loadingNote.start();
+
+				var texture = textureLoader.load(newMapUrl,function(texture,mapName){
 					var ratio = texture.source.data.width / texture.source.data.height;
 					if(ratio > 1){
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 					}else{
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
 					}
+					texture.loadingNote.finish();
 				});
+				texture.loadingNote = loadingNote;
 				texture.wrapS = THREE.RepeatWrapping;
 				texture.wrapT = THREE.RepeatWrapping;
 				texture.encoding = CONSTANTS.encoding[newSceneConfiguration[`${mapName}_encoding`]];
@@ -164,21 +171,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !BASE.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
 
-		if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".hdr")){
-			var envLoader = new RGBE_LOADER.RGBELoader();
-		}else if(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]].endsWith(".exr")){
-			var envLoader = new EXR_LOADER.EXRLoader();
-		}
-		
-		envLoader.load(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]], texture => {
-			const gen = new THREE.PMREMGenerator(renderer);
-			const envMap = gen.fromEquirectangular(texture).texture;
-			scene.environment = envMap;
-			scene.background = envMap;
-			texture.dispose()
-			gen.dispose()
-			
-		});
+		updateSceneEnvironment(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]],scene,renderer);
 		
 	}
 
