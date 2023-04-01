@@ -16,7 +16,7 @@ SCENESTATE.initializeDefaultConfiguration({
 });
 
 
-var targetDomElement, crosshairDomElement, mouseDown, backgroundPositionX, backgroundPositionY, backgroundSize;
+var targetDomElement, mouseDown, backgroundPositionX, backgroundPositionY, backgroundSize;
 
 var previousTouchX, previousTouchY;
 
@@ -35,14 +35,6 @@ function scaleBackground(factor){
 	targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
 }
 
-function updateCrosshairDisplay(){
-	if(mouseDown){
-		crosshairDomElement.style.opacity = 1;
-	}else{
-		crosshairDomElement.style.opacity = 0;
-	}
-}
-
 function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Load configurations
@@ -58,7 +50,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 function initializeScene(){
 
 	targetDomElement = document.querySelector('#renderer_target');
-	crosshairDomElement = document.querySelector('#crosshair');
 	mouseDown = false;
 	backgroundPositionX = 0;
 	backgroundPositionY = 0;
@@ -66,7 +57,6 @@ function initializeScene(){
 
 	targetDomElement.addEventListener("mousedown", function(event) {
 		mouseDown = true;
-		updateCrosshairDisplay();
 		
 	});
 
@@ -78,7 +68,6 @@ function initializeScene(){
 
 	targetDomElement.addEventListener("mouseup", function() {
 		mouseDown = false;
-		updateCrosshairDisplay();
 	});
 
 	document.addEventListener("wheel", function(event) {
@@ -88,7 +77,6 @@ function initializeScene(){
 
 	targetDomElement.addEventListener("touchstart", function(event) {
 		mouseDown = true;
-		updateCrosshairDisplay();
 		previousTouchX = event.changedTouches[0].clientX;
 		previousTouchY = event.changedTouches[0].clientY;
 	},{ passive: true});
@@ -103,7 +91,6 @@ function initializeScene(){
 
 	targetDomElement.addEventListener("touchend", function() {
 		mouseDown = false;
-		updateCrosshairDisplay();
 	});
 
 	scaleBackground(1);
