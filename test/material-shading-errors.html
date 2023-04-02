@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>material-shading-errors.html demo</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>material-shading-errors.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/material-shading.html";
+		var configurations = {
+			"Invalid URL | Poor syntax": "#environment_url=foo",
+			"Invalid URL | Invalid extension": "#environment_url=http://example.com/test.jpg",
+			"Invalid URL | File missing": "#environment_url=http://example.com/test.exr"
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>

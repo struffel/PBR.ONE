@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>hdri-exposure-errors.html demo</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>hdri-exposure-errors.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/hdri-exposure.html";
+		var configurations = {
+			"Invalid URL | Poor syntax": "#environment_url=foo",
+			"Invalid URL | Invalid extension": "#environment_url=http://example.com/test.jpg",
+			"Invalid URL | File missing": "#environment_url=http://example.com/test.exr",
+			"Load multiple | First OK, second broken": "#environment_url=./media/env-full-forest-hq.exr;http://localhost:8081/test-media/XXXXXXXXXXXXXXX.exr,environment_name=Forest;Lab",
+			"Load multiple | First broken, second OK": "#environment_url=./media/XXXXXXXXXXXXXXXXXXXXX.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=Forest;Lab",
+			"Load multiple | Too many environment names": "#environment_url=./media/env-full-forest-hq.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=Forest;Lab;Foo;Bar",
+			"Load multiple | Not enough environment names": "#environment_url=./media/env-full-forest-hq.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=Forest"
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>
