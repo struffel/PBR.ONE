@@ -40,27 +40,24 @@ export function parseHashString(){
 	}
 
 	var hashString = window.location.href.substring(window.location.href.indexOf('#') + 1);
+	hashString = hashString.replaceAll("%22",'"');
+
+	console.debug("Parsing JSON", hashString);
 
 	if(hashString == ""){
 		return {};
 	}
 
-	var hashStringFragments = hashString.split(',');
+	try{
+		var config = JSON.parse(hashString);
+	}catch(e){
+		console.error(e);
+		return {};
+	}
 
-	var output = {};
-
-	hashStringFragments.forEach(fragment => {
-		var keyValuePair = fragment.split('=');
-
-		if(keyValuePair[1].includes(';')){
-			keyValuePair[1] = keyValuePair[1].split(";");
-		}
-
-		output[keyValuePair[0]] = keyValuePair[1];
-	});
-
-	return output;
+	return config;
 }
+
 
 /**
  * Function to turn a single object into an array with one item.
