@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>hdri-exposure-base.html</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>hdri-exposure-base.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/hdri-exposure.html";
+		var configurations = {
+			"Plain (No parameters)": "",
+			"Load single | .EXR": "#environment_url=http://localhost:8081/test-media/env-lab-hq.exr",
+			"Load single | .HDR": "#environment_url=http://localhost:8081/test-media/env-lab-hq.hdr",
+			"Load single | Same domain as iframe (relative path)": "#environment_url=./media/env-full-forest-hq.exr",
+			"Load single | Different domain than iframe": "#environment_url=http://localhost:8081/test-media/env-lab-hq.exr",
+			"Load multiple | All working": "#environment_url=./media/env-full-forest-hq.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=Forest;Lab",
+			"GUI | Hide on start": "#gui_enable=0",
+			"GUI | Hide completely": "#gui_enable=-1",
+			"Watermark | Large": "#watermark_enable=2",
+			"Watermark | Small": "#watermark_enable=1",
+			"Watermark | Off": "#watermark_enable=0"
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>
