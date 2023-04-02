@@ -21,9 +21,11 @@ SCENESTATE.initializeDefaultConfiguration({
 	"environment_name": [],
 	"environment_index":0
 });
+console.info("Initialized default configuration",SCENESTATE.getDefaultConfiguration());
 
-// EVENT LISTENERS
-
+/**
+ * Function to adjust the aspect ratio of the final image by changing the camera's "coverage area".
+ */
 function adjustAspectRatio(){
 
 	var windowAspect = window.innerWidth / window.innerHeight;
@@ -51,44 +53,60 @@ function adjustAspectRatio(){
  * @param {CONSTANTS.fallbackType} fallbackType Defines the behavior if a value is not set in the incomingSceneConfiguration.
  */
 function updateScene(incomingSceneConfiguration,fallbackType){
+	console.info("Processing changes in the scene configuration",incomingSceneConfiguration,fallbackType);
 
 	// Load configurations
 	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
 	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
+	console.debug("Old scene configuration is:",oldSceneConfiguration);
+	console.debug("New scene configuration is:",newSceneConfiguration);
 
 	// Exposure
 	renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration.environment_exposure);
 	renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration.environment_tonemapping];
-
 	
 	// Set Environment
-	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index ||
-		!MISC.arrayEquals(oldSceneConfiguration.environment_url,newSceneConfiguration.environment_url)){
+	var envIndexChanged = oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index;
+	console.debug("Environment Index changed?",envIndexChanged);
 
-		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
-		
-		if(envUrl.split("?")[0].split("#")[0].endsWith(".hdr")){
-			var envLoader = new RGBE_LOADER.RGBELoader();
-		}else if(envUrl.split("?")[0].split("#")[0].endsWith(".exr")){
-			var envLoader = new EXR_LOADER.EXRLoader();
-		}
-		
+	var envUrlChanged = !MISC.arrayEquals(
+		MISC.toArray(oldSceneConfiguration.environment_url),
+		MISC.toArray(newSceneConfiguration.environment_url)
+	);
+	console.debug("Environment URL changed?",envIndexChanged);
+	
+	if(envIndexChanged || envUrlChanged){
+		var envUrl = MISC.toArray(newSceneConfiguration["environment_url"])[newSceneConfiguration.environment_index];
+		console.info("New environment will be loaded from URL",envUrl);
+
 		var loadingNote = new LOADING.LoadingNote(MISC.filenameFromUrl(envUrl),envUrl);
 		loadingNote.start();
+		try{
+			var extension = MISC.fileExtensionFromUrl(envUrl);
+			var envLoader = MISC.pickEnvLoader(extension);
 
-		envLoader.load(envUrl, texture => {
-			previewPlane.material.map = texture;
-			previewPlane.scale.x = previewPlane.material.map.image.width / previewPlane.material.map.image.height;
-			previewPlane.scale.y = 1;
-			previewPlane.material.needsUpdate = true;
-			adjustAspectRatio();
-			texture.dispose()
+			envLoader.load(envUrl, texture => {
+				console.info("Successfully loaded environment from URL", envUrl);
+				previewPlane.material.map = texture;
+				previewPlane.scale.x = previewPlane.material.map.image.width / previewPlane.material.map.image.height;
+				previewPlane.scale.y = 1;
+				previewPlane.material.needsUpdate = true;
+				adjustAspectRatio();
+				texture.dispose()
 
-			// Reload exposure and tone mapping settings
-			renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
-			renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
-			loadingNote.finish();
-		});
+				// Reload exposure and tone mapping settings
+				renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
+				renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
+
+				loadingNote.finish();
+			},null,() =>{
+				console.error("Environment could not be loaded from URL", envUrl);
+				loadingNote.fail();
+			});
+		}catch(e){
+			loadingNote.fail();
+			throw e;
+		}
 		
 	}
 
@@ -109,13 +127,8 @@ function initializeScene(){
 	window.previewPlane = previewPlane;
 	scene.add(previewPlane);
 
-	window.scene = scene;
-
-	//camera = new THREE.PerspectiveCamera();
 	camera = new THREE.OrthographicCamera( -1, 1, 1, -1 , 0, 100 );
 	camera.position.z = 1;
-
-	window.camera = camera;
 
 	renderer = new THREE.WebGLRenderer();
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
@@ -135,9 +148,6 @@ function animate() {
     requestAnimationFrame( animate );
     renderer.render( scene, camera );
 }
-
-// orbit controls
-//PBR1_ELEMENTS.controls = {update:function(){}};
 
 // START
 BASE.start(initializeScene,updateScene,animate);

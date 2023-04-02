@@ -12,7 +12,7 @@
 		<main id="renderer_target">
 			<nav>
 				<div class="nav-main-elements">
-					<label for="normal_scale" title="normal_scale">Normal Scale</label>
+					<label ondblclick="window.PBR1_CHANGE({'normal_scale':null},true);" for="normal_scale" title="normal_scale">Normal Scale</label>
 					<input 
 						type="range"
 						min="0"
@@ -20,9 +20,10 @@
 						id="normal_scale"
 						step="0.05"
 						oninput="window.PBR1_CHANGE({'normal_scale':this.value});"
+						ondblclick="window.PBR1_CHANGE({'normal_scale':null},true);"
 					>
 
-					<label for="displacement_scale" title="displacement_scale">Displacement Scale</label>
+					<label ondblclick="window.PBR1_CHANGE({'displacement_scale':null},true);" for="displacement_scale" title="displacement_scale">Displacement Scale</label>
 					<input 
 						type="range"
 						min="0"
@@ -30,6 +31,7 @@
 						id="displacement_scale"
 						step="0.01"
 						oninput="window.PBR1_CHANGE({'displacement_scale':this.value});"
+						ondblclick="window.PBR1_CHANGE({'displacement_scale':null},true);"
 					>
 
 					<label for="tiling_scale" title="Tiling_scale" ondblclick="window.PBR1_CHANGE({'tiling_scale':null},true);">Tiling Scale</label>

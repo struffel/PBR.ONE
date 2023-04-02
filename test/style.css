@@ -5,8 +5,10 @@ body{
 }
 main{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr 1fr;
     height: fit-content;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 main div{
     width: 100%;

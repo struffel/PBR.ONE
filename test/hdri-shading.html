@@ -13,16 +13,44 @@
 	</header>
 	<main>
 		<div>
-			<h2>Plain</h2>
+			<h2>Plain (No parameters)</h2>
 			<iframe src="http://localhost:8080/hdri-shading.html"></iframe>
 		</div>
 		<div>
-			<h2>Loading from absolute URL</h2>
+			<h2>Loading single HDRI from same domain as iframe</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#environment_url=./media/env-full-forest-hq.exr"></iframe>
+		</div>
+		<div>
+			<h2>Loading single HDRI from different domain than iframe</h2>
 			<iframe src="http://localhost:8080/hdri-shading.html#environment_url=http://localhost:8081/test-media/env-lab-hq.exr"></iframe>
 		</div>
 		<div>
-			<h2>Plain</h2>
-			<iframe src="http://localhost:8080/hdri-shading.html"></iframe>
+			<h2>Loading multiple HDRIs</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#environment_url=http://localhost:8081/test-media/env-lab-lq.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=LQ;HQ"></iframe>
+		</div>
+		<div>
+			<h2>Disable spheres on start</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#spheres_enable=0,environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
+		</div>
+		<div>
+			<h2>Hide GUI on start</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#gui_enable=0,environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
+		</div>
+		<div>
+			<h2>Hide GUI completely</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#gui_enable=-1,environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
+		</div>
+		<div>
+			<h2>Large watermark</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#watermark_enable=2;environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
+		</div>
+		<div>
+			<h2>Small watermark</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#watermark_enable=1,environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
+		</div>
+		<div>
+			<h2>No watermark</h2>
+			<iframe src="http://localhost:8080/hdri-shading.html#watermark_enable=0,environment_url=http://localhost:8081/test-media/env-lab-lq.exr;"></iframe>
 		</div>
 	</main>
 </body>

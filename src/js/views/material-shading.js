@@ -19,7 +19,7 @@ SCENESTATE.initializeDefaultConfiguration({
 	"normal_url" : [],
 	"normal_encoding" : "linear",
 	"normal_scale" : 1.0,
-	"normal_type" : "directx",
+	"normal_type" : "opengl",
 
 	"displacement_url" : [],
 	"displacement_encoding" : "linear",
@@ -69,10 +69,10 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	// Test for changes in url and encoding
 	for(var mapName in CONSTANTS.mapNames){
 
-		var oldMapUrlArray = [].concat(oldSceneConfiguration[`${mapName}_url`]);
+		var oldMapUrlArray = MISC.toArray(oldSceneConfiguration[`${mapName}_url`]);
 		var oldMapUrl = oldMapUrlArray[newSceneConfiguration['material_index']];
 
-		var newMapUrlArray = [].concat(newSceneConfiguration[`${mapName}_url`]);
+		var newMapUrlArray = MISC.toArray(newSceneConfiguration[`${mapName}_url`]);
 		var newMapUrl = newMapUrlArray[newSceneConfiguration['material_index']];
 
 		if(mapName == "color" && newSceneConfiguration.clayrender_enable){
@@ -82,7 +82,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
 			if(newMapUrl){
 
-				var loadingNote = new LOADINGNOTE.LoadingNote(BASE.filenameFromUrl(newMapUrl),newMapUrl);
+				var loadingNote = new LOADINGNOTE.LoadingNote(MISC.filenameFromUrl(newMapUrl),newMapUrl);
 				loadingNote.start();
 
 				var texture = textureLoader.load(newMapUrl,function(texture,mapName){

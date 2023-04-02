@@ -12,12 +12,9 @@ export function updateSceneEnvironment(url,scene,renderer){
 
 	var envFileUrl = url;
 	var envFileName = MISC.filenameFromUrl(url);
-
-	if(envFileUrl.split("?")[0].split("#")[0].endsWith(".hdr")){
-		var envLoader = new RGBE_LOADER.RGBELoader();
-	}else if(envFileUrl.split("?")[0].split("#")[0].endsWith(".exr")){
-		var envLoader = new EXR_LOADER.EXRLoader();
-	}
+	var envFileExtension = MISC.fileExtensionFromUrl(url);
+	
+	var envLoader = MISC.pickEnvLoader(envFileExtension);
 
 	var loadingNote = new LOADING.LoadingNote(envFileName,envFileUrl);
 	loadingNote.start();
@@ -30,5 +27,8 @@ export function updateSceneEnvironment(url,scene,renderer){
 		gen.dispose()
 
 		loadingNote.finish();
+	},null,() =>{
+		console.error("Environment could not be loaded from URL", envUrl);
+		loadingNote.fail();
 	});
 }

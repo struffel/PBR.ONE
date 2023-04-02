@@ -28,12 +28,13 @@ export const encoding = {
  * Translates ThreeJS's names for PBR maps.
  */
 export const mapNames = { 
-	"color"			: "map",
-	"normal"		: "normalMap",
-	"roughness"		: "roughnessMap",
-	"displacement"	: "displacementMap",
-	"metalness"		: "metalnessMap",
-	"opacity"		: "alphaMap"
+	"color"				: "map",
+	"normal"			: "normalMap",
+	"roughness"			: "roughnessMap",
+	"displacement"		: "displacementMap",
+	"metalness"			: "metalnessMap",
+	"opacity"			: "alphaMap",
+	"ambientocclusion"	: "aoMap"
 }
 
 /** 
@@ -55,7 +56,8 @@ export const mapActiveSettings = {
 	"roughness":["roughness",1],
 	"displacement":[null,null],
 	"metalness":["metalness",1],
-	"opacity":["opacity",1]
+	"opacity":["opacity",1],
+	"ambientocclusion":[null,null]
 }
 
 /**
@@ -67,5 +69,6 @@ export const mapInactiveSettings = {
 	"roughness":["roughness",0.5],
 	"displacement":[null,null],
 	"metalness":["metalness",0],
-	"opacity":["opacity",1]
+	"opacity":["opacity",1],
+	"ambientocclusion":[null,null]
 }

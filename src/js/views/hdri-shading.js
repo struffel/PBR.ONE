@@ -44,11 +44,15 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
 
 	// Set Environment
-	if( oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration["environment_url"],newSceneConfiguration["environment_url"])){
-		
-		var envFileUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
+	var envIndexChanged = oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index;
+	var envUrlChanged = !MISC.arrayEquals(
+		MISC.toArray(oldSceneConfiguration["environment_url"]),
+		MISC.toArray(newSceneConfiguration["environment_url"])
+	);
+
+	if( envIndexChanged || envUrlChanged){
+		var envFileUrl = MISC.toArray(newSceneConfiguration["environment_url"])[newSceneConfiguration.environment_index];
 		SCENEACTION.updateSceneEnvironment(envFileUrl,scene,renderer);
-		
 	}
 
 
