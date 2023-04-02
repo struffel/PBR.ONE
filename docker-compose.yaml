@@ -5,18 +5,21 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src:/usr/share/nginx/html
+      - ./src:/etc/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
 
   PBR.ONE-Dev-Test:
     image: nginx
     ports:
       - "8081:80"
     volumes:
-      - ./test:/usr/share/nginx/html
+      - ./test:/etc/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
 
   PBR.ONE-Dev-Web:
     image: nginx
     ports:
       - "8082:80"
     volumes:
-      - ./web:/usr/share/nginx/html
+      - ./web:/etc/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
