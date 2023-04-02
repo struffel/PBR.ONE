@@ -1,13 +1,42 @@
-import * as SCENESTATE from "./scenestate.js";
+import * as SCENE_CONFIGURATION from "./scene-configuration.js";
+
+/**
+ * Handles a GUI change event and runs the supplied update function.
+ */
+export function handleGUIChangeEvent(event,updateFunction){
+	console.debug("Received PBR1_CHANGE event",event);
+	var changedConfiguration = event.detail.changedConfiguration;
+	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(changedConfiguration);
+	updateFunction(oldAndNew.old,oldAndNew.new);
+	updateGuiFromCurrentSceneConfiguration();
+}
+
+/**
+ * A small function assigned to the global window object that makes it possible to trigger scene configuration updates using inline JS.
+ * It is added to the window object to make it accessible everywhere, even outside module code.
+ * @param {*} changedConfig 
+ * @param {*} resetValues 
+ */
+window.PBR1_CHANGE = function(changedConfig,resetValues = false){
+    var event = new CustomEvent('PBR1_CHANGE',{"detail": {"changedConfiguration": changedConfig,"resetValues":resetValues}});
+	console.debug("Dispatched PBR1_CHANGE event",event);
+    document.dispatchEvent(event);
+}
+
 /**
  * Updates all the settings in the GUI to match the current scene configuration.
  */
 export function updateGuiFromCurrentSceneConfiguration(){
-
 	// Get current scene configuration
-	var currentConfiguration = SCENESTATE.getCurrentConfiguration();
+	var currentConfiguration = SCENE_CONFIGURATION.getConfiguration();
+	console.debug("Update GUI from scene configuration",currentConfiguration);
 
-	var guiEnable = currentConfiguration.gui_enable;
+	if(currentConfiguration.gui_enable){
+		var guiEnable = currentConfiguration.gui_enable[0];
+	}else{
+		var guiEnable = 0;
+	}
+	
 	var navGuiEnableLabel = document.querySelector('#gui_enable_label');
 	var navFull = document.querySelector('nav');
 	var navMainElements = document.querySelector('.nav-main-elements');
@@ -86,15 +115,8 @@ export function updateGuiFromCurrentSceneConfiguration(){
 		}
 	});
 
-}
-
-/**
- * Sets the watermark style.
- * @param {String} newStyle 
- */
-export function updateWatermark(newStyle){
 	var newWatermarkClass = "watermark ";
-	switch (newStyle) {
+	switch (currentConfiguration.watermark_enable[0]) {
 		case '0':
 			newWatermarkClass += "watermark-off";
 			break;
@@ -107,4 +129,6 @@ export function updateWatermark(newStyle){
 			break;
 	}
 	document.querySelector('.watermark').setAttribute("class",newWatermarkClass);
+
+
 }

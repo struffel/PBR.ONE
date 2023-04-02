@@ -25,6 +25,7 @@ body, main{
 }
 
 nav {
+	height: 0;
 	display: block;
 	position: absolute;
 	top:0px;

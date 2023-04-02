@@ -2,39 +2,19 @@
 import * as THREE from "../threejs/three.module.js";
 import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
 import * as MISC from '../common/misc.js';
-import * as GUI from '../common/gui.js';
 import * as BASE from "../common/base.js";
-import * as SCENESTATE from "../common/scenestate.js";
+import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as SCENEACTION from "../common/sceneactions.js"
-
+import * as THREE_ACTIONS from "../common/three-actions.js"
 
 // VARIABLES AND CONSTANTS
 
-SCENESTATE.initializeDefaultConfiguration({
-
-	"spheres_enable" : 1,
-
-	"environment_tonemapping" : "filmic",
-	"environment_exposure" : 0.0,
-
-	"environment_url" : ["./media/env-full-riverbed-lq.exr"],
-	"environment_name": [],
-	"environment_index":0
-
-});
+var scene, renderer, camera, diffuseSphere, glossySphere, metallicSphere, controls;
 
 // FUNCTIONS
+function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
-function updateScene(incomingSceneConfiguration,fallbackType){
-
-	// Load configurations
-	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
-	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
-
-	// Load scene components
-	var renderer = SCENESTATE.getSceneElement("RENDERER");
-	var scene = SCENESTATE.getSceneElement("SCENE");
+	console.debug("Update scene",oldSceneConfiguration,newSceneConfiguration);
 
 	// Exposure
 	renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);
@@ -44,48 +24,50 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 	scene.visible = Boolean(parseInt(newSceneConfiguration["spheres_enable"]));
 
 	// Set Environment
-	var envIndexChanged = oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index;
-	var envUrlChanged = !MISC.arrayEquals(
-		MISC.toArray(oldSceneConfiguration["environment_url"]),
-		MISC.toArray(newSceneConfiguration["environment_url"])
-	);
-
-	if( envIndexChanged || envUrlChanged){
-		var envFileUrl = MISC.toArray(newSceneConfiguration["environment_url"])[newSceneConfiguration.environment_index];
-		SCENEACTION.updateSceneEnvironment(envFileUrl,scene,renderer);
+	if( !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_index") || 
+		!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_url")){
+		var envFileUrl = newSceneConfiguration.environment_url[newSceneConfiguration.environment_index];
+		THREE_ACTIONS.updateSceneEnvironment(envFileUrl,scene,renderer);
 	}
-
-
-	//PBR1_SCENECONFIG.current = structuredClone(newSceneConfiguration);
-	GUI.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){
 
+	SCENE_CONFIGURATION.initializeConfiguration({
+
+		"spheres_enable" : 1,
+	
+		"environment_tonemapping" : "filmic",
+		"environment_exposure" : 0.0,
+	
+		"environment_url" : "./media/env-full-riverbed-lq.exr",
+		"environment_name": "default",
+		"environment_index":0
+	
+	});
+
 	// scene
-	var scene = new THREE.Scene();
-	SCENESTATE.registerSceneElement("SCENE",scene);
+	scene = new THREE.Scene();
 
 	// camera
-	var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
+	camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
 	camera.position.x = 2;
 	camera.position.y = 1;
-	SCENESTATE.registerSceneElement("CAMERA",camera);
 
 	// preview objects
-	var diffuseSphere = new THREE.Mesh( 
+	diffuseSphere = new THREE.Mesh( 
 		new THREE.SphereGeometry(0.33,128,128), 
 		new THREE.MeshPhysicalMaterial({"color":0xFFFFFF}) 
 	);
 	diffuseSphere.position.z = 1;
 
-	var glossySphere = new THREE.Mesh( 
+	glossySphere = new THREE.Mesh( 
 		new THREE.SphereGeometry(0.33,128,128), 
 		new THREE.MeshPhysicalMaterial({"color":0x116DD5,"roughness":0}) 
 	);
 	glossySphere.position.z = 0;
 
-	var metallicSphere = new THREE.Mesh(
+	metallicSphere = new THREE.Mesh(
 		new THREE.SphereGeometry(0.33,128,128), 
 		new THREE.MeshPhysicalMaterial({"color":0xFFFFFF,"roughness":0,"metalness":1}) 
 	);
@@ -96,21 +78,19 @@ function initializeScene(){
 	scene.add(metallicSphere);
 
 	// renderer
-	var renderer = new THREE.WebGLRenderer();
-	BASE.resizeRenderingArea(camera,renderer);
+	renderer = new THREE.WebGLRenderer();
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
-	SCENESTATE.registerSceneElement("RENDERER",renderer);
 
 	// orbit controls
-	var controls = new ORBIT_CONTROLS.OrbitControls(camera, renderer.domElement);
+	controls = new ORBIT_CONTROLS.OrbitControls(camera, renderer.domElement);
 	controls.enableZoom = true;
 	controls.minDistance = controls.maxDistance = 2;
 	controls.enablePan = false;
 	controls.enableDamping = true;
-	SCENESTATE.registerSceneElement("CONTROLS",controls);
 
 	// Window resizing
-	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 
 	// Zoom
 	var zoomHandler = function(event,camera) {
@@ -126,8 +106,8 @@ function initializeScene(){
 
 function animate() {
     requestAnimationFrame( animate );
-	SCENESTATE.getSceneElement("CONTROLS").update();
-    SCENESTATE.getSceneElement("RENDERER").render( SCENESTATE.getSceneElement("SCENE"), SCENESTATE.getSceneElement("CAMERA") );
+	controls.update();
+    renderer.render( scene, camera );
 }
 
 BASE.start(initializeScene,updateScene,animate);

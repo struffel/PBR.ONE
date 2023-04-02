@@ -16,9 +16,42 @@
 		var base ="http://localhost:8080/material-shading.html";
 		var configurations = {
 			"Plain (No parameters)": "",
-			"Load single material": "#color_url=http://localhost:8081/test-media/mat-paving-color.jpg,normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg,displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg,ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg,roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg",
-			"Load multiple materials": "#color_url=http://localhost:8081/test-media/mat-paving-color.jpg;http://localhost:8081/test-media/mat-fence-color.jpg,normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg;http://localhost:8081/test-media/mat-fence-normal-gl.jpg,displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg;http://localhost:8081/test-media/mat-fence-displacement.jpg,ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg;,roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg;http://localhost:8081/test-media/mat-paving-color.jpg",
-			"Spheres | Disable on start": "#spheres_enable=0",
+			"Load single material": "#"+JSON.stringify({
+				"materials":{
+					"default":{
+						"color_url":"http://localhost:8081/test-media/mat-paving-color.jpg",
+						"normal_url":"http://localhost:8081/test-media/mat-paving-normal-gl.jpg",
+						"displacement_url":"http://localhost:8081/test-media/mat-paving-displacement.jpg",
+						"ambientocclusion_url":"http://localhost:8081/test-media/mat-paving-ao.jpg",
+						"roughness_url":"http://localhost:8081/test-media/mat-paving-roughness.jpg"
+					}
+				}
+			}),
+			"Load multiple materials": "#"+JSON.stringify({
+				"materials":{
+					"Paving Stones":{
+						"color_url":"http://localhost:8081/test-media/mat-paving-color.jpg",
+						"normal_url":"http://localhost:8081/test-media/mat-paving-normal-gl.jpg",
+						"displacement_url":"http://localhost:8081/test-media/mat-paving-displacement.jpg",
+						"ambientocclusion_url":"http://localhost:8081/test-media/mat-paving-ao.jpg",
+						"roughness_url":"http://localhost:8081/test-media/mat-paving-roughness.jpg"
+					},
+					"Fence":{
+						"color_url":"http://localhost:8081/test-media/mat-fence-color.jpg",
+						"normal_url":"http://localhost:8081/test-media/mat-fence-normal-gl.jpg",
+						"displacement_url":"http://localhost:8081/test-media/mat-fence-displacement.jpg",
+						"ambientocclusion_url":"http://localhost:8081/test-media/mat-fence-ao.jpg",
+						"roughness_url":"http://localhost:8081/test-media/mat-fence-roughness.jpg",
+						"opacity_url":"http://localhost:8081/test-media/mat-fence-opacity.jpg",
+						"metalness_url":"http://localhost:8081/test-media/mat-fence-metalness.jpg"
+					},
+				}
+			}),
+
+
+
+
+"Spheres | Disable on start": "#spheres_enable=0",
 			"GUI | Hide on start": "#gui_enable=0",
 			"GUI | Hide completely": "#gui_enable=-1",
 			"Watermark | Large": "#watermark_enable=2",

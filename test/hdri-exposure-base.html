@@ -16,8 +16,12 @@
 		var base ="http://localhost:8080/hdri-exposure.html";
 		var configurations = {
 			"Plain (No parameters)": "",
-			"Load single | .EXR": "#environment_url=http://localhost:8081/test-media/env-lab-hq.exr",
-			"Load single | .HDR": "#environment_url=http://localhost:8081/test-media/env-lab-hq.hdr",
+			"Load single | .EXR": "#"+JSON.stringify({
+				environment_url:"http://localhost:8081/test-media/env-lab-hq.exr"
+			}),
+			"Load single | .HDR": "#"+JSON.stringify({
+				environment_url:"http://localhost:8081/test-media/env-lab-hq.hdr"
+			}),
 			"Load single | Same domain as iframe (relative path)": "#environment_url=./media/env-full-forest-hq.exr",
 			"Load single | Different domain than iframe": "#environment_url=http://localhost:8081/test-media/env-lab-hq.exr",
 			"Load multiple | All working": "#environment_url=./media/env-full-forest-hq.exr;http://localhost:8081/test-media/env-lab-hq.exr,environment_name=Forest;Lab",
