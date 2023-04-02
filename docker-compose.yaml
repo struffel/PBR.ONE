@@ -1,0 +1,22 @@
+version: '3'
+services:
+  PBR.ONE-Dev-Main:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/usr/share/nginx/html
+
+  PBR.ONE-Dev-Test:
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./test:/usr/share/nginx/html
+
+  PBR.ONE-Dev-Web:
+    image: nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
