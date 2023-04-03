@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>texture-tiling-base.html</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>texture-tiling-base.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/texture-tiling.html";
+		var configurations = {
+			"Plain (No parameters)": "",
+			"Load single | Different domain than iframe": "#texture_url=http://localhost:8081/test-media/mat-paving-color.jpg",
+			"Load multiple | All working": "#texture_url=http://localhost:8081/test-media/mat-paving-color.jpg,http://localhost:8081/test-media/mat-paving-displacement.jpg&texture_name=Color,Displacement",
+			"Watermark | Large": "#watermark_enable=2",
+			"Watermark | Small": "#watermark_enable=1",
+			"Watermark | Off": "#watermark_enable=0"
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>texture-tiling-errors.html</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>texture-tiling-errors.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/texture-tiling.html";
+		var configurations = {
+			"Plain (No parameters)": "",
+			"Load single | Missing image (404)": "#texture_url=http://localhost:8081/test-media/XXXXXXXXXXXXXXXXXXXXX.jpg",
+			"Load multiple | First missing": "#texture_url=http://localhost:8081/test-media/XXXXXXXXXXXXXXXX.jpg,http://localhost:8081/test-media/mat-paving-displacement.jpg&texture_name=Color,Displacement",
+			"Load multiple | Second missing": "#texture_url=http://localhost:8081/test-media/mat-paving-color.jpg,http://localhost:8081/test-media/XXXXXXXXXXXXXXXXXXX.jpg&texture_name=Color,Displacement",
+			"Load multiple | Too many names defined": "#texture_url=http://localhost:8081/test-media/mat-paving-color.jpg,http://localhost:8081/test-media/mat-paving-displacement.jpg&texture_name=Color,Displacement,Foo,Bar",
+			"Load multiple | Not enough names defined": "#texture_url=http://localhost:8081/test-media/mat-paving-color.jpg,http://localhost:8081/test-media/mat-paving-displacement.jpg&texture_name=Color"
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>
