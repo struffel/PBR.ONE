@@ -22,6 +22,58 @@ var scene, camera, renderer, mesh, controls, textureLoader;
 
 function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
+	// Set new geometry subdivisions and type
+	if(!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_subdivisions") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_type")){
+		switch (newSceneConfiguration["geometry_type"][0]) {
+			case "cube":
+				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "cylinder":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],true);
+				mesh.material.side = THREE.DoubleSide;
+				break;
+			case "sphere":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "torus":
+				mesh.rotation.x = 0.5 * Math.PI;
+				mesh.geometry = new THREE.TorusGeometry(0.5,0.25,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "plane":
+			default:
+				mesh.rotation.x = 1.5 * Math.PI;
+				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.DoubleSide;
+				break;
+		}
+	}
+
+	var tilingScaleRatioFactor = 1;
+	switch (newSceneConfiguration["geometry_type"][0]) {
+		case "cube":
+			tilingScaleRatioFactor = 1;
+			break;
+		case "cylinder":
+			tilingScaleRatioFactor = 1/Math.PI;
+			break;
+		case "sphere":
+			tilingScaleRatioFactor = 0.5;
+			break;
+		case "torus":
+			tilingScaleRatioFactor = 0.5;
+			break;
+		case "plane":
+		default:
+			tilingScaleRatioFactor = 1;
+			break;
+	}
+	console.debug("Tiling scale ratio factor defined",tilingScaleRatioFactor);
+
 	// Test for changes in url and encoding
 	for(var mapName in CONSTANTS.mapNames){
 
@@ -38,7 +90,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 				loadingNote.start();
 
 				var texture = textureLoader.load(newMapUrl,function(texture){
-					var ratio = texture.source.data.width / texture.source.data.height;
+					var ratio = texture.source.data.width / texture.source.data.height * tilingScaleRatioFactor;
 					if(ratio > 1){
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 					}else{
@@ -70,13 +122,14 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 			mesh.material.needsUpdate = true;
 		}
 
-		if( !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"tiling_scale") ){
+
+		if( !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"tiling_scale") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_type")){
 			if(mesh.material[CONSTANTS.mapNames[mapName]] != null && mesh.material[CONSTANTS.mapNames[mapName]].source != null && mesh.material[CONSTANTS.mapNames[mapName]].source.data != null){
-				var ratio = mesh.material[CONSTANTS.mapNames[mapName]].source.data.width / mesh.material[CONSTANTS.mapNames[mapName]].source.data.height;
+				var ratio = mesh.material[CONSTANTS.mapNames[mapName]].source.data.width / mesh.material[CONSTANTS.mapNames[mapName]].source.data.height * tilingScaleRatioFactor;
 				if(ratio > 1){
-					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
+					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale)  , parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 				}else{
-					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
+					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale)  / ratio, parseFloat(newSceneConfiguration.tiling_scale)  );
 				}	
 			}
 		}
@@ -89,27 +142,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 	}
 
-	// Set new geometry subdivisions and type
-	if(oldSceneConfiguration["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] || oldSceneConfiguration["geometry_type"] != newSceneConfiguration["geometry_type"]){
-		switch (newSceneConfiguration["geometry_type"]) {
-			case "cube":
-				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "cylinder":
-				mesh.rotation.x = 0;
-				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "sphere":
-				mesh.rotation.x = 0;
-				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "plane":
-			default:
-				mesh.rotation.x = 0.75 * 2 * Math.PI;
-				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-		}
-	}
+	
 
 	// Test for changes in displacement strength
 
@@ -128,7 +161,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 	// Normal map type
 	
-	if(oldSceneConfiguration["normal_type"] != newSceneConfiguration["normal_type"] || oldSceneConfiguration["normal_scale"] != newSceneConfiguration["normal_scale"]){
+	if(!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"normal_type") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"normal_scale")){
 		mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal_scale"],newSceneConfiguration["normal_scale"]).multiply(CONSTANTS.normalMapType[newSceneConfiguration["normal_type"]]);
 	}
 	

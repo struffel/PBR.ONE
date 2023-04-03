@@ -5,6 +5,9 @@ import * as SCENE_CONFIGURATION from "./scene-configuration.js";
  */
 export function handleGUIChangeEvent(event,updateFunction){
 	console.debug("Received PBR1_CHANGE event",event);
+
+	// TODO: Test if the GUI demands a reset!
+
 	var changedConfiguration = event.detail.changedConfiguration;
 	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(changedConfiguration);
 	updateFunction(oldAndNew.old,oldAndNew.new);
