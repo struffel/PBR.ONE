@@ -37,7 +37,7 @@ export function start(initializationFunction,updateFunction,animationFunction){
 	if(!SCENE_CONFIGURATION.getConfiguration().gui_enable){
 		SCENE_CONFIGURATION.updateConfiguration({'gui_enable':1});
 	}
-
+	console.debug("Update scene",oldAndNew.old,oldAndNew.new);
 	updateFunction(oldAndNew.old,oldAndNew.new);
 	GUI.updateGuiFromCurrentSceneConfiguration();
 
