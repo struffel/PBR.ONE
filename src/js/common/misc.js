@@ -1,6 +1,3 @@
-import * as EXR_LOADER from "../threejs/EXRLoader.js";
-import * as RGBE_LOADER from "../threejs/RGBELoader.js";
-
 /**
  * Gets the filename from a URL. Excludes any additional HTTP parameters.
  * @param {*} url 
