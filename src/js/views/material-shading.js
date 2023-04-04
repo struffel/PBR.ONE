@@ -77,7 +77,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 	// Test for changes in url and encoding
 	for(var mapName in CONSTANTS.mapNames){
 
-		var oldMapUrl = (oldSceneConfiguration[`${mapName}_url`] ?? [])[newSceneConfiguration['material_index']];
+		var oldMapUrl = (oldSceneConfiguration[`${mapName}_url`] ?? [])[oldSceneConfiguration['material_index']];
 		var newMapUrl = (newSceneConfiguration[`${mapName}_url`] ?? [])[newSceneConfiguration['material_index']];
 
 		if(mapName == "color" && newSceneConfiguration.clayrender_enable[0]){
