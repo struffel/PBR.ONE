@@ -4,53 +4,15 @@ import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
 import * as MISC from '../common/misc.js';
 import * as GUI from '../common/gui.js';
 import * as BASE from "../common/base.js";
-import * as SCENESTATE from "../common/scenestate.js";
+import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as SCENEACTION from "../common/sceneactions.js";
+import * as THREE_ACTIONS from "../common/three-actions.js";
 import * as LOADINGNOTE from "../common/loading.js";
 
 
 // VARIABLES AND CONSTANTS
 
-SCENESTATE.initializeDefaultConfiguration({
-	"color_url" : [],
-	"color_encoding" : "sRGB",
 
-	"normal_url" : [],
-	"normal_encoding" : "linear",
-	"normal_scale" : 1.0,
-	"normal_type" : "opengl",
-
-	"displacement_url" : [],
-	"displacement_encoding" : "linear",
-	"displacement_scale" : 0.01,
-
-	"roughness_url" : [],
-	"roughness_encoding" : "linear",
-
-	"metalness_url" : [],
-	"metalness_encoding" : "linear",
-
-	"ambientocclusion_url" : [],
-	"ambientocclusion_encoding" : "linear",
-
-	"opacity_url" : [],
-	"opacity_encoding" : "linear",
-
-	"environment_url" : ["./media/env-half-sunny-lq.exr"],
-	"environment_index":0,
-	"environment_name":[],
-
-	"geometry_type" : "plane",
-	"geometry_subdivisions" : 500,
-
-	"tiling_scale" : 1,
-
-	"material_index":0,
-	"material_name":[],
-
-	"clayrender_enable":0
-});
 
 
 
@@ -58,35 +20,77 @@ SCENESTATE.initializeDefaultConfiguration({
 
 var scene, camera, renderer, mesh, controls, textureLoader;
 
-function updateScene(incomingSceneConfiguration,fallbackType){
+function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
-	// Load configurations
-	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
-	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
+	// Set new geometry subdivisions and type
+	if(!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_subdivisions") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_type")){
+		switch (newSceneConfiguration["geometry_type"][0]) {
+			case "cube":
+				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "cylinder":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],true);
+				mesh.material.side = THREE.DoubleSide;
+				break;
+			case "sphere":
+				mesh.rotation.x = 0;
+				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "torus":
+				mesh.rotation.x = 0.5 * Math.PI;
+				mesh.geometry = new THREE.TorusGeometry(0.5,0.25,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.FrontSide;
+				break;
+			case "plane":
+			default:
+				mesh.rotation.x = 1.5 * Math.PI;
+				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
+				mesh.material.side = THREE.DoubleSide;
+				break;
+		}
+	}
 
-	//console.debug("OLD",oldSceneConfiguration,"NEW",newSceneConfiguration);
+	var tilingScaleRatioFactor = 1;
+	switch (newSceneConfiguration["geometry_type"][0]) {
+		case "cube":
+			tilingScaleRatioFactor = 1;
+			break;
+		case "cylinder":
+			tilingScaleRatioFactor = 1/Math.PI;
+			break;
+		case "sphere":
+			tilingScaleRatioFactor = 0.5;
+			break;
+		case "torus":
+			tilingScaleRatioFactor = 0.5;
+			break;
+		case "plane":
+		default:
+			tilingScaleRatioFactor = 1;
+			break;
+	}
+	console.debug("Tiling scale ratio factor defined",tilingScaleRatioFactor);
 
 	// Test for changes in url and encoding
 	for(var mapName in CONSTANTS.mapNames){
 
-		var oldMapUrlArray = MISC.toArray(oldSceneConfiguration[`${mapName}_url`]);
-		var oldMapUrl = oldMapUrlArray[newSceneConfiguration['material_index']];
+		var oldMapUrl = (oldSceneConfiguration[`${mapName}_url`] ?? [])[oldSceneConfiguration['material_index']];
+		var newMapUrl = (newSceneConfiguration[`${mapName}_url`] ?? [])[newSceneConfiguration['material_index']];
 
-		var newMapUrlArray = MISC.toArray(newSceneConfiguration[`${mapName}_url`]);
-		var newMapUrl = newMapUrlArray[newSceneConfiguration['material_index']];
-
-		if(mapName == "color" && newSceneConfiguration.clayrender_enable){
+		if(mapName == "color" && newSceneConfiguration.clayrender_enable[0]){
 			newMapUrl = null;
 		}
 
-		if( oldMapUrl != newMapUrl || (mapName == "color" && newSceneConfiguration.clayrender_enable != oldSceneConfiguration.clayrender_enable) ){
+		if( oldMapUrl != newMapUrl || (mapName == "color" && !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"clayrender_enable") ) ){
 			if(newMapUrl){
-
 				var loadingNote = new LOADINGNOTE.LoadingNote(MISC.filenameFromUrl(newMapUrl),newMapUrl);
 				loadingNote.start();
 
-				var texture = textureLoader.load(newMapUrl,function(texture,mapName){
-					var ratio = texture.source.data.width / texture.source.data.height;
+				var texture = textureLoader.load(newMapUrl,function(texture){
+					var ratio = texture.source.data.width / texture.source.data.height * tilingScaleRatioFactor;
 					if(ratio > 1){
 						texture.repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 					}else{
@@ -104,7 +108,6 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 				if(CONSTANTS.mapActiveSettings[mapName][0] != null){
 					mesh.material[CONSTANTS.mapActiveSettings[mapName][0]] = CONSTANTS.mapActiveSettings[mapName][1];
 				}
-
 			}
 			else{
 				// Apply additional settings to ensure that the missing map is replaced with a sensible default
@@ -119,13 +122,14 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 			mesh.material.needsUpdate = true;
 		}
 
-		if(oldSceneConfiguration.tiling_scale != newSceneConfiguration.tiling_scale){
+
+		if( !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"tiling_scale") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"geometry_type")){
 			if(mesh.material[CONSTANTS.mapNames[mapName]] != null && mesh.material[CONSTANTS.mapNames[mapName]].source != null && mesh.material[CONSTANTS.mapNames[mapName]].source.data != null){
-				var ratio = mesh.material[CONSTANTS.mapNames[mapName]].source.data.width / mesh.material[CONSTANTS.mapNames[mapName]].source.data.height;
+				var ratio = mesh.material[CONSTANTS.mapNames[mapName]].source.data.width / mesh.material[CONSTANTS.mapNames[mapName]].source.data.height * tilingScaleRatioFactor;
 				if(ratio > 1){
-					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale), parseFloat(newSceneConfiguration.tiling_scale) * ratio );
+					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale)  , parseFloat(newSceneConfiguration.tiling_scale) * ratio );
 				}else{
-					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale) / ratio, parseFloat(newSceneConfiguration.tiling_scale) );
+					mesh.material[CONSTANTS.mapNames[mapName]].repeat.set( parseFloat(newSceneConfiguration.tiling_scale)  / ratio, parseFloat(newSceneConfiguration.tiling_scale)  );
 				}	
 			}
 		}
@@ -138,27 +142,7 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	}
 
-	// Set new geometry subdivisions and type
-	if(oldSceneConfiguration["geometry_subdivisions"] != newSceneConfiguration["geometry_subdivisions"] || oldSceneConfiguration["geometry_type"] != newSceneConfiguration["geometry_type"]){
-		switch (newSceneConfiguration["geometry_type"]) {
-			case "cube":
-				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "cylinder":
-				mesh.rotation.x = 0;
-				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "sphere":
-				mesh.rotation.x = 0;
-				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-			case "plane":
-			default:
-				mesh.rotation.x = 0.75 * 2 * Math.PI;
-				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
-				break;
-		}
-	}
+	
 
 	// Test for changes in displacement strength
 
@@ -169,23 +153,62 @@ function updateScene(incomingSceneConfiguration,fallbackType){
 
 	// Set Environment
 
-	if(oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index || !MISC.arrayEquals(oldSceneConfiguration['environment_url'],newSceneConfiguration['environment_url'])){
+	if(!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_index") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_url")){
 
-		SCENEACTION.updateSceneEnvironment(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]],scene,renderer);
+		THREE_ACTIONS.updateSceneEnvironment(newSceneConfiguration["environment_url"][newSceneConfiguration["environment_index"]],scene,renderer);
 		
 	}
 
 	// Normal map type
 	
-	if(oldSceneConfiguration["normal_type"] != newSceneConfiguration["normal_type"] || oldSceneConfiguration["normal_scale"] != newSceneConfiguration["normal_scale"]){
+	if(!SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"normal_type") || !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"normal_scale")){
 		mesh.material.normalScale = new THREE.Vector2(newSceneConfiguration["normal_scale"],newSceneConfiguration["normal_scale"]).multiply(CONSTANTS.normalMapType[newSceneConfiguration["normal_type"]]);
 	}
 	
-
-	GUI.updateGuiFromCurrentSceneConfiguration();
 }
 
 function initializeScene(){
+
+	SCENE_CONFIGURATION.initializeConfiguration({
+		"color_url" : [],
+		"color_encoding" : "sRGB",
+	
+		"normal_url" : [],
+		"normal_encoding" : "linear",
+		"normal_scale" : 1.0,
+		"normal_type" : "opengl",
+	
+		"displacement_url" : [],
+		"displacement_encoding" : "linear",
+		"displacement_scale" : 0.01,
+	
+		"roughness_url" : [],
+		"roughness_encoding" : "linear",
+	
+		"metalness_url" : [],
+		"metalness_encoding" : "linear",
+	
+		"ambientocclusion_url" : [],
+		"ambientocclusion_encoding" : "linear",
+	
+		"opacity_url" : [],
+		"opacity_encoding" : "linear",
+	
+		"environment_url" : ["./media/env-half-sunny-lq.exr"],
+		"environment_index":0,
+		"environment_name":[],
+	
+		"geometry_type" : "plane",
+		"geometry_subdivisions" : 500,
+	
+		"tiling_scale" : 1,
+	
+		"material_index":0,
+		"material_name":[],
+	
+		"clayrender_enable":0
+	});
+
 	scene = new THREE.Scene();
 
 	camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -195,8 +218,7 @@ function initializeScene(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.toneMapping = CONSTANTS.toneMapping.filmic;
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
-
-	BASE.resizeRenderingArea(camera,renderer);
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 
 	mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,1,1), new THREE.MeshPhysicalMaterial() );
 	mesh.material.transparent = true;
@@ -207,11 +229,11 @@ function initializeScene(){
 
 	textureLoader = new THREE.TextureLoader();
 
+	// Window resizing
+	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+
 	// Set up renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
-
-	// Window resizing
-	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
 
 }
 

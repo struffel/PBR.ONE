@@ -1,27 +1,17 @@
 // IMPORTS
 import * as THREE from "../threejs/three.module.js";
 import * as MISC from '../common/misc.js';
-import * as RGBE_LOADER from '../threejs/RGBELoader.js';
-import * as EXR_LOADER from '../threejs/EXRLoader.js';
 import * as BASE from "../common/base.js";
-import * as SCENESTATE from "../common/scenestate.js";
+import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
 import * as LOADING from "../common/loading.js";
 import * as GUI from "../common/gui.js";
+import * as THREE_ACTIONS from './../common/three-actions.js';
 
 
 // VARIABLES AND CONSTANTS
 
-var scene, renderer, camera, previewPlane,controls;
-
-SCENESTATE.initializeDefaultConfiguration({
-	"environment_tonemapping" : "linear",
-	"environment_exposure" : 0.0,
-	"environment_url" : ["./media/env-full-riverbed-lq.exr"],
-	"environment_name": [],
-	"environment_index":0
-});
-console.info("Initialized default configuration",SCENESTATE.getDefaultConfiguration());
+var scene, renderer, camera, previewPlane;
 
 /**
  * Function to adjust the aspect ratio of the final image by changing the camera's "coverage area".
@@ -52,38 +42,26 @@ function adjustAspectRatio(){
  * @param {*} incomingSceneConfiguration 
  * @param {CONSTANTS.fallbackType} fallbackType Defines the behavior if a value is not set in the incomingSceneConfiguration.
  */
-function updateScene(incomingSceneConfiguration,fallbackType){
-	console.info("Processing changes in the scene configuration",incomingSceneConfiguration,fallbackType);
-
-	// Load configurations
-	var oldSceneConfiguration = SCENESTATE.getCurrentConfiguration();
-	var newSceneConfiguration = SCENESTATE.updateCurrentConfiguration(incomingSceneConfiguration,fallbackType);
-	console.debug("Old scene configuration is:",oldSceneConfiguration);
-	console.debug("New scene configuration is:",newSceneConfiguration);
+function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 	// Exposure
 	renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration.environment_exposure);
 	renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration.environment_tonemapping];
 	
 	// Set Environment
-	var envIndexChanged = oldSceneConfiguration.environment_index != newSceneConfiguration.environment_index;
-	console.debug("Environment Index changed?",envIndexChanged);
+	var envIndexChanged = !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_index");
 
-	var envUrlChanged = !MISC.arrayEquals(
-		MISC.toArray(oldSceneConfiguration.environment_url),
-		MISC.toArray(newSceneConfiguration.environment_url)
-	);
-	console.debug("Environment URL changed?",envIndexChanged);
+	var envUrlChanged = !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_url");
 	
 	if(envIndexChanged || envUrlChanged){
-		var envUrl = MISC.toArray(newSceneConfiguration["environment_url"])[newSceneConfiguration.environment_index];
+		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
 		console.info("New environment will be loaded from URL",envUrl);
 
 		var loadingNote = new LOADING.LoadingNote(MISC.filenameFromUrl(envUrl),envUrl);
 		loadingNote.start();
 		try{
 			var extension = MISC.fileExtensionFromUrl(envUrl);
-			var envLoader = MISC.pickEnvLoader(extension);
+			var envLoader = THREE_ACTIONS.pickEnvLoader(extension);
 
 			envLoader.load(envUrl, texture => {
 				console.info("Successfully loaded environment from URL", envUrl);
@@ -117,6 +95,15 @@ function updateScene(incomingSceneConfiguration,fallbackType){
  * Performs the initial scene setup.
  */
 function initializeScene(){
+
+	SCENE_CONFIGURATION.initializeConfiguration({
+		"environment_tonemapping" : "linear",
+		"environment_exposure" : 0.0,
+		"environment_url" : ["./media/env-full-riverbed-lq.exr"],
+		"environment_name": [],
+		"environment_index":0
+	});
+
 	scene = new THREE.Scene();
 	previewPlane = new THREE.Mesh(
 		new THREE.PlaneGeometry(2,2),
@@ -133,10 +120,10 @@ function initializeScene(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
-	BASE.resizeRenderingArea(camera,renderer);
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 
 	// Window resizing event listeners
-	window.addEventListener('resize', (e) => { BASE.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 	window.addEventListener('resize', adjustAspectRatio, false);
 
 	// Activate renderer

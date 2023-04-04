@@ -3,9 +3,10 @@ import * as THREE from '../threejs/three.module.js';
 /**
  * Constant to encode 
  */
-export const fallback = {
-    "default":0,
-    "current":1
+export const updateMode = {
+    "extendCurrent":0,		// Merges with the current configuration
+    "startFromDefault":1,
+	"resetSelected":2
 }
 
 /**

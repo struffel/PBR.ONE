@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>material-shading-base.html demo</title>
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1><pre>material-shading-base.html</pre></h1>
+	</header>
+	<main></main>
+	<script>
+		var base ="http://localhost:8080/material-shading.html";
+		var configurations = {
+			"Plain (No parameters)": "",
+			"Load single material": "#color_url=http://localhost:8081/test-media/mat-paving-color.jpg&normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg&displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg&ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg&roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg",
+			"Load multiple materials": "#material_name=Paving Stones,Fence&color_url=http://localhost:8081/test-media/mat-paving-color.jpg,http://localhost:8081/test-media/mat-fence-color.jpg&normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg,http://localhost:8081/test-media/mat-fence-normal-gl.jpg&displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg,http://localhost:8081/test-media/mat-fence-displacement.jpg&ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg,&roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg,http://localhost:8081/test-media/mat-fence-roughness.jpg&opacity_url=,http://localhost:8081/test-media/mat-fence-opacity.jpg&metalness_url=,http://localhost:8081/test-media/mat-fence-metalness.jpg",
+			"Geometry | Different default geometry": "#geometry_type=cylinder&color_url=http://localhost:8081/test-media/mat-paving-color.jpg&normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg&displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg&ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg&roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg",
+			"Geometry | High subdivisions": "#geometry_subdivisions=2000&color_url=http://localhost:8081/test-media/mat-paving-color.jpg&normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg&displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg&ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg&roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg",
+			"Geometry | Low subdivisions": "#geometry_subdivisions=20&color_url=http://localhost:8081/test-media/mat-paving-color.jpg&normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg&displacement_url=http://localhost:8081/test-media/mat-paving-displacement.jpg&ambientocclusion_url=http://localhost:8081/test-media/mat-paving-ao.jpg&roughness_url=http://localhost:8081/test-media/mat-paving-roughness.jpg",
+			"Normal | GL": "#normal_url=http://localhost:8081/test-media/mat-paving-normal-gl.jpg&normal_type=opengl",
+			"Normal | DX": "#normal_url=http://localhost:8081/test-media/mat-paving-normal-dx.jpg&normal_type=directx",
+			"GUI | Hide on start": "#gui_enable=0",
+			"GUI | Hide completely": "#gui_enable=-1",
+			"Watermark | Large": "#watermark_enable=2",
+			"Watermark | Small": "#watermark_enable=1",
+			"Watermark | Off": "#watermark_enable=0",
+		};
+	</script>
+	<script src="./iframes.js"></script>
+</body>
+</html>
