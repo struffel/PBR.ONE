@@ -1,4 +1,5 @@
 import * as SCENE_CONFIGURATION from "./scene-configuration.js";
+import * as CONSTANTS from "./constants.js";
 
 /**
  * Handles a GUI change event and runs the supplied update function.
@@ -9,7 +10,8 @@ export function handleGUIChangeEvent(event,updateFunction){
 	// TODO: Test if the GUI demands a reset!
 
 	var changedConfiguration = event.detail.changedConfiguration;
-	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(changedConfiguration);
+	var resetRequested = event.detail.resetValues;
+	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(changedConfiguration,resetRequested ? CONSTANTS.updateMode.resetSelected : CONSTANTS.updateMode.extendCurrent);
 	updateFunction(oldAndNew.old,oldAndNew.new);
 	updateGuiFromCurrentSceneConfiguration();
 }

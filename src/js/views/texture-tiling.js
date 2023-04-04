@@ -1,5 +1,5 @@
 // IMPORTS
-import * as GUI from "../common/gui.js";
+import * as CONSTANTS from "../common/constants.js";
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 
@@ -55,7 +55,7 @@ function initializeScene(){
 		"texture_size_min":32,
 		"texture_size_max":4096
 	});
-	SCENE_CONFIGURATION.updateConfiguration({},true);
+	SCENE_CONFIGURATION.updateConfiguration({},CONSTANTS.updateMode.startFromDefault);
 
 	targetDomElement = document.querySelector('#renderer_target');
 	mouseDown = false;

@@ -19,7 +19,7 @@ export function start(initializationFunction,updateFunction,animationFunction){
 	// Handle changes in the hash
 	window.addEventListener('hashchange', (e) =>{
 		var parsedHashString = MISC.parseHashString();
-		var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(parsedHashString,false);
+		var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(parsedHashString,CONSTANTS.updateMode.extendCurrent);
 		updateFunction(oldAndNew.old,oldAndNew.new);
 
 		GUI.updateGuiFromCurrentSceneConfiguration();
@@ -28,14 +28,14 @@ export function start(initializationFunction,updateFunction,animationFunction){
 
 	// Perform the initial loading by simulating a change in the hashstring.
 	var initConfiguration = MISC.parseHashString();
-	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,true);
+	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,CONSTANTS.updateMode.startFromDefault);
 
 	// Set defaults for GUI and watermark if none are contained in the initial configuration
 	if(!SCENE_CONFIGURATION.getConfiguration().watermark_enable){
-		SCENE_CONFIGURATION.updateConfiguration({'watermark_enable':0});
+		SCENE_CONFIGURATION.updateConfiguration({'watermark_enable':0},CONSTANTS.updateMode.extendCurrent);
 	}
 	if(!SCENE_CONFIGURATION.getConfiguration().gui_enable){
-		SCENE_CONFIGURATION.updateConfiguration({'gui_enable':1});
+		SCENE_CONFIGURATION.updateConfiguration({'gui_enable':1},CONSTANTS.updateMode.extendCurrent);
 	}
 	console.debug("Update scene",oldAndNew.old,oldAndNew.new);
 	updateFunction(oldAndNew.old,oldAndNew.new);

@@ -29,27 +29,47 @@ export function initializeConfiguration(newDefaultConfiguration){
 	}
 }
 
+export function resetConfigurationKey(key){
+	currentConfiguration[key] = defaultConfiguration[key];
+	return currentConfiguration[key];
+}
+
 /**
  * Takes in changes to the scene configuration, processes them and returns the new current scene configuration.
  * @param {*} configurationChanges 
- * @param {Boolean} startFromDefault 
+ * @param {CONSTANTS.updateMode} startFromDefault 
+ * @param {Boolean} resetValues Reset the keys supplied on the 'configurationChanges' object to their default value.
  * @returns 
  */
-export function updateConfiguration(configurationChanges,startFromDefault = false){
+export function updateConfiguration(configurationChanges,mode){
 
-	console.debug("Update configuration with changes",configurationChanges,startFromDefault);
+	console.debug("Update configuration with changes",configurationChanges,mode);
 
 	var oldConfiguration = currentConfiguration;
 
-	if(startFromDefault){
-		var newConfiguration = structuredClone(defaultConfiguration);
-	}else{
-		var newConfiguration = structuredClone(currentConfiguration);
+	switch (mode) {
+		case CONSTANTS.updateMode.extendCurrent:
+			var newConfiguration = structuredClone(currentConfiguration);
+			for(const key in configurationChanges){
+				newConfiguration[key] = [].concat(configurationChanges[key]);
+			};
+			break;
+		case CONSTANTS.updateMode.resetSelected:
+			var newConfiguration = structuredClone(currentConfiguration);
+			for(const key in configurationChanges){
+				newConfiguration[key] = [].concat(defaultConfiguration[key]);
+			};
+			break;
+		case CONSTANTS.updateMode.startFromDefault:
+			var newConfiguration = structuredClone(defaultConfiguration);
+			for(const key in configurationChanges){
+				newConfiguration[key] = [].concat(configurationChanges[key]);
+			};
+			break;
+		default:
+			throw new Error("Invalid update mode.");
+			break;
 	}
-
-	for(const key in configurationChanges){
-		newConfiguration[key] = [].concat(configurationChanges[key]);
-	};
 
 	currentConfiguration = newConfiguration;
 
