@@ -15,7 +15,7 @@ Alternatively you can use `https://cdn.pbr.one/<version>/<view>` (for example `h
 ### Along with the source code
 If you have uploaded the source code to your own server then you can do the same with your media files. Just serve them in any other subdirectory (like `/previews-media`) to which you can then link.
 
-### On a seperate service
+### On a separate service
 Alternatively you can use numerous image hosting services to serve the materal maps for your preview.
 You just need to make sure that the service supports *Cross-Origin Ressource Sharing* to ensure that the images can be loaded by the PBR.ONE view on another domain.
 

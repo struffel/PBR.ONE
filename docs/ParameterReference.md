@@ -64,7 +64,7 @@ This view shows a full PBR material on a preview object.
 | `clayrender_enable`| Displays a clayrender (by disabling the color map)|`0` or `1`|
 
 ## `texture-tiling.html`
-This view shows a full PBR material on a preview object.
+This view shows individual texture maps in a tiled view.
 
 |Key|Description|Possible Values|
 | --- | --- | --- |
