@@ -197,9 +197,9 @@ function initializeScene(){
 		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : ["./media/env-studio-lq.exr","./media/env-dune-lq.exr","./media/env-forest-lq.exr","./media/env-field-lq.exr","./media/env-lab-lq.exr"],
+		"environment_url" : ["./media/env-studio-lq.exr","./media/env-dune-lq.exr","./media/env-forest-lq.exr","./media/env-field-lq.exr","./media/env-lab-lq.exr","./media/env-night-lq.exr"],
 		"environment_index":0,
-		"environment_name":["Studio","Dune","Forest","Field","Computer Lab"],
+		"environment_name":["Studio","Dune","Forest","Field","Computer Lab","Night"],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,

@@ -99,8 +99,8 @@ function initializeScene(){
 	SCENE_CONFIGURATION.initializeConfiguration({
 		"environment_tonemapping" : "linear",
 		"environment_exposure" : 0.0,
-		"environment_url" : ["./media/env-riverbed-lq.exr","./media/env-riverbed-hq.exr"],
-		"environment_name": ["Riverbed (LQ)","Riverbed (HQ)"],
+		"environment_url" : ["./media/env-riverbed-lq.exr","./media/env-riverbed-hq.exr","./media/env-night-lq.exr","./media/env-night-hq.exr"],
+		"environment_name": ["Riverbed (LQ)","Riverbed (HQ)","Nightly plaza (LQ)","Nightly plaza (HQ)"],
 		"environment_index":0
 	});
 
