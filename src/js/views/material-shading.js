@@ -232,6 +232,7 @@ function initializeScene(){
 	controls.listenToKeyEvents(window);
 
 	textureLoader = new THREE.TextureLoader();
+	THREE_ACTIONS.updateSceneEnvironment("./media/env-placeholder.exr",scene,renderer);
 
 	// Window resizing
 	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);

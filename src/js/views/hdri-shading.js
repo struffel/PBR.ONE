@@ -82,6 +82,8 @@ function initializeScene(){
 	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
+	THREE_ACTIONS.updateSceneEnvironment("./media/env-placeholder.exr",scene,renderer);
+
 	// orbit controls
 	controls = new ORBIT_CONTROLS.OrbitControls(camera, renderer.domElement);
 	controls.enableZoom = true;
