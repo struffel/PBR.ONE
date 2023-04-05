@@ -1,22 +1,11 @@
-// IMPORTS
 import * as THREE from "../threejs/three.module.js";
 import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
 import * as MISC from '../common/misc.js';
-import * as GUI from '../common/gui.js';
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
 import * as THREE_ACTIONS from "../common/three-actions.js";
 import * as LOADINGNOTE from "../common/loading.js";
-
-
-// VARIABLES AND CONSTANTS
-
-
-
-
-
-// FUNCTIONS
 
 var scene, camera, renderer, mesh, controls, textureLoader;
 
@@ -28,27 +17,41 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 			case "cube":
 				mesh.geometry = new THREE.BoxGeometry(1,1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				mesh.material.side = THREE.FrontSide;
+				mesh.rotation.x = 0;
+				mesh.rotation.y = 0;
+				mesh.rotation.z = 0;
 				break;
 			case "cylinder":
-				mesh.rotation.x = 0;
 				mesh.geometry = new THREE.CylinderGeometry(0.5,0.5,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"],true);
 				mesh.material.side = THREE.DoubleSide;
+				mesh.rotation.x = 0;
+				mesh.rotation.y = Math.PI;
+				mesh.rotation.z = 0;
 				break;
 			case "sphere":
-				mesh.rotation.x = 0;
+				
 				mesh.geometry = new THREE.SphereGeometry(0.5,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				mesh.material.side = THREE.FrontSide;
+				mesh.rotation.x = 0;
+				mesh.rotation.y = 0;
+				mesh.rotation.z = 0;
 				break;
 			case "torus":
-				mesh.rotation.x = 0.5 * Math.PI;
+				
 				mesh.geometry = new THREE.TorusGeometry(0.5,0.25,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				mesh.material.side = THREE.FrontSide;
+				mesh.rotation.x = 0.5 * Math.PI;
+				mesh.rotation.y = 0;
+				mesh.rotation.z = 0;
 				break;
 			case "plane":
 			default:
-				mesh.rotation.x = 1.5 * Math.PI;
+				
 				mesh.geometry = new THREE.PlaneGeometry(1,1,newSceneConfiguration["geometry_subdivisions"],newSceneConfiguration["geometry_subdivisions"]);
 				mesh.material.side = THREE.DoubleSide;
+				mesh.rotation.x = 1.5 * Math.PI;
+				mesh.rotation.y = 0;
+				mesh.rotation.z = 0;
 				break;
 		}
 	}
@@ -194,9 +197,9 @@ function initializeScene(){
 		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : ["./media/env-half-sunny-lq.exr"],
+		"environment_url" : ["./media/env-studio-lq.exr","./media/env-dune-lq.exr","./media/env-forest-lq.exr","./media/env-field-lq.exr","./media/env-lab-lq.exr"],
 		"environment_index":0,
-		"environment_name":[],
+		"environment_name":["Studio","Dune","Forest","Field","Computer Lab"],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,

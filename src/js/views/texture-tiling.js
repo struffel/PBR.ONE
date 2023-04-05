@@ -48,8 +48,8 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 function initializeScene(){
 
 	SCENE_CONFIGURATION.initializeConfiguration({
-		"texture_url" : [],
-		"texture_name": [],
+		"texture_url" : ["./media/placeholder-checker.png"],
+		"texture_name": ["Placeholder"],
 		"texture_index":0, // If texture_url is multivalued then this value keeps track of the currently selected index
 		"texture_size":512,
 		"texture_size_min":32,
