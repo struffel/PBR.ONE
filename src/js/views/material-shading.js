@@ -229,6 +229,7 @@ function initializeScene(){
 
 	controls = new ORBIT_CONTROLS.OrbitControls(camera, renderer.domElement)
 	controls.enableDamping = true;
+	controls.listenToKeyEvents(window);
 
 	textureLoader = new THREE.TextureLoader();
 

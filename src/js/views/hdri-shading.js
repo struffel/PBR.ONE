@@ -88,6 +88,7 @@ function initializeScene(){
 	controls.minDistance = controls.maxDistance = 2;
 	controls.enablePan = false;
 	controls.enableDamping = true;
+	controls.listenToKeyEvents(window);
 
 	// Window resizing
 	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
