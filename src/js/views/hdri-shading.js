@@ -40,8 +40,8 @@ function initializeScene(){
 		"environment_tonemapping" : "filmic",
 		"environment_exposure" : 0.0,
 	
-		"environment_url" : ["./media/env-riverbed-lq.exr","./media/env-riverbed-hq.exr","./media/env-night-lq.exr","./media/env-night-hq.exr"],
-		"environment_name": ["Riverbed (LQ)","Riverbed (HQ)","Nightly plaza (LQ)","Nightly plaza (HQ)"],
+		"environment_url" : ["./media/env-riverbed-lq.exr"],
+		"environment_name": ["Riverbed"],
 		"environment_index":0
 	
 	});
