@@ -1,25 +1,25 @@
 # Installation/Hosting
-In general, all you need to do is make the contents of the `/src` subfolder  of this repository along with the media files (material maps or HDRIs) accessible on the internet. Both parts of this can be achieved in multiple ways.
+All you need to do is make the contents of the `/src` subfolder of this repository along with the media files (material maps or HDRIs) accessible on the internet. Both parts of this can be achieved in multiple ways.
 
-## Hosting the source code
-### Self-Hosting
+## Hosting the PBR.ONE previews
+### Option A: Self-Hosting
 You can host PBR.ONE by simply uploading the files as static assets to your own hosting solution. No backend (Node/PHP/etc.) is required.
 
-1. Clone this Repo or download it from Github.com
-2. Upload the contents of the `/src` folder to your web server, for example into `/previews` or any other subdirectory.
+1. Clone this Repo or download it from the [releases page](https://github.com/struffel/PBR.ONE/releases).
+2. Upload the contents of the `/src` subfolder to a subdirectory on your web server.
 
-### Via CDN (Content Delivery Network)
+### Option B: Via CDN (Content Delivery Network)
 Alternatively you can use `https://cdn.pbr.one/<version>/<view>` (for example `https://cdn.pbr.one/0.3.0/hdri-panorama.html`) to get the files without hosting them yourself. Though you still need to get your own media files online. PBR.ONE currently does not offer hosting services for them.
 
 ## Hosting your media files
-### Along with the source code
-If you have uploaded the source code to your own server then you can do the same with your media files. Just serve them in any other subdirectory (like `/previews-media`) to which you can then link.
+### Option A: Along with the source code
+If you have uploaded the source code to your own server then you can do the same with your media files. Just serve them in any other subdirectory to which you can then link.
 
-### On a separate service
-Alternatively you can use numerous image hosting services to serve the materal maps for your preview.
-You just need to make sure that the service supports *Cross-Origin Ressource Sharing* to ensure that the images can be loaded by the PBR.ONE view on another domain.
+### Option B: On a separate service
+Alternatively, you can use numerous image hosting services to serve the materal maps for your preview.
+You just need to make sure that the service supports *[Cross-Origin Ressource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)* to ensure that the images can be loaded even if the PBR.ONE preview is on a different domain than the media files.
 
-A few (non-sponsored) suggestions are:
-- [Imgur](https://imgur.com/) (CORS by default, but make sure to link the image itself, not the gallery)
-- [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (Create a public bucket enable CORS in the **CORS Rules** section for your bucket.)
+A few (non-sponsored) suggestions for hosting solutions are:
+- [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (Create a public bucket and enable CORS in the **CORS Rules** section for your bucket.)
 - [Bunny CDN](https://bunny.net/) (CORS can be enabled by going to the **Headers** section in the pull zone settings and adding entries for the required file extensions.)
+- [Imgur](https://imgur.com/) (CORS by default, but make sure to link the image itself, not the gallery. The link should end in *.png or *.jpg)
