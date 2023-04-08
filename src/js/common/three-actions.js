@@ -30,14 +30,11 @@ export function updateSceneEnvironment(url,scene,renderer){
 			gen.dispose()
 			
 			loadingNote.finish();
-		},null,() =>{
-			console.error("Environment could not be loaded from URL", url);
-			loadingNote.fail();
+		},null,(error) =>{
+			loadingNote.fail(error);
 		});
-
 	}catch(error){
-		console.error(error);
-		loadingNote.fail();
+		loadingNote.fail(error);
 	}
 
 	

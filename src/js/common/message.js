@@ -2,7 +2,7 @@
 const messagesDomElement = document.querySelector('#loadingNotes');
 
 export class Message{
-	constructor(message,color){
+	constructor(message,color = "var(--info)"){
 
 		// Import variables
 		this.message = message;
@@ -14,7 +14,7 @@ export class Message{
 
 		// Create DOM element
 		this.domElement = document.createElement('div');
-		this.domElement.style.color = "var(--info)";
+		this.domElement.style.color = color;
 		this.domElement.innerHTML = message;
 	}
 
@@ -23,6 +23,7 @@ export class Message{
 			this.color = color;
 			this.domElement.style.color = this.color;
 		}
+		return this;
 	}
 
 	updateMessage(message){
@@ -30,10 +31,12 @@ export class Message{
 			this.message = message;
 			this.domElement.innerHTML = this.message;
 		}
+		return this;
 	}
 
 	show(){
 		messagesDomElement.appendChild(this.domElement);
+		return this;
 	}
 
 	remove(timeout){
@@ -45,4 +48,20 @@ export class Message{
 			messagesDomElement.removeChild(this.domElement);
 		}, timeout);
 	}
+}
+
+export function newError(prefix,error){
+	new Message(`⚠️${prefix}: ${error}`,"var(--error)").show().remove(10000);
+}
+
+export function removeMessagesImmediately(messages){
+	messages.forEach(m => {
+		m.remove(0);
+	});
+}
+
+export function showMessages(messages){
+	messages.forEach(m => {
+		m.show();
+	});
 }

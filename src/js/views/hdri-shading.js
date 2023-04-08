@@ -5,7 +5,7 @@ import * as MISC from '../common/misc.js';
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
-import * as THREE_ACTIONS from "../common/three-actions.js"
+import * as THREE_ACTIONS from "../common/three-actions.js";
 
 // VARIABLES AND CONSTANTS
 

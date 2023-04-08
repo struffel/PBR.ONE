@@ -12,8 +12,6 @@ export class LoadingNote{
 	}
 
 	start() {
-		console.debug("Beginning to show loading indicator ",this.displayName);
-
 		if(this.tryResolvingSize){
 			console.debug("Will attempt to fetch the content-length for URL",this.url);
 			fetch(this.url, {method: 'HEAD'}).then((result) => {
@@ -27,17 +25,18 @@ export class LoadingNote{
 	}
 
 	finish(){
-		console.debug("Removing loading indicator (success)",this.displayName);
 		this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [COMPLETE]`);
 		this.loadingMessage.updateColor("var(--success)");
 		this.loadingMessage.remove(1000);
 	}
 
-	fail(){
-		console.debug("Removing loading indicator (failure)",this.displayName);
-		this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [FAILED]`);
+	fail(error){
+		this.loadingMessage.updateMessage(`⚠️Loading <strong>${this.displayName}</strong> [FAILED]`);
 		this.loadingMessage.updateColor("var(--error)");
 		this.loadingMessage.remove(5000);
+		if(error){
+			new MESSAGE.newError(`Error while loading ${this.url}`,error);
+		}
 	}
 }
 

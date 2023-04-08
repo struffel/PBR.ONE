@@ -2,6 +2,11 @@ import * as CONSTANTS from './constants.js';
 import * as SCENE_CONFIGURATION from './scene-configuration.js';
 import * as MISC from "./misc.js";
 import * as GUI from "./gui.js";
+import * as MESSAGE from "./message.js";
+
+window.addEventListener("error", (event) => {
+	new MESSAGE.newError("An error occured:",event.message);
+});
 
 /**
  * The main function that starts the preview.
