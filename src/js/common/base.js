@@ -6,7 +6,7 @@ import * as MESSAGE from "./message.js";
 
 window.addEventListener("error", (event) => {
 	new MESSAGE.newError("An error occured:",event.message);
-});
+},true);
 
 /**
  * The main function that starts the preview.
