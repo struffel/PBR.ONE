@@ -1,4 +1,13 @@
 /* Base CSS */
+
+:root{
+	--brand: #912CED;
+	--error: #FF0000;
+	--success: #00FF00;
+	--warning: #FFFF00;
+	--info: #FFFFFF;
+}
+
 body{
 	box-sizing: border-box;
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

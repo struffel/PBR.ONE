@@ -1,4 +1,4 @@
-import * as CONSTANTS from "./constants.js"
+import * as CONSTANTS from "./constants.js";
 
 var defaultConfiguration = {
 	"watermark_enable":['2'],
