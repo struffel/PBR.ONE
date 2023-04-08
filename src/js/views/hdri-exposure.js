@@ -77,13 +77,12 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 				renderer.toneMapping = CONSTANTS.toneMapping[newSceneConfiguration["environment_tonemapping"]];
 
 				loadingNote.finish();
-			},null,() =>{
+			},null,(error) =>{
 				console.error("Environment could not be loaded from URL", envUrl);
-				loadingNote.fail();
+				loadingNote.fail(error);
 			});
-		}catch(e){
-			loadingNote.fail();
-			throw e;
+		}catch(error){
+			loadingNote.fail(error);
 		}
 		
 	}

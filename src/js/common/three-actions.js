@@ -9,30 +9,35 @@ import * as LOADING from "./loading.js";
  * This happens in multiple places and is therefore defined as its own dedicated function.
  */
 export function updateSceneEnvironment(url,scene,renderer){
-
 	console.info("Updating scene environment from URL",url);
 
 	var envFileUrl = url;
 	var envFileName = MISC.filenameFromUrl(url);
-	var envFileExtension = MISC.fileExtensionFromUrl(url);
 	
-	var envLoader = pickEnvLoader(envFileExtension);
-
 	var loadingNote = new LOADING.LoadingNote(envFileName,envFileUrl);
 	loadingNote.start();
-	envLoader.load(envFileUrl, texture => {
-		const gen = new THREE.PMREMGenerator(renderer);
-		const envMap = gen.fromEquirectangular(texture).texture;
-		scene.environment = envMap;
-		scene.background = envMap;
-		texture.dispose()
-		gen.dispose()
-		
-		loadingNote.finish();
-	},null,() =>{
-		console.error("Environment could not be loaded from URL", envUrl);
-		loadingNote.fail();
-	});
+	
+	try{
+		var envFileExtension = MISC.fileExtensionFromUrl(url);
+		var envLoader = pickEnvLoader(envFileExtension);
+
+		envLoader.load(envFileUrl, texture => {
+			const gen = new THREE.PMREMGenerator(renderer);
+			const envMap = gen.fromEquirectangular(texture).texture;
+			scene.environment = envMap;
+			scene.background = envMap;
+			texture.dispose()
+			gen.dispose()
+			
+			loadingNote.finish();
+		},null,(error) =>{
+			loadingNote.fail(error);
+		});
+	}catch(error){
+		loadingNote.fail(error);
+	}
+
+	
 }
 
 /**

@@ -1,5 +1,5 @@
 
-var loadingNotesDomElement = document.querySelector('#loadingNotes');
+import * as MESSAGE from "./message.js";
 
 export class LoadingNote{
 	constructor(displayName,url,tryResolvingSize = true){
@@ -8,49 +8,35 @@ export class LoadingNote{
 		this.url = url;
 		this.tryResolvingSize = tryResolvingSize;
 
-		this.domElement = document.createElement('div');
-		this.domElement.innerHTML = `Loading <strong>${this.displayName}</strong>`;
-
-		this.state = "initialized";
+		this.loadingMessage = new MESSAGE.Message(`Loading <strong>${this.displayName}</strong>`);
 	}
 
 	start() {
-		console.debug("Beginning to show loading indicator ",this.displayName);
-
 		if(this.tryResolvingSize){
 			console.debug("Will attempt to fetch the content-length for URL",this.url);
 			fetch(this.url, {method: 'HEAD'}).then((result) => {
 				var bytes = result.headers.get("content-length");
 				console.debug("Successfully fetched content length in bytes for URL",this.url,bytes);
-				if(this.state == "active"){
-					this.domElement.innerHTML += ` [${formatBytes(bytes)}]`;
-				}
+				this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [${formatBytes(bytes)}]`);
 			});
 		}
-		this.state = "active";
-		loadingNotesDomElement.appendChild(this.domElement);
+
+		this.loadingMessage.show();
 	}
 
 	finish(){
-		console.debug("Removing loading indicator (success)",this.displayName);
-		this.domElement.innerHTML = `<em style="color:lightgreen;">Loading <strong>${this.displayName}</strong> COMPLETE</em>`;
-		this.state = "done";
-		
-		setTimeout(() => {
-			loadingNotesDomElement.removeChild(this.domElement);
-		}, "500");
+		this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [COMPLETE]`);
+		this.loadingMessage.updateColor("var(--success)");
+		this.loadingMessage.remove(1000);
 	}
 
-	fail(){
-		console.debug("Removing loading indicator (failure)",this.displayName);
-		this.state = "failed";
-		this.domElement.innerHTML = `<em style="color:red;">Loading <strong>${this.displayName}</strong> FAILED</em>`;
-		
-		setTimeout(() => {
-			loadingNotesDomElement.removeChild(this.domElement);
-		}, "5000");
-
-		
+	fail(error){
+		this.loadingMessage.updateMessage(`⚠️Loading <strong>${this.displayName}</strong> [FAILED]`);
+		this.loadingMessage.updateColor("var(--error)");
+		this.loadingMessage.remove(5000);
+		if(error){
+			new MESSAGE.newError(`Error while loading ${this.url}`,error);
+		}
 	}
 }
 
