@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>hdri-shading-base.html demo</title>
+	<title>hdri-shading-errors.html demo</title>
 	<link href="./style.css" rel="stylesheet">
 </head>
 <body>
@@ -17,7 +17,10 @@
 		var configurations = {
 			"Invalid URL | Poor syntax": "#environment_url=foo",
 			"Invalid URL | Invalid extension": "#environment_url=http://example.com/test.jpg",
-			"Invalid URL | File missing": "#environment_url=http://example.com/test.exr"
+			"Invalid URL | File missing": "#environment_url=http://example.com/test.exr",
+			"Invalid labeling | Too many labels": "#environment_url=./media/env-forest-hq.exr&environment_name=Forest,Another HDRI that is not actually there",
+			"Invalid labeling | Not enough labels (1)": "#environment_url=./media/env-forest-hq.exr,./media/env-riverbed-hq.exr&environment_name=Forest",
+			"Invalid labeling | Not enough labels (2)": "#environment_url=./media/env-forest-hq.exr,./media/env-riverbed-hq.exr,./media/env-night-hq.exr&environment_name=Forest,Riverbed"
 		};
 	</script>
 	<script src="./iframes.js"></script>
