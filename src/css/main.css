@@ -82,7 +82,7 @@ nav label{
 
 /* Loading notes */
 
-.loading-notes{
+.message-area{
 	position:absolute;
 	bottom: 0px;
 	left: 20px;
@@ -96,7 +96,7 @@ nav label{
 	padding: 10px;
 }
 
-.loading-notes:empty{
+.message-area:empty{
 	display: none;
 }
 

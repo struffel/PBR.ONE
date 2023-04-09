@@ -2,6 +2,7 @@
 import * as CONSTANTS from "../common/constants.js";
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
+import * as MISC from "../common/misc.js";
 
 var targetDomElement, mouseDown, backgroundPositionX, backgroundPositionY, backgroundSize, previousTouchX, previousTouchY;
 
@@ -36,6 +37,23 @@ function scaleBackground(factor){
 		targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
 	}
 	
+}
+
+function preprocessSceneConfiguration(sceneConfiguration){
+
+	// More texture URLs than names
+	if(sceneConfiguration.texture_url.length > sceneConfiguration.texture_name.length && sceneConfiguration.texture_url.length > 1){
+		//MESSAGE.newWarning("Not all environments have a name.");
+		sceneConfiguration.texture_name = MISC.padArray(sceneConfiguration.texture_name,sceneConfiguration.texture_url.length,"Unnamed Texture");
+	}
+
+	// More texture names than URLs
+	else if(sceneConfiguration.texture_url.length < sceneConfiguration.texture_name.length){
+		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		sceneConfiguration.texture_name = sceneConfiguration.texture_name.slice(0,sceneConfiguration.texture_url.length);
+	}
+
+	return sceneConfiguration;
 }
 
 function updateScene(oldSceneConfiguration,newSceneConfiguration){
@@ -109,4 +127,4 @@ function initializeScene(){
 }
 
 // MAIN
-BASE.start(initializeScene,updateScene,null);
+BASE.start(initializeScene,preprocessSceneConfiguration,updateScene,null);

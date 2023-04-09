@@ -38,3 +38,7 @@ export function parseHashString(){
 
 	return output;
 }
+
+export function padArray(array,length,fill) {
+	return array.concat(Array(length).fill(fill)).slice(0,length);
+}

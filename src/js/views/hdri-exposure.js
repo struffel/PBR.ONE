@@ -6,12 +6,30 @@ import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
 import * as LOADING from "../common/loading.js";
 import * as GUI from "../common/gui.js";
-import * as THREE_ACTIONS from './../common/three-actions.js';
+import * as THREE_ACTIONS from '../common/three-actions.js';
+import * as MESSAGE from "../common/message.js";
 
 
 // VARIABLES AND CONSTANTS
 
 var scene, renderer, camera, previewPlane;
+
+function preprocessSceneConfiguration(sceneConfiguration){
+
+	// More URLs than names
+	if(sceneConfiguration.environment_url.length > sceneConfiguration.environment_name.length && sceneConfiguration.environment_url.length > 1){
+		//MESSAGE.newWarning("Not all environments have a name.");
+		sceneConfiguration.environment_name = MISC.padArray(sceneConfiguration.environment_name,sceneConfiguration.environment_url.length,"Unnamed HDRI");
+	}
+
+	// More names than URLs
+	else if(sceneConfiguration.environment_url.length < sceneConfiguration.environment_name.length){
+		//MESSAGE.newWarning("More env. names than URLs have been defined.")
+		sceneConfiguration.environment_name = sceneConfiguration.environment_name.slice(0,sceneConfiguration.environment_url.length);
+	}
+
+	return sceneConfiguration;
+}
 
 /**
  * Function to adjust the aspect ratio of the final image by changing the camera's "coverage area".
@@ -136,4 +154,4 @@ function animate() {
 }
 
 // START
-BASE.start(initializeScene,updateScene,animate);
+BASE.start(initializeScene,preprocessSceneConfiguration,updateScene,animate);

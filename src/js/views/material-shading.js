@@ -9,6 +9,50 @@ import * as LOADINGNOTE from "../common/loading.js";
 
 var scene, camera, renderer, mesh, controls, textureLoader;
 
+function preprocessSceneConfiguration(sceneConfiguration){
+
+	// More environment URLs than names
+	if(sceneConfiguration.environment_url.length > sceneConfiguration.environment_name.length && sceneConfiguration.environment_url.length > 1){
+		//MESSAGE.newWarning("Not all environments have a name.");
+		sceneConfiguration.environment_name = MISC.padArray(sceneConfiguration.environment_name,sceneConfiguration.environment_url.length,"Unnamed HDRI");
+	}
+
+	// More environment  names than URLs
+	else if(sceneConfiguration.environment_url.length < sceneConfiguration.environment_name.length){
+		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		sceneConfiguration.environment_name = sceneConfiguration.environment_name.slice(0,sceneConfiguration.environment_url.length);
+	}
+
+	// More materials than names
+	var numberOfMaterials = 0;
+	[
+		sceneConfiguration.color_url,
+		sceneConfiguration.normal_url,
+		sceneConfiguration.displacement_url,
+		sceneConfiguration.roughness_url,
+		sceneConfiguration.opacity_url,
+		sceneConfiguration.ambientocclusion_url
+	].forEach((a) => {
+		numberOfMaterials = Math.max(numberOfMaterials,a.length);
+	});
+
+	var numberOfMaterialNames = sceneConfiguration.material_name.length;
+
+	if(numberOfMaterials > numberOfMaterialNames && numberOfMaterials > 1){
+		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		sceneConfiguration.material_name = MISC.padArray(sceneConfiguration.material_name,sceneConfiguration.material_url.length,"Unnamed Material");
+	}
+
+	// More names than materials
+
+	if(numberOfMaterials < numberOfMaterialNames){
+		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		sceneConfiguration.material_name = sceneConfiguration.material_name.slice(0,numberOfMaterials);
+	}
+
+	return sceneConfiguration;
+}
+
 function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 	// Set new geometry subdivisions and type
@@ -248,4 +292,4 @@ function animate() {
     renderer.render( scene, camera );
 }
 
-BASE.start(initializeScene,updateScene,animate);
+BASE.start(initializeScene,preprocessSceneConfiguration,updateScene,animate);
