@@ -137,14 +137,18 @@ function initializeScene(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
-	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
+	
 
 	// Window resizing event listeners
 	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 	window.addEventListener('resize', adjustAspectRatio, false);
+	window.addEventListener('mousedown', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('touchstart', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 
 	// Activate renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
+	
 
 }
 

@@ -265,7 +265,6 @@ function initializeScene(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.toneMapping = CONSTANTS.toneMapping.filmic;
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
-	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 
 	mesh = new THREE.Mesh( new THREE.PlaneGeometry(1,1,1,1), new THREE.MeshPhysicalMaterial() );
 	mesh.material.transparent = true;
@@ -280,9 +279,12 @@ function initializeScene(){
 
 	// Window resizing
 	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('mousedown', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('touchstart', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 
 	// Set up renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 
 }
 

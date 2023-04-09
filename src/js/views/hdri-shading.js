@@ -99,7 +99,6 @@ function initializeScene(){
 
 	// renderer
 	renderer = new THREE.WebGLRenderer();
-	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 	renderer.outputEncoding = CONSTANTS.encoding.sRGB;
 
 	THREE_ACTIONS.updateSceneEnvironment("./media/env-placeholder.exr",scene,renderer);
@@ -114,6 +113,8 @@ function initializeScene(){
 
 	// Window resizing
 	window.addEventListener('resize', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('mousedown', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
+	window.addEventListener('touchstart', (e) => { THREE_ACTIONS.resizeRenderingArea(camera,renderer)}, false);
 
 	// Zoom
 	var zoomHandler = function(event,camera) {
@@ -124,7 +125,7 @@ function initializeScene(){
 
 	// Set up renderer
 	document.querySelector('#renderer_target').appendChild( renderer.domElement );
-	
+	THREE_ACTIONS.resizeRenderingArea(camera,renderer);
 }
 
 function animate() {
