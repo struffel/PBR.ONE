@@ -51,7 +51,7 @@ export class Message{
 }
 
 export function newError(prefix,error){
-	new Message(`⚠️${prefix}: ${error}`,"var(--error)").show().remove(10000);
+	new Message(`${prefix}: ${error}`,"var(--error)").show().remove(10000);
 }
 
 export function removeMessagesImmediately(messages){

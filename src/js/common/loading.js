@@ -31,7 +31,7 @@ export class LoadingNote{
 	}
 
 	fail(error){
-		this.loadingMessage.updateMessage(`⚠️Loading <strong>${this.displayName}</strong> [FAILED]`);
+		this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [FAILED]`);
 		this.loadingMessage.updateColor("var(--error)");
 		this.loadingMessage.remove(5000);
 		if(error){
