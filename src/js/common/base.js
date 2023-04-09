@@ -11,7 +11,7 @@ window.addEventListener("error", (event) => {
 /**
  * The main function that starts the preview.
  */
-export function start(initializationFunction,updateFunction,animationFunction){
+export function start(initializationFunction,preprocessingFunction,updateFunction,animationFunction){
 
 	// Run the supplied initializationFunction
 	initializationFunction();
@@ -34,6 +34,11 @@ export function start(initializationFunction,updateFunction,animationFunction){
 	// Perform the initial loading by simulating a change in the hashstring.
 	var initConfiguration = MISC.parseHashString();
 	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,CONSTANTS.updateMode.startFromDefault);
+
+	// Perform preprocessing
+	if(preprocessingFunction){
+		oldAndNew.new = preprocessingFunction(oldAndNew.new);
+	}
 
 	// Set defaults for GUI and watermark if none are contained in the initial configuration
 	if(!SCENE_CONFIGURATION.getConfiguration().watermark_enable){

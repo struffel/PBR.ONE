@@ -1,5 +1,5 @@
 
-const messagesDomElement = document.querySelector('#loadingNotes');
+const messagesDomElement = document.querySelector('#messageArea');
 
 export class Message{
 	constructor(message,color = "var(--info)"){
@@ -50,8 +50,16 @@ export class Message{
 	}
 }
 
-export function newError(prefix,error){
-	new Message(`${prefix}: ${error}`,"var(--error)").show().remove(10000);
+export function newError(message,error){
+	if(error){
+		new Message(`${message}: ${error}`,"var(--error)").show().remove(10000);
+	}else{
+		new Message(message,"var(--error)").show().remove(10000);
+	}
+}
+
+export function newWarning(message){
+	new Message(message,"var(--warning)").show().remove(10000);
 }
 
 export function removeMessagesImmediately(messages){
