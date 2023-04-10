@@ -5,7 +5,7 @@ import * as THREE from '../threejs/three.module.js';
  */
 export const updateMode = {
     "extendCurrent":0,		// Merges with the current configuration
-    "startFromDefault":1,
+    "startFromFoundation":1,
 	"resetSelected":2
 }
 

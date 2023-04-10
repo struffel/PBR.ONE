@@ -3,7 +3,7 @@ import * as CONSTANTS from "../common/constants.js";
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as MISC from "../common/misc.js";
-
+import * as MESSAGE from "../common/message.js";
 var targetDomElement, mouseDown, backgroundPositionX, backgroundPositionY, backgroundSize, previousTouchX, previousTouchY;
 
 
@@ -43,13 +43,13 @@ function preprocessSceneConfiguration(sceneConfiguration){
 
 	// More texture URLs than names
 	if(sceneConfiguration.texture_url.length > sceneConfiguration.texture_name.length && sceneConfiguration.texture_url.length > 1){
-		//MESSAGE.newWarning("Not all environments have a name.");
+		MESSAGE.newWarning("Not all textures have a name.");
 		sceneConfiguration.texture_name = MISC.padArray(sceneConfiguration.texture_name,sceneConfiguration.texture_url.length,"Unnamed Texture");
 	}
 
 	// More texture names than URLs
 	else if(sceneConfiguration.texture_url.length < sceneConfiguration.texture_name.length){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		MESSAGE.newWarning("More texture names than URLs have been defined.");
 		sceneConfiguration.texture_name = sceneConfiguration.texture_name.slice(0,sceneConfiguration.texture_url.length);
 	}
 
@@ -73,7 +73,7 @@ function initializeScene(){
 		"texture_size_min":32,
 		"texture_size_max":4096
 	});
-	SCENE_CONFIGURATION.updateConfiguration({},CONSTANTS.updateMode.startFromDefault);
+	SCENE_CONFIGURATION.updateConfiguration({},CONSTANTS.updateMode.startFromFoundation);
 
 	targetDomElement = document.querySelector('#renderer_target');
 	mouseDown = false;

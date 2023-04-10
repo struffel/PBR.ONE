@@ -25,6 +25,12 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 	window.addEventListener('hashchange', (e) =>{
 		var parsedHashString = MISC.parseHashString();
 		var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(parsedHashString,CONSTANTS.updateMode.extendCurrent);
+
+		// Perform preprocessing
+		if(preprocessingFunction){
+			oldAndNew.new = preprocessingFunction(oldAndNew.new);
+		}
+
 		updateFunction(oldAndNew.old,oldAndNew.new);
 
 		GUI.updateGuiFromCurrentSceneConfiguration();
@@ -33,7 +39,7 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 
 	// Perform the initial loading by simulating a change in the hashstring.
 	var initConfiguration = MISC.parseHashString();
-	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,CONSTANTS.updateMode.startFromDefault);
+	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,CONSTANTS.updateMode.startFromFoundation);
 
 	// Perform preprocessing
 	if(preprocessingFunction){

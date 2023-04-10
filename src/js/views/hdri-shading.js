@@ -16,13 +16,13 @@ function preprocessSceneConfiguration(sceneConfiguration){
 
 	// More URLs than names
 	if(sceneConfiguration.environment_url.length > sceneConfiguration.environment_name.length && sceneConfiguration.environment_url.length > 1){
-		//MESSAGE.newWarning("Not all environments have a name.");
+		MESSAGE.newWarning("Not all environments have a name.");
 		sceneConfiguration.environment_name = MISC.padArray(sceneConfiguration.environment_name,sceneConfiguration.environment_url.length,"Unnamed HDRI");
 	}
 
 	// More names than URLs
 	else if(sceneConfiguration.environment_url.length < sceneConfiguration.environment_name.length){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.")
+		MESSAGE.newWarning("More env. names than URLs have been defined.")
 		sceneConfiguration.environment_name = sceneConfiguration.environment_name.slice(0,sceneConfiguration.environment_url.length);
 	}
 

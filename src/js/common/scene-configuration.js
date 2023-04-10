@@ -1,6 +1,6 @@
 import * as CONSTANTS from "./constants.js";
 
-var defaultConfiguration = {
+var foundationalConfiguration = {
 	"watermark_enable":['2'],
 	"gui_enable":['1']
 };
@@ -10,34 +10,34 @@ var currentConfiguration;
 
 /**
  * 
- * @param {*} newDefaultConfiguration 
+ * @param {*} newFoundationalConfiguration 
  */
-export function initializeConfiguration(newDefaultConfiguration){
+export function initializeConfiguration(newFoundationalConfiguration){
 	if(!defaultDefinied){
 		currentConfiguration = {};
-		console.debug("Initialize scene",newDefaultConfiguration);
+		console.debug("Initialize scene",newFoundationalConfiguration);
 
-		for(const key in newDefaultConfiguration){
-			defaultConfiguration[key] = [].concat(newDefaultConfiguration[key]);
+		for(const key in newFoundationalConfiguration){
+			foundationalConfiguration[key] = [].concat(newFoundationalConfiguration[key]);
 		}
 
-		console.debug("Default is now:", defaultConfiguration);
+		console.debug("Foundation is now:", foundationalConfiguration);
 		console.debug("Current is now:",currentConfiguration);
 		defaultDefinied = true;
 	}else{
-		throw "Can't redefine default configuration.";
+		throw "Can't redefine foundational configuration.";
 	}
 }
 
 export function resetConfigurationKey(key){
-	currentConfiguration[key] = defaultConfiguration[key];
+	currentConfiguration[key] = foundationalConfiguration[key];
 	return currentConfiguration[key];
 }
 
 /**
  * Takes in changes to the scene configuration, processes them and returns the new current scene configuration.
  * @param {*} configurationChanges 
- * @param {CONSTANTS.updateMode} startFromDefault 
+ * @param {CONSTANTS.updateMode} startFromFoundation 
  * @param {Boolean} resetValues Reset the keys supplied on the 'configurationChanges' object to their default value.
  * @returns 
  */
@@ -57,11 +57,11 @@ export function updateConfiguration(configurationChanges,mode){
 		case CONSTANTS.updateMode.resetSelected:
 			var newConfiguration = structuredClone(currentConfiguration);
 			for(const key in configurationChanges){
-				newConfiguration[key] = [].concat(defaultConfiguration[key]);
+				newConfiguration[key] = [].concat(foundationalConfiguration[key]);
 			};
 			break;
-		case CONSTANTS.updateMode.startFromDefault:
-			var newConfiguration = structuredClone(defaultConfiguration);
+		case CONSTANTS.updateMode.startFromFoundation:
+			var newConfiguration = structuredClone(foundationalConfiguration);
 			for(const key in configurationChanges){
 				newConfiguration[key] = [].concat(configurationChanges[key]);
 			};

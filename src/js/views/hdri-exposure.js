@@ -16,15 +16,21 @@ var scene, renderer, camera, previewPlane;
 
 function preprocessSceneConfiguration(sceneConfiguration){
 
+	// No environment specified
+	if(sceneConfiguration.environment_url.length == 0){
+		sceneConfiguration.environment_url = ["./media/env-placeholder.exr"];
+		sceneConfiguration.environment_name = ["Placeholder"];
+	}
+
 	// More URLs than names
 	if(sceneConfiguration.environment_url.length > sceneConfiguration.environment_name.length && sceneConfiguration.environment_url.length > 1){
-		//MESSAGE.newWarning("Not all environments have a name.");
+		MESSAGE.newWarning("Not all environments have a name.");
 		sceneConfiguration.environment_name = MISC.padArray(sceneConfiguration.environment_name,sceneConfiguration.environment_url.length,"Unnamed HDRI");
 	}
 
 	// More names than URLs
 	else if(sceneConfiguration.environment_url.length < sceneConfiguration.environment_name.length){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.")
+		MESSAGE.newWarning("More env. names than URLs have been defined.")
 		sceneConfiguration.environment_name = sceneConfiguration.environment_name.slice(0,sceneConfiguration.environment_url.length);
 	}
 
@@ -71,7 +77,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 	var envUrlChanged = !SCENE_CONFIGURATION.equalAtKey(oldSceneConfiguration,newSceneConfiguration,"environment_url");
 	
-	if(envIndexChanged || envUrlChanged){
+	if( envIndexChanged || envUrlChanged ){
 		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
 		console.info("New environment will be loaded from URL",envUrl);
 
@@ -116,8 +122,8 @@ function initializeScene(){
 	SCENE_CONFIGURATION.initializeConfiguration({
 		"environment_tonemapping" : "linear",
 		"environment_exposure" : 0.0,
-		"environment_url" : ["./media/env-riverbed-lq.exr"],
-		"environment_name": ["Riverbed"],
+		"environment_url" : [],
+		"environment_name": [],
 		"environment_index":0
 	});
 

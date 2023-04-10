@@ -6,20 +6,32 @@ import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";
 import * as CONSTANTS from "../common/constants.js";
 import * as THREE_ACTIONS from "../common/three-actions.js";
 import * as LOADINGNOTE from "../common/loading.js";
+import * as MESSAGE from "../common/message.js";
 
 var scene, camera, renderer, mesh, controls, textureLoader;
 
 function preprocessSceneConfiguration(sceneConfiguration){
 
+	// No environment specified, use default
+	if(sceneConfiguration.environment_url.length == 0 && sceneConfiguration.environment_name.length == 0){
+		sceneConfiguration.environment_url = ["./media/env-studio-lq.exr","./media/env-dune-lq.exr","./media/env-forest-lq.exr","./media/env-field-lq.exr","./media/env-lab-lq.exr","./media/env-night-lq.exr"];
+		sceneConfiguration.environment_name = ["Studio","Dune","Forest","Field","Computer Lab","Night"];
+	}
+
+	// Environment Index too high
+	if(sceneConfiguration.environment_index >= sceneConfiguration.environment_url.length){
+		sceneConfiguration.environment_index = 0;
+	}
+
 	// More environment URLs than names
 	if(sceneConfiguration.environment_url.length > sceneConfiguration.environment_name.length && sceneConfiguration.environment_url.length > 1){
-		//MESSAGE.newWarning("Not all environments have a name.");
+		MESSAGE.newWarning("Not all environments have a name.");
 		sceneConfiguration.environment_name = MISC.padArray(sceneConfiguration.environment_name,sceneConfiguration.environment_url.length,"Unnamed HDRI");
 	}
 
 	// More environment  names than URLs
 	else if(sceneConfiguration.environment_url.length < sceneConfiguration.environment_name.length){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		MESSAGE.newWarning("More env. names than URLs have been defined.");
 		sceneConfiguration.environment_name = sceneConfiguration.environment_name.slice(0,sceneConfiguration.environment_url.length);
 	}
 
@@ -39,15 +51,19 @@ function preprocessSceneConfiguration(sceneConfiguration){
 	var numberOfMaterialNames = sceneConfiguration.material_name.length;
 
 	if(numberOfMaterials > numberOfMaterialNames && numberOfMaterials > 1){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		MESSAGE.newWarning("More env. names than URLs have been defined.");
 		sceneConfiguration.material_name = MISC.padArray(sceneConfiguration.material_name,sceneConfiguration.material_url.length,"Unnamed Material");
 	}
 
 	// More names than materials
 
 	if(numberOfMaterials < numberOfMaterialNames){
-		//MESSAGE.newWarning("More env. names than URLs have been defined.");
+		MESSAGE.newWarning("More env. names than URLs have been defined.");
 		sceneConfiguration.material_name = sceneConfiguration.material_name.slice(0,numberOfMaterials);
+	}
+
+	if(sceneConfiguration.material_index >= numberOfMaterials){
+		sceneConfiguration.material_index = 0;
 	}
 
 	return sceneConfiguration;
@@ -241,9 +257,9 @@ function initializeScene(){
 		"opacity_url" : [],
 		"opacity_encoding" : "linear",
 	
-		"environment_url" : ["./media/env-studio-lq.exr","./media/env-dune-lq.exr","./media/env-forest-lq.exr","./media/env-field-lq.exr","./media/env-lab-lq.exr","./media/env-night-lq.exr"],
+		"environment_url" : [],
 		"environment_index":0,
-		"environment_name":["Studio","Dune","Forest","Field","Computer Lab","Night"],
+		"environment_name":[],
 	
 		"geometry_type" : "plane",
 		"geometry_subdivisions" : 500,
