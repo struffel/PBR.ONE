@@ -1,32 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@200;400;600&display=swap');
+
 body{
     margin: 0;
     box-sizing: border-box;
-	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-family: 'Heebo', sans-serif;
     font-size: larger;
-}
-
-.main-title{
-    font-size: 5em;
-    font-weight: bolder;
 }
 
 iframe{
     width: 100%;
     height: 100%;
+	border:none;
 }
 
-.forward{
+/* BANNERS */
+
+.banner-forward{
     grid-template-areas: "iframe text-element";
 }
 
-.backward{
+.banner-backward{
     grid-template-areas: "text-element iframe";
+}
+
+.banner-forward iframe{
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+.banner-backward iframe{
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
 }
 
 .banner{
     display: grid;
-    grid-template-columns: 50% 50%;
-    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+	column-gap: 80px;
+	margin-top: 0px;
+    margin-bottom: 50px;
+	margin-left: 0px;
+	margin-right: 0px;
     min-height: 800px;
 }
 
@@ -60,14 +74,25 @@ iframe{
     height: 180px;
 }
 
-.project-link{
-    border:1px solid black;
-    padding: 8px;
-    border-radius: 3px;
-    text-decoration: none;
+/* HEADER */
+
+header {
+    font-size:large;
+    min-height: 30px;
+    display: flex;
+    justify-content: center;
+	margin-bottom: 5px;
 }
 
-.project-link:hover{
+header a{
+    padding: 15px;
+    text-decoration: none;
+	color:black;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+header a:hover{
     background-color: #dddddd;
 }
 
@@ -81,30 +106,13 @@ iframe{
     text-align: center;
 }
 
-header {
-    font-size:large;
-    min-height: 30px;
-    display: flex;
-    justify-content: flex-start;
-    
-}
-
-header a{
-    padding: 10px;
-    text-decoration: none;
-}
-
-header a:hover{
-    background-color: #dddddd;
-}
-
 @media only screen and (max-width: 1000px) {
-    .forward{
+    .banner-forward{
         grid-template-areas:    "text-element"
                                 "iframe";
     }
     
-    .backward{
+    .banner-backward{
         grid-template-areas:    "text-element"
                                 "iframe";
     }
@@ -113,4 +121,14 @@ header a:hover{
         grid-template-columns: 100%;
         min-height: 1200px;
     }
+
+	.banner iframe{
+		border-radius: 0px;
+	}
+}
+
+/* HOME */
+
+#logo {
+	max-width: 500px;
 }
