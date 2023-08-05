@@ -31,7 +31,7 @@ function preprocessSceneConfiguration(sceneConfiguration){
 
 function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
-	console.debug("Update scene",oldSceneConfiguration,newSceneConfiguration);
+	console.debug("Update scene (old,new): ",oldSceneConfiguration,newSceneConfiguration);
 
 	// Exposure
 	renderer.toneMappingExposure = Math.pow(2,newSceneConfiguration["environment_exposure"]);

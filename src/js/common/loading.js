@@ -3,7 +3,7 @@ import * as MESSAGE from "./message.js";
 
 export class LoadingNote{
 	constructor(displayName,url,tryResolvingSize = true){
-		console.debug("Creating a new loading indicator",displayName,url,tryResolvingSize);
+		console.debug("Creating a new loading indicator (displayName,url,tryResolvingSize): ",displayName,url,tryResolvingSize);
 		this.displayName = displayName;
 		this.url = url;
 		this.tryResolvingSize = tryResolvingSize;
@@ -13,10 +13,10 @@ export class LoadingNote{
 
 	start() {
 		if(this.tryResolvingSize){
-			console.debug("Will attempt to fetch the content-length for URL",this.url);
+			console.debug("Attempting to fetch content-length (url): ",this.url);
 			fetch(this.url, {method: 'HEAD'}).then((result) => {
 				var bytes = result.headers.get("content-length");
-				console.debug("Successfully fetched content length in bytes for URL",this.url,bytes);
+				console.debug("Successfully fetched content length in bytes (url,bytes)",this.url,bytes);
 				this.loadingMessage.updateMessage(`Loading <strong>${this.displayName}</strong> [${formatBytes(bytes)}]`);
 			});
 		}

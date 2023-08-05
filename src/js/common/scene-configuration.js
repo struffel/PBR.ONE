@@ -15,14 +15,13 @@ var currentConfiguration;
 export function initializeConfiguration(newFoundationalConfiguration){
 	if(!defaultDefinied){
 		currentConfiguration = {};
-		console.debug("Initialize scene",newFoundationalConfiguration);
+		console.debug("Initializing scene (newFoundationalConfiguration): ",newFoundationalConfiguration);
 
 		for(const key in newFoundationalConfiguration){
 			foundationalConfiguration[key] = [].concat(newFoundationalConfiguration[key]);
 		}
 
-		console.debug("Foundation is now:", foundationalConfiguration);
-		console.debug("Current is now:",currentConfiguration);
+		console.debug("Initialized scene (foundationalConfiguration,currentConfiguration): ", foundationalConfiguration,currentConfiguration);
 		defaultDefinied = true;
 	}else{
 		throw "Can't redefine foundational configuration.";
@@ -43,7 +42,7 @@ export function resetConfigurationKey(key){
  */
 export function updateConfiguration(configurationChanges,mode){
 
-	console.debug("Update configuration with changes",configurationChanges,mode);
+	console.debug("Update configuration with changes (configurationChanges,mode): ",configurationChanges,mode);
 
 	var oldConfiguration = currentConfiguration;
 
@@ -73,7 +72,7 @@ export function updateConfiguration(configurationChanges,mode){
 
 	currentConfiguration = newConfiguration;
 
-	console.debug("Configuration updated",currentConfiguration);
+	console.debug("Configuration updated (currentConfiguration): ",currentConfiguration);
 
 	return {
 		old:oldConfiguration,
@@ -98,6 +97,6 @@ export function equalAtKey(a, b,key) {
 		a[key].length === b[key].length &&
 	  	a[key].every((val, index) => val === b[key][index]);
 
-	console.debug(`Configurations identical for key "${key}"?`,result);
+	console.debug("Configurations identical for key (key,result): ",key,result);
 	return result;
 }

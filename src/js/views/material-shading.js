@@ -135,7 +135,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 			tilingScaleRatioFactor = 1;
 			break;
 	}
-	console.debug("Tiling scale ratio factor defined",tilingScaleRatioFactor);
+	console.debug("Tiling scale ratio factor defined (tilingScaleRatioFactor): ",tilingScaleRatioFactor);
 
 	// Test for changes in url and encoding
 	for(var mapName in CONSTANTS.mapNames){

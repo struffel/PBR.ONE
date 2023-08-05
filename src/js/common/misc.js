@@ -23,7 +23,7 @@ export function fileExtensionFromUrl(url){
 export function parseHashString(){
 	var hashString = window.location.hash.substring(1);
 
-	console.debug("Parsing hashstring", hashString);
+	console.debug("Parsing hashstring (hashString): ", hashString);
 
 	if(hashString == ""){
 		return {};

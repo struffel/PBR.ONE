@@ -5,7 +5,7 @@ import * as CONSTANTS from "./constants.js";
  * Handles a GUI change event and runs the supplied update function.
  */
 export function handleGUIChangeEvent(event,updateFunction){
-	console.debug("Received PBR1_CHANGE event",event);
+	console.debug("Received PBR1_CHANGE event: ",event);
 
 	// TODO: Test if the GUI demands a reset!
 
@@ -24,7 +24,7 @@ export function handleGUIChangeEvent(event,updateFunction){
  */
 window.PBR1_CHANGE = function(changedConfig,resetValues = false){
     var event = new CustomEvent('PBR1_CHANGE',{"detail": {"changedConfiguration": changedConfig,"resetValues":resetValues}});
-	console.debug("Dispatched PBR1_CHANGE event",event);
+	console.debug("Dispatched PBR1_CHANGE event: ",event);
     document.dispatchEvent(event);
 }
 
@@ -34,7 +34,7 @@ window.PBR1_CHANGE = function(changedConfig,resetValues = false){
 export function updateGuiFromCurrentSceneConfiguration(){
 	// Get current scene configuration
 	var currentConfiguration = SCENE_CONFIGURATION.getConfiguration();
-	console.debug("Update GUI from scene configuration",currentConfiguration);
+	console.debug("Update GUI from scene configuration: ",currentConfiguration);
 
 	if(currentConfiguration.gui_enable){
 		var guiEnable = currentConfiguration.gui_enable[0];

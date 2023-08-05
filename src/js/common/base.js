@@ -53,7 +53,7 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 	if(!SCENE_CONFIGURATION.getConfiguration().gui_enable){
 		SCENE_CONFIGURATION.updateConfiguration({'gui_enable':1},CONSTANTS.updateMode.extendCurrent);
 	}
-	console.debug("Update scene",oldAndNew.old,oldAndNew.new);
+	console.debug("Updating scene (old,new): ",oldAndNew.old,oldAndNew.new);
 	updateFunction(oldAndNew.old,oldAndNew.new);
 	GUI.updateGuiFromCurrentSceneConfiguration();
 

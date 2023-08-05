@@ -79,7 +79,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 	
 	if( envIndexChanged || envUrlChanged ){
 		var envUrl = newSceneConfiguration["environment_url"][newSceneConfiguration.environment_index];
-		console.info("New environment will be loaded from URL",envUrl);
+		console.debug("New environment will be loaded (envUrl): ",envUrl);
 
 		var loadingNote = new LOADING.LoadingNote(MISC.filenameFromUrl(envUrl),envUrl);
 		loadingNote.start();
@@ -88,7 +88,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 			var envLoader = THREE_ACTIONS.pickEnvLoader(extension);
 
 			envLoader.load(envUrl, texture => {
-				console.info("Successfully loaded environment from URL", envUrl);
+				console.debug("Successfully loaded environment (envUrl): ", envUrl);
 				previewPlane.material.map = texture;
 				previewPlane.scale.x = previewPlane.material.map.image.width / previewPlane.material.map.image.height;
 				previewPlane.scale.y = 1;
@@ -102,7 +102,7 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 
 				loadingNote.finish();
 			},null,(error) =>{
-				console.error("Environment could not be loaded from URL", envUrl);
+				console.error("Environment could not be loaded (envUrl): ", envUrl);
 				loadingNote.fail(error);
 			});
 		}catch(error){

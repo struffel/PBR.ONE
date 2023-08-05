@@ -9,7 +9,7 @@ import * as LOADING from "./loading.js";
  * This happens in multiple places and is therefore defined as its own dedicated function.
  */
 export function updateSceneEnvironment(url,scene,renderer){
-	console.info("Updating scene environment from URL",url);
+	console.debug("Updating scene environment (url): ",url);
 
 	var envFileUrl = url;
 	var envFileName = MISC.filenameFromUrl(url);
