@@ -18,12 +18,18 @@ All files for all versions of PBR.ONE are available and can be linked via the fo
 ```
 https://cdn.pbr.one/<version>/<file>
 ```
-You can check the [GitHub releases page](https://github.com/struffel/PBR.ONE/releases) to choose a version.
-For example, here is version 0.4.0 of the HDRI shading preview:
+You can check the [GitHub releases page](https://github.com/struffel/PBR.ONE/releases) to choose a version or use `main` (named `main` because it comes from the main git branch) to get the latest version.
+For example, here is the latest version of the HDRI shading preview:
+```
+https://cdn.pbr.one/main/hdri-shading.html
+```
+<iframe src="https://cdn.pbr.one/main/hdri-shading.html" style="border:none;border-radius:3px;width:100%;height:400px;" ></iframe>
+
+A specific version, like `0.4.0` can be used like this:
 ```
 https://cdn.pbr.one/0.4.0/hdri-shading.html
 ```
-<iframe src="https://cdn.pbr.one/0.4.0/hdri-shading.html" style="border:none;border-radius:3px;width:100%;height:400px;" ></iframe>
+
 ### Option B: Self-Hosting (More flexible)
 You can host PBR.ONE by simply uploading the files as static assets to your own hosting solution. No backend (Node/PHP/etc.) is required.
 
@@ -55,11 +61,11 @@ For now you can take this URL as a reference:
 ```
 # Example using cdn.pbr.one.
 # You can leave out parameters, like the AmbientOcclusion map.
-https://cdn.pbr.one/0.4.0/material-shading.html#color_url=https://i.imgur.com/yd0OOx7.jpg&ambientocclusion_url=https://i.imgur.com/y9P6ce4.jpg&displacement_url=https://i.imgur.com/C2khofQ.jpg&normal_url=https://i.imgur.com/HYYS9tZ.jpg&roughness_url=https://i.imgur.com/ouTJ5jn.jpg
+https://cdn.pbr.one/main/material-shading.html#color_url=https://i.imgur.com/yd0OOx7.jpg&ambientocclusion_url=https://i.imgur.com/y9P6ce4.jpg&displacement_url=https://i.imgur.com/C2khofQ.jpg&normal_url=https://i.imgur.com/HYYS9tZ.jpg&roughness_url=https://i.imgur.com/ouTJ5jn.jpg
 ```
 Open it in your browser and look at the result:
 
-<iframe style="border:none;border-radius:3px;width:100%;height:400px;" src="https://cdn.pbr.one/0.4.0/material-shading.html#color_url=https://i.imgur.com/yd0OOx7.jpg&ambientocclusion_url=https://i.imgur.com/y9P6ce4.jpg&displacement_url=https://i.imgur.com/C2khofQ.jpg&normal_url=https://i.imgur.com/HYYS9tZ.jpg&roughness_url=https://i.imgur.com/ouTJ5jn.jpg" ></iframe>
+<iframe style="border:none;border-radius:3px;width:100%;height:400px;" src="https://cdn.pbr.one/main/material-shading.html#color_url=https://i.imgur.com/yd0OOx7.jpg&ambientocclusion_url=https://i.imgur.com/y9P6ce4.jpg&displacement_url=https://i.imgur.com/C2khofQ.jpg&normal_url=https://i.imgur.com/HYYS9tZ.jpg&roughness_url=https://i.imgur.com/ouTJ5jn.jpg" ></iframe>
 
 
 ### Option B: Self-Host (Harder, but more flexible)
@@ -115,7 +121,7 @@ For example, you can create an iframe with the preview and add it to the HTML of
 ```
 <iframe
 style="width:100%;height:500px;"
-src="https://cdn.pbr.one/0.4.0/material-shading.html#
+src="https://cdn.pbr.one/main/material-shading.html#
 color_url=https://pbr.one/media/bricks_col.jpg&
 normal_url=https://pbr.one/media/bricks_nrm.jpg&
 roughness_url=https://pbr.one/media/bricks_rgh.jpg&
@@ -124,7 +130,7 @@ displacement_url=https://pbr.one/media/bricks_dsp.jpg"
 ```
 <iframe 
 style="width:100%;height:500px;" 
-src="https://cdn.pbr.one/0.4.0/material-shading.html#
+src="https://cdn.pbr.one/main/material-shading.html#
 color_url=https://pbr.one/media/bricks_col.jpg&
 normal_url=https://pbr.one/media/bricks_nrm.jpg&
 roughness_url=https://pbr.one/media/bricks_rgh.jpg&
