@@ -120,6 +120,7 @@ export function updateGuiFromCurrentSceneConfiguration(){
 		}
 	});
 
+	// Set the new watermark CSS class
 	var newWatermarkClass = "watermark ";
 	switch (currentConfiguration.watermark_enable[0]) {
 		case '0':

@@ -4,9 +4,9 @@ import * as THREE from '../threejs/three.module.js';
  * Constant to encode 
  */
 export const updateMode = {
-    "extendCurrent":0,		// Merges with the current configuration
-    "startFromFoundation":1,
-	"resetSelected":2
+    "extendCurrent":0,			// Merges with the current configuration
+    "startFromFoundation":1,	// Starts from scratch with default values, then adds the updated fields
+	"resetSelected":2			// Resets the selected fields
 }
 
 /**
