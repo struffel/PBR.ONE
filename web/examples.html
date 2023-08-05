@@ -2,177 +2,225 @@
 	<head>
 		<title>PBR.ONE</title>
 		<link rel="stylesheet" href="/css/main.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="UTF-8">
-        <script src="/js/examples.js" defer></script>
 	</head>
 	<body>
-        <header>
+		<header>
             <a href="/">Home</a>
             <a href="/examples.html">Examples</a>
+			<a href="https://docs.pbr.one">Documentation</a>
             <a href="https://github.com/struffel/PBR.ONE">GitHub</a>
         </header>
-        </section>
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>material-shading.html - Basic Example</h1>
-                <p class="text-example">
-                    This example shows a single PBR material of a brick wall with multiple maps referenced via URL.
-                    Additional parameters like the tiling scale are set as well.
-                    <strong>At the moment the clay render mode is still enabled. Try changing clayrender_enable to 0.</strong>
-                </p>
-                <textarea data-example-id="material-shading-basic">
-color_url=https://pbr.one/media/bricks_col.jpg,
-normal_url=https://pbr.one/media/bricks_nrm.jpg,
-roughness_url=https://pbr.one/media/bricks_rgh.jpg,
-displacement_url=https://pbr.one/media/bricks_dsp.jpg,
-displacement_scale=0.01,
-tiling_scale=2,
-geometry_type=plane,
-clayrender_enable=1,
-geometry_subdivisions=400
+		</section>
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>material-shading.html - Basic Example</h1>
+				<p class="text-example">
+					This example shows how easy it is to create a preview for a PBR material: The individual maps can simply be referenced by appending the image URLs.
+					Additional parameters like the tiling scale are set via the URL as well as well, but can also be adjusted in real time using the GUI.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>color_url=</strong>https://pbr.one/media/bricks_col.jpg&
+<strong>normal_url=</strong>https://pbr.one/media/bricks_nrm.jpg&
+<strong>roughness_url=</strong>https://pbr.one/media/bricks_rgh.jpg&
+<strong>displacement_url=</strong>https://pbr.one/media/bricks_dsp.jpg&
+<strong>geometry_type=</strong>cylinder&
+<strong>displacement_scale=</strong>0.01&
+<strong>tiling_scale=</strong>1.33
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/material-shading.html#
+			color_url=https://pbr.one/media/bricks_col.jpg&
+			normal_url=https://pbr.one/media/bricks_nrm.jpg&
+			roughness_url=https://pbr.one/media/bricks_rgh.jpg&
+			displacement_url=https://pbr.one/media/bricks_dsp.jpg&
+			geometry_type=cylinder&
+			displacement_scale=0.01&
+			tiling_scale=1.33" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>hdri-exposure.html - Basic Example</h1>
+				<p class="text-example">
+					This view can be used to see the full dynamic range of an HDRI panorama. Exposure and tone mapping can be controlled dynamically using the GUI.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>environment_url=</strong>https://pbr.one/media/park.exr&
+<strong>environment_exposure=</strong>-2&
+<strong>environment_tonemapping=</strong>linear
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/hdri-exposure.html#
+			environment_url=https://pbr.one/media/park.exr&
+			environment_exposure=-2&
+			environment_tonemapping=linear" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>hdri-shading.html - Basic Example</h1>
+				<p class="text-example">
+					This view renders the HDRI as an actual environment to judge the shading and reflections.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>environment_url=</strong>https://pbr.one/media/park.exr
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/hdri-shading.html#
+			environment_url=https://pbr.one/media/park.exr&" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>texture-tiling.html - Basic Example</h1>
+				<p class="text-example">
+					This view simply creates a tiled preview of a texture. The preview can be zoomed and dragged around.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>texture_url=</strong>https://pbr.one/media/bricks_col.jpg
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/texture-tiling.html#
+			texture_url=https://pbr.one/media/bricks_col.jpg" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>material-shading.html - Advanced Example</h1>
+				<p class="text-example">
+					Multiple PBR materials can be loaded by specifying multiple maps for every channel.
+					You can use the "Material" dropdown to switch to the other material and the "Environment" dropdown to change the environment.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>material_name=</strong>Bricks,Rusty Metal&
+
+<strong>color_url=</strong>https://pbr.one/media/bricks_col.jpg,https://pbr.one/media/rustymetal_col.jpg&
+<strong>normal_url=</strong>https://pbr.one/media/bricks_nrm.jpg,https://pbr.one/media/rustymetal_nrm.jpg&
+<strong>roughness_url=</strong>https://pbr.one/media/bricks_rgh.jpg,https://pbr.one/media/rustymetal_rgh.jpg&
+<strong>displacement_url=</strong>https://pbr.one/media/bricks_dsp.jpg,https://pbr.one/media/rustymetal_dsp.jpg&
+<strong>metalness_url=</strong>,https://pbr.one/media/rustymetal_met.jpg&
+
+<strong>environment_url=</strong>https://pbr.one/media/park.exr,https://pbr.one/media/plaza.exr&
+<strong>environment_name=</strong>Park,Nightly-Plaza&
+
+<strong>displacement_scale=</strong>0.005&
+<strong>tiling_scale=</strong>2&
+<strong>geometry_type=</strong>plane&
+<strong>geometry_subdivisions=</strong>400
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/material-shading.html#
+			material_name=Bricks,Rusty Metal&
+			
+			color_url=https://pbr.one/media/bricks_col.jpg,https://pbr.one/media/rustymetal_col.jpg&
+			normal_url=https://pbr.one/media/bricks_nrm.jpg,https://pbr.one/media/rustymetal_nrm.jpg&
+			roughness_url=https://pbr.one/media/bricks_rgh.jpg,https://pbr.one/media/rustymetal_rgh.jpg&
+			displacement_url=https://pbr.one/media/bricks_dsp.jpg,https://pbr.one/media/rustymetal_dsp.jpg&
+			metalness_url=,https://pbr.one/media/rustymetal_met.jpg&
+			
+			environment_url=https://pbr.one/media/park.exr,https://pbr.one/media/plaza.exr&
+			environment_name=Park,Nightly-Plaza&
+			
+			displacement_scale=0.005&
+			tiling_scale=2&
+			geometry_type=plane&
+			geometry_subdivisions=400" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>hdri-exposure.html - Advanced Example</h1>
+				<p class="text-example">
+					This view can be used to see the full dynamic range of an HDRI panorama.
+					In this example two HDRIs with custom names are loaded which can be selected using the "Environment" dropdown.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>environment_url=</strong>https://pbr.one/media/plaza.exr,https://pbr.one/media/park.exr&
+<strong>environment_name=</strong>Nightly Plaza,Park&
+<strong>environment_exposure=</strong>0.5&
+<strong>environment_tonemapping=</strong>linear
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/hdri-exposure.html#
+			environment_url=https://pbr.one/media/plaza.exr,https://pbr.one/media/park.exr&
+			environment_name=Nightly Plaza,Park&
+			environment_exposure=0.5&
+			environment_tonemapping=linear" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>hdri-shading.html - Advanced Example</h1>
+				<p class="text-example">
+					This view also supports loading multiple environments.
+					The default HDRI can be set using the <span class="code">environment_index</span> parameter.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/material-shading.html#</strong>
+<strong>environment_url=</strong>https://pbr.one/media/plaza.exr,https://pbr.one/media/park.exr&
+<strong>environment_name=</strong>Nightly Plaza,Park&
+<strong>environment_exposure=</strong>0.5&
+<strong>environment_index=</strong>1&
+<strong>environment_tonemapping=</strong>linear
+				</pre>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/hdri-exposure.html#
+			environment_url=https://pbr.one/media/plaza.exr,https://pbr.one/media/park.exr&
+			environment_name=Nightly Plaza,Park&
+			environment_exposure=0.5&
+			environment_index=1&
+			environment_tonemapping=linear" frameborder="0" allowfullscreen></iframe>
+		</section>
+
+
+
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<h1>texture-tiling.html - Advanced Example</h1>
+				<p class="text-example">
+					More than one texture can be loaded to show off all the maps of a PBR material.
+				</p>
+				<pre style="text-align: left;" >
+<strong>https://cdn.pbr.one/0.4.0/texture-tiling.html#</strong>
+<strong>texture_url=</strong>https://pbr.one/media/bricks_col.jpg,
+https://pbr.one/media/bricks_dsp.jpg,
+https://pbr.one/media/bricks_nrm.jpg,
+https://pbr.one/media/bricks_rgh.jpg,
+https://pbr.one/media/bricks_ao.jpg,
+<strong>texture_name=</strong>Color,Displacement,Normal,Roughness,Ambient Occlusion
 </textarea>
-            </div>
-            <iframe data-example-id="material-shading-basic" data-base-src="https://cdn.pbr.one/0.3.0/pbr-material.html#" src="https://cdn.pbr.one/0.3.0/pbr-material.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
+			</div>
+			<iframe src="https://cdn.pbr.one/0.4.0/texture-tiling.html#
+			texture_url=https://pbr.one/media/bricks_col.jpg,
+			https://pbr.one/media/bricks_dsp.jpg,
+			https://pbr.one/media/bricks_nrm.jpg,
+			https://pbr.one/media/bricks_rgh.jpg,
+			https://pbr.one/media/bricks_ao.jpg&
+			texture_name=Color,Displacement,Normal,Roughness,Ambient Occlusion" frameborder="0" allowfullscreen></iframe>
+		</section>
 
 
 
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>hdri-exposure.html - Basic Example</h1>
-                <p class="text-example">
-                    This view can be used to see the full dynamic range of an HDRI panorama.
-                    <strong>The environment_exposure is currently set to a very dark -6 EVs. You can adjust the value in the text field or using the slider.</strong>
-                </p>
-                <textarea data-example-id="hdri-exposure-basic">
-environment_url=https://pbr.one/media/park.exr,
-environment_exposure=-6,
-environment_tonemapping=linear
-</textarea>
-            </div>
-            <iframe data-example-id="hdri-exposure-basic" data-base-src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>hdri-shading.html - Basic Example</h1>
-                <p class="text-example">
-                    This view allows displays the HDRI as an actual environment with several dummy objects placed in the center to see the shading and reflections.
-                    <strong>These preview objects are currenly disabled. You can enable them by setting spheres_enable to 1 in the text field.</strong>
-                </p>
-                <textarea data-example-id="hdri-shading-basic">
-environment_url=https://pbr.one/media/park.exr,
-spheres_enable=0
-</textarea>
-            </div>
-            <iframe data-example-id="hdri-shading-basic" data-base-src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>texture-tiling.html - Basic Example</h1>
-                <p class="text-example">
-                    This view simply creates a tiled preview of a texture.
-                </p>
-                <textarea data-example-id="texture-tiling-basic">
-texture_url=https://pbr.one/media/bricks_col.jpg
-</textarea>
-            </div>
-            <iframe data-example-id="texture-tiling-basic" data-base-src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>material-shading.html - Advanced Example</h1>
-                <p class="text-example">
-                    Multiple PBR materials can be loaded by specifying multiple maps for every channel.
-                    <strong>You can use the "Texture" dropdown to switch to the other material and the "Environment" dropdown to change the environment.</strong>
-                </p>
-                <textarea data-example-id="material-shading-advanced">
-material_name=Bricks;Rusty-Metal,
-
-color_url=https://pbr.one/media/bricks_col.jpg;https://pbr.one/media/rustymetal_col.jpg,
-normal_url=https://pbr.one/media/bricks_nrm.jpg;https://pbr.one/media/rustymetal_nrm.jpg,
-roughness_url=https://pbr.one/media/bricks_rgh.jpg;https://pbr.one/media/rustymetal_rgh.jpg,
-displacement_url=https://pbr.one/media/bricks_dsp.jpg;https://pbr.one/media/rustymetal_dsp.jpg,
-metalness_url=;https://pbr.one/media/rustymetal_met.jpg,
-
-environment_url=https://pbr.one/media/park.exr;https://pbr.one/media/plaza.exr,
-environment_name=Park;Nightly-Plaza,
-
-displacement_scale=0.005,
-tiling_scale=2,
-geometry_type=plane,
-clayrender_enable=0,
-geometry_subdivisions=400
-</textarea>
-            </div>
-            <iframe data-example-id="material-shading-advanced" data-base-src="https://cdn.pbr.one/0.3.0/pbr-material.html#" src="https://cdn.pbr.one/0.3.0/pbr-material.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>hdri-exposure.html - Advanced Example</h1>
-                <p class="text-example">
-                    This view can be used to see the full dynamic range of an HDRI panorama.
-                    <strong>In this example two HDRIs are loaded which can be selected using the "Environment" dropdown.</strong>
-                </p>
-                <textarea data-example-id="hdri-exposure-advanced">
-environment_url=https://pbr.one/media/plaza.exr;https://pbr.one/media/park.exr,
-environment_name=Nightly-Plaza;Park,
-environment_exposure=0,
-environment_tonemapping=linear
-</textarea>
-            </div>
-            <iframe data-example-id="hdri-exposure-advanced" data-base-src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" src="https://cdn.pbr.one/0.3.0/hdri-flat.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>hdri-shading.html - Advanced Example</h1>
-                <p class="text-example">
-                    Like all the others this view also supports multiple HDRIs.
-                </p>
-                <textarea data-example-id="hdri-shading-advanced">
-environment_url=https://pbr.one/media/plaza.exr;https://pbr.one/media/park.exr,
-environment_name=Nightly-Plaza;Park,
-environment_exposure=0
-</textarea>
-            </div>
-            <iframe data-example-id="hdri-shading-advanced" data-base-src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" src="https://cdn.pbr.one/0.3.0/hdri-panorama.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>texture-tiling.html - Advanced Example</h1>
-                <p class="text-example">
-                    More than one texture can be loaded in this view to show off all the maps of a PBR material.
-                </p>
-                <textarea data-example-id="texture-tiling-advanced">
-texture_url=https://pbr.one/media/bricks_col.jpg;https://pbr.one/media/bricks_dsp.jpg;https://pbr.one/media/bricks_nrm.jpg;https://pbr.one/media/bricks_rgh.jpg;https://pbr.one/media/bricks_ao.jpg,
-texture_name=Color;Displacement;Normal;Roughness;AmbientOcclusion
-</textarea>
-            </div>
-            <iframe data-example-id="texture-tiling-advanced" data-base-src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" src="https://cdn.pbr.one/0.3.0/texture-tiling.html#" frameborder="0" allowfullscreen></iframe>
-        </section>
-
-
-
-        <p class="imprint">
-            <a href="https://ambientcg.com/legal">Imprint</a>
-        </p>
+		<p class="imprint">
+			<a href="https://ambientcg.com/legal">Imprint</a>
+		</p>
 	</body>
 </html>

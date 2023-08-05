@@ -2,63 +2,35 @@
 	<head>
 		<title>PBR.ONE</title>
 		<link rel="stylesheet" href="/css/main.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="UTF-8">
 	</head>
 	<body>
-        <header>
-            <a href="/">Home</a>
-            <a href="/examples.html">Examples</a>
-            <a href="https://github.com/struffel/PBR.ONE">GitHub</a>
-        </header>
-        <section class="banner forward">
-            <div class="text-element">
-                <div class="main-title">🔮PBR.ONE</div>
-                <h1>Your Materials & HDRIs<br>for the World to See.</h1>
-                <p class="text-justified">
-                    <strong>PBR.ONE</strong> is an easy to use toolkit for creating interactive previews of digital materials for Physically Based Rendering and HDR panoramas for use by CG- & VFX artists.
-                </p>
-                <a class="project-link" href="https://github.com/struffel/PBR.ONE">Visit on GitHub</a>
-            </div>
-            <iframe  src="https://cdn.pbr.one/0.3.0/pbr-material.html#color_url=https://pbr.one/media/bricks_col.jpg,normal_url=https://pbr.one/media/bricks_nrm.jpg,roughness_url=https://pbr.one/media/bricks_rgh.jpg,displacement_url=https://pbr.one/media/bricks_dsp.jpg" frameborder="0" allowfullscreen></iframe>
-        </section>
-        <section class="banner backward">
-            <div class="text-element">
-                <h1>Flexible, Dynamic and Accurate.</h1>
-                <p class="text-justified">
-                    All previews are completely interactive - giving users a quick yet detailed look at any assets before downloading.
-                </p>
-            </div>
-            <iframe  src="https://cdn.pbr.one/0.3.0/hdri-flat.html" frameborder="0" allowfullscreen></iframe>
-        </section>
-        <section class="banner forward">
-            <div class="text-element">
-                <h1>Embed & Link Anywhere.</h1>
-                <p class="text-justified">
-                    Let's face it: Most artists don't want to code and maintain their own website and use third-party services and stores instead.
-                    This is why PBR.ONE is build to be easily linked or embeded into any other site using an iframe.
-                </p>
-            </div>
-            <iframe  src="https://cdn.pbr.one/0.3.0/hdri-panorama.html" frameborder="0" allowfullscreen></iframe>
-        </section>
-        <section class="banner backward">
-            <div class="text-element">
-                <h1>How it works:</h1>
-                <p class="text-justified">
-                    All you need to to get started is to upload your material maps or HDRIs somewhere on the internet (more about that in the documentation) and point PBR.ONE at them:
-                </p>
-                <div class="code">
-                    &lt;iframe src=&quot;<span style="color:gray">https://cdn.pbr.one/0.3.0/texture-tiling.html</span><span style="color:tomato;font-weight: bold;">#texture_url=https://pbr.one/media/bricks_col.jpg</span>&quot;&gt;
-                </div>
-                <p class="text-justified">
-                    ...and your preview is done. This example is just a tiled preview of a single map but you can do quite a lot more! Check the documentation for more details and for places to easily upload files for the online previw.
-                </p>
-                <a class="project-link" href="https://github.com/struffel/PBR.ONE">Visit on GitHub</a>
-            </div>
-            <iframe  src="https://cdn.pbr.one/0.3.0/texture-tiling.html#texture_url=https://pbr.one/media/bricks_col.jpg" frameborder="0" allowfullscreen></iframe>
-        </section>
-        <p class="imprint">
-            <a href="https://ambientcg.com/legal">Imprint</a>
-        </p>
+		<header>
+			<a href="/">Home</a>
+			<a href="/examples.html">Examples</a>
+			<a href="https://docs.pbr.one">Documentation</a>
+			<a href="https://github.com/struffel/PBR.ONE">GitHub</a>
+		</header>
+		<section class="banner banner-forward">
+			<div class="text-element">
+				<img id="logo" src="./media/logo.png">
+				<p class="text-justified">
+					<strong>PBR.ONE</strong> is a toolkit for creating interactive web-based previews of PBR materials and HDR panoramas.
+					It was originally built for <a href="https://ambientcg.com/">ambientCG.com</a> but is now fully Open Source.
+				</p>
+			</div>
+			<iframe loading="lazy" src="https://cdn.pbr.one/0.4.0/material-shading.html#
+			color_url=https://pbr.one/media/bricks_col.jpg&
+			normal_url=https://pbr.one/media/bricks_nrm.jpg&
+			roughness_url=https://pbr.one/media/bricks_rgh.jpg&
+			displacement_url=https://pbr.one/media/bricks_dsp.jpg&
+			geometry_type=sphere&
+			displacement_scale=0.01&
+			tiling_scale=1" frameborder="0" allowfullscreen></iframe>
+		</section>
+		<p class="imprint">
+			<a href="https://ambientcg.com/legal">Imprint</a>
+		</p>
 	</body>
 </html>
