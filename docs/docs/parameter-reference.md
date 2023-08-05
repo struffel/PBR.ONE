@@ -84,4 +84,4 @@ This view shows individual texture maps in a tiled view.
 | `texture_index`|Describes which environment should be displayed (if multiple are specified).|
 | `texture_size` | Default scaling of the texture. | Integer or floating point number. |
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
-| `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled on start (default)<br> `0` = disabled on start<br> `-1` = disabled entirely |
+| `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled (default)<br> `0` = disabled |
