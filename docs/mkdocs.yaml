@@ -1,0 +1,22 @@
+site_name: PBR.ONE Docs
+markdown_extensions:
+  - tables
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+      toc_depth: 3
+theme:
+  name: material
+  logo: media/sphere_light.png
+  favicon: media/sphere_light.png
+  features:
+    - toc.follow
+    - navigation.footer
+nav:
+  - Start: index.md
+  - "Setup & Hosting": setup-and-hosting.md
+  - "Parameter Reference": parameter-reference.md
