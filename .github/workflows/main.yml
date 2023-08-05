@@ -25,7 +25,7 @@ jobs:
       - name: FTP Deploy
         # You may pin to the exact commit or the version.
         # uses: SamKirkland/FTP-Deploy-Action@2a4e9b1312ebeb73a1f72b9330c71831c1e4ce01
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           # ftp server
           server: ${{vars.WEBSITE_FTP_SERVER}}
@@ -52,7 +52,7 @@ jobs:
         - name: FTP Deploy
           # You may pin to the exact commit or the version.
           # uses: SamKirkland/FTP-Deploy-Action@2a4e9b1312ebeb73a1f72b9330c71831c1e4ce01
-          uses: SamKirkland/FTP-Deploy-Action@4.3.2
+          uses: SamKirkland/FTP-Deploy-Action@v4.3.4
           with:
               # ftp server
               server: ${{vars.WEBSITE_FTP_SERVER}}
@@ -76,7 +76,7 @@ jobs:
       - name: FTP Deploy
         # You may pin to the exact commit or the version.
         # uses: SamKirkland/FTP-Deploy-Action@2a4e9b1312ebeb73a1f72b9330c71831c1e4ce01
-        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           # ftp server
           server: ${{vars.CDN_FTP_SERVER}}
@@ -85,5 +85,5 @@ jobs:
           # ftp password
           password: ${{secrets.CDN_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: ./latest/
+          server-dir: /latest/
           local-dir: ./src/
