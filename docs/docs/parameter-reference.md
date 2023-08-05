@@ -24,6 +24,7 @@ This view shows an HDR image as-is to evaluate its dynamic range.
 |`environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |0 (for the first environment), 1 (for the second environment), ...|
 | `environment_tonemapping` | Tonemapping style to use. | `linear` (recommended for an analytical look) or `filmic` (for a "prettier" look with tonemapping.) |
 | `environment_exposure` | Exposure offset in EVs. | Any integer or decimal number. Negative values darken the image, positive brighten it. |
+| `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default), `1` = small, `0` = off |
 
 ## `hdri-shading.html`
 This view shows the HDRI map with three reference balls to evaluate the lighting that it creates.
@@ -36,6 +37,7 @@ This view shows the HDRI map with three reference balls to evaluate the lighting
 |`environment_url`| Link to one or multiple equirectangular HDR panoramas in `hdr` or `exr` file format.|Comma-separated list of URLs ending in `.hdr` or `.exr`. |
 |`environment_name`| List of names for the environments. Required if more than one environment is used. |Comma-separated list of strings.|
 |`environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |0 (for the first environment), 1 (for the second environment), ...|
+| `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default), `1` = small, `0` = off |
 
 ## `material-shading.html`
 This view shows a full PBR material on a preview object.
@@ -67,6 +69,7 @@ This view shows a full PBR material on a preview object.
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
 | `tiling_scale` | Texture scaling. | Integer or floating point number. |
 | `clayrender_enable`| Displays a clayrender (by disabling the color map)|`0` or `1`|
+| `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default), `1` = small, `0` = off |
 
 ## `texture-tiling.html`
 This view shows individual texture maps in a tiled view.
@@ -77,3 +80,4 @@ This view shows individual texture maps in a tiled view.
 | `texture_name`| List of names for the textures. Required if more than one texture is used. |Comma-separated list of Strings.|
 | `texture_index`|Describes which environment should be displayed (if multiple are specified).|
 | `texture_size` | Default scaling of the texture. | Integer or floating point number. |
+| `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default), `1` = small, `0` = off |
