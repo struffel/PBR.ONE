@@ -48,6 +48,9 @@ function updateScene(oldSceneConfiguration,newSceneConfiguration){
 			THREE_ACTIONS.updateSceneEnvironment(envFileUrl,scene,renderer);
 		}
 	}
+
+	// Accent color
+	glossySphere.material.color.set(parseInt(newSceneConfiguration['spheres_accent_color'],16));
 	
 }
 
@@ -62,7 +65,9 @@ function initializeScene(){
 	
 		"environment_url" : [],
 		"environment_name": [],
-		"environment_index":0
+		"environment_index":0,
+
+		"spheres_accent_color": "116DD5" 
 	
 	});
 
@@ -83,7 +88,7 @@ function initializeScene(){
 
 	glossySphere = new THREE.Mesh( 
 		new THREE.SphereGeometry(0.33,128,128), 
-		new THREE.MeshPhysicalMaterial({"color":0x116DD5,"roughness":0}) 
+		new THREE.MeshPhysicalMaterial({"color":parseInt("116DD5",16),"roughness":0}) 
 	);
 	glossySphere.position.z = 0;
 

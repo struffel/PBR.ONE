@@ -32,12 +32,13 @@ This view shows the HDRI map with three reference balls to evaluate the lighting
 
 | Key | Description | Possible Values |
 | --- | --- | --- |
-| `spheres_enable` <span style="opacity:0%;user-select:none;" >PADDING_PADDING_PADDING</span>| Show the light probe spheres in the center of the frame. | `0`=off<br> `1`=on |
+| `spheres_enable` <span style="opacity:0%;user-select:none;" >PADDING_PADDING_PADDING</span>| Show the light probe spheres in the center of the frame. | `0`=off<br> `1`=on (default) |
+| `spheres_accent_color` | Set the color of the middle sphere. | Hex color code, like `116DD5` (default) |
 | `environment_tonemapping` | Tonemapping style to use. | `linear` (recommended for an analytical look) or `filmic` (for a "prettier" look with tonemapping.) |
 | `environment_exposure` | Exposure offset in EVs. | Any integer or decimal number. Negative values darken the image, positive brighten it. |
-|`environment_url`| Link to one or multiple equirectangular HDR panoramas in `hdr` or `exr` file format.|Comma-separated list of URLs ending in `.hdr` or `.exr`. |
-|`environment_name`| List of names for the environments. Required if more than one environment is used. |Comma-separated list of strings.|
-|`environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |`0` (for the first environment)<br> `1` (for the second environment)<br> ...|
+| `environment_url`| Link to one or multiple equirectangular HDR panoramas in `hdr` or `exr` file format.|Comma-separated list of URLs ending in `.hdr` or `.exr`. |
+| `environment_name`| List of names for the environments. Required if more than one environment is used. |Comma-separated list of strings.|
+| `environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |`0` (for the first environment)<br> `1` (for the second environment)<br> ...|
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
 | `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled on start (default)<br> `0` = disabled on start<br> `-1` = disabled entirely |
 
