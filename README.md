@@ -7,7 +7,7 @@ It was originally developed as an easy way of adding interactive previews to [am
 # How does it work?
 The HTML pages for PBR.ONE can be viewed directly or embedded in an iframe.
 Resources can be loaded by simply appending them to the URL of the page, no backend required.
-Check out [this simple example](https://cdn.pbr.one/0.4.0/material-shading.html#color_url=https://pbr.one/media/bricks_col.jpg&normal_url=https://pbr.one/media/bricks_nrm.jpg&roughness_url=https://pbr.one/media/bricks_rgh.jpg&displacement_url=https://pbr.one/media/bricks_dsp.jpg&geometry_type=cylinder&displacement_scale=0.01&tiling_scale=1.33) or visit the [examples page](https://pbr.one/examples.html) to see more demos showing all of PBR.ONE's features in detail.
+Check out [this simple example](https://cdn.pbr.one/main/material-shading.html#color_url=https://pbr.one/media/bricks_col.jpg&normal_url=https://pbr.one/media/bricks_nrm.jpg&roughness_url=https://pbr.one/media/bricks_rgh.jpg&displacement_url=https://pbr.one/media/bricks_dsp.jpg&geometry_type=cylinder&displacement_scale=0.01&tiling_scale=1.33) or visit the [examples page](https://pbr.one/examples.html) to see more demos showing all of PBR.ONE's features in detail.
 
 # How do I get started?
 Visit the [documentation pages](https://docs.pbr.one) to find out how to get started. No programming knowledge required!
