@@ -1,7 +1,6 @@
 /* Base CSS */
 
 :root{
-	--brand: #912CED;
 	--error: #FF0000;
 	--success: #00FF00;
 	--warning: #FFFF00;
@@ -106,8 +105,11 @@ nav label{
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
-	color:#ffffff60;
-	text-decoration: none;
+}
+
+.watermark img{
+	mix-blend-mode: exclusion;
+	opacity: 50%;
 }
 
 .watermark-off{
@@ -116,10 +118,16 @@ nav label{
 
 .watermark-small{
 	display: block;
-	font-size: large;
+}
+
+.watermark-small img{
+	width: 40px;
 }
 
 .watermark-large{
 	display:block;
-	font-size: x-large;
+}
+
+.watermark-large img{
+	width: 80px;
 }
