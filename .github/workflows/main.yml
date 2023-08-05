@@ -81,7 +81,7 @@ jobs:
           # ftp server
           server: ${{vars.CDN_FTP_SERVER}}
           # ftp username
-          username: ${{vars.CDN_FTP_SERVER}}
+          username: ${{vars.CDN_FTP_LOGIN}}
           # ftp password
           password: ${{secrets.CDN_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
