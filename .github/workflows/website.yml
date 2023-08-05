@@ -1,4 +1,4 @@
-name: CD (PBR.ONE Website)
+name: CD (PBR.ONE Website & Docs)
 
 # Controls when the action will run. 
 on:
@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  main-website:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,11 +28,38 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.2
         with:
           # ftp server
-          server: ${{secrets.WEBSITE_FTP_SERVER}}
+          server: ${{vars.WEBSITE_FTP_SERVER}}
           # ftp username
-          username: ${{secrets.WEBSITE_FTP_LOGIN}}
+          username: ${{vars.WEBSITE_FTP_LOGIN}}
           # ftp password
           password: ${{secrets.WEBSITE_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: /
+          server-dir: /public/
           local-dir: ./web/
+  docs-website:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+
+        - name: Build using Docker
+          run: docker run --rm -v ${PWD}/docs:/docs squidfunk/mkdocs-material:9.1.21 build
+
+        # Runs a single command using the runners shell
+        - name: FTP Deploy
+          # You may pin to the exact commit or the version.
+          # uses: SamKirkland/FTP-Deploy-Action@2a4e9b1312ebeb73a1f72b9330c71831c1e4ce01
+          uses: SamKirkland/FTP-Deploy-Action@4.3.2
+          with:
+              # ftp server
+              server: ${{vars.WEBSITE_FTP_SERVER}}
+              # ftp username
+              username: ${{vars.WEBSITE_FTP_LOGIN}}
+              # ftp password
+              password: ${{secrets.WEBSITE_FTP_PASSWORD}}
+              # Path to upload to on the server. Must end with trailing slash /
+              server-dir: /public-docs/
+              local-dir: ./docs/site/
