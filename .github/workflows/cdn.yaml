@@ -1,12 +1,12 @@
-name: PBR.ONE CDN (Main branch)
+name: PBR.ONE CDN (Releases)
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  release:
+    types: [published]
   push:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -33,5 +33,5 @@ jobs:
           # ftp password
           password: ${{secrets.WEBSITE_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
-          server-dir: /public-releases/main/
+          server-dir: /public-releases/${{github.ref_name}}/
           local-dir: ./src/
