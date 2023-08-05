@@ -6,6 +6,8 @@ on:
     types: [published]
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
 
   workflow_dispatch:
 
