@@ -14,29 +14,24 @@ function moveBackground(x,y){
 }
 
 function scaleBackground(factor){
-	backgroundSize = backgroundSize * factor;
+	// Get minimum and maximum sizes and save current size
 	var backgroundSizeMin = SCENE_CONFIGURATION.getConfiguration().texture_size_min[0];
 	var backgroundSizeMax = SCENE_CONFIGURATION.getConfiguration().texture_size_max[0];
-	var updatePosition = true;
+	var oldBackgroundSize = backgroundSize;
 
-	if(backgroundSize < backgroundSizeMin){
-		backgroundSize = backgroundSizeMin;
-		updatePosition = false;
-	}
+	// Calculate the new background size
+	backgroundSize = Math.min(backgroundSizeMax,Math.max(backgroundSizeMin,backgroundSize * factor));
 
-	if(backgroundSize > backgroundSizeMax){
-		backgroundSize = backgroundSizeMax;
-		updatePosition = false;
-	}
+	// Calculate the factor by which the size was actually changed
+	var changeFactor = backgroundSize / oldBackgroundSize;
 
+	// Update the background position based on the zoom change
+	backgroundPositionY = backgroundPositionY * changeFactor;
+	backgroundPositionX = backgroundPositionX * changeFactor;
+
+	// Update the CSS
 	targetDomElement.style.backgroundSize = `${backgroundSize}px`;
-
-	if(updatePosition){
-		backgroundPositionY = backgroundPositionY * factor;
-		backgroundPositionX = backgroundPositionX * factor;
-		targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
-	}
-	
+	targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
 }
 
 function preprocessSceneConfiguration(sceneConfiguration){
