@@ -70,6 +70,7 @@ This view shows a full PBR material on a preview object.
 | `environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |0 (for the first environment).|`0` (for the first environment)<br> `1` (for the second environment)<br> ...|
 | `geometry_type` | Defines the preview object. | `cube`<br> `cylinder`<br> `sphere`<br> `plane` |
 | `geometry_subdivisions` | Number of subdivisions. | Integer number |
+| `displacement_scale` | Initial strength of the displacement. | Integer or floating point number. |
 | `tiling_scale` | Texture scaling. | Integer or floating point number. |
 | `clayrender_enable`| Displays a clayrender (by disabling the color map)|`0` or `1`|
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
