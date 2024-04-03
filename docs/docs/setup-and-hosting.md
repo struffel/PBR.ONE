@@ -1,5 +1,5 @@
 # Setup & Hosting
-Setting up PBR.ONE previews requires consists of three main tasks:
+The setup for PBR.ONE consists of three main tasks:
 
 - Hosting the code for PBR.ONE.
 - Hosting the media files you want to preview.
