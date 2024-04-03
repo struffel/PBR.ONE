@@ -87,7 +87,7 @@ add_header Access-Control-Allow-Origin "https://example.com"; # URL from which y
 ```
 
 ### Option C: On an external Service/CDN (Best for most use-cases)
-You can use numerous hosting services to serve the materal maps for your preview - many of which have a free tier.
+You can use numerous hosting services to serve the material maps for your preview - many of which have a free tier.
 This has the advantage that you don't really need to take care of the hosting yourself and can upload many files at once with ease.
 Just make sure that the service supports *[Cross-Origin Ressource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)* to ensure that the images can be loaded even if the PBR.ONE preview is on a different domain than the media files.
 
