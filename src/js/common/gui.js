@@ -28,6 +28,13 @@ window.PBR1_CHANGE = function(changedConfig,resetValues = false){
     document.dispatchEvent(event);
 }
 
+// Add event listener for the fullscreen button
+document.querySelector('#fullscreen-toggle').addEventListener('click', (e) => {
+	document.fullscreenElement ?
+	document.exitFullscreen() :
+	document.querySelector('body').requestFullscreen();
+})
+
 /**
  * Updates all the settings in the GUI to match the current scene configuration.
  */
@@ -135,6 +142,16 @@ export function updateGuiFromCurrentSceneConfiguration(){
 			break;
 	}
 	document.querySelector('.watermark').setAttribute("class",newWatermarkClass);
+
+	// Enables the fullscreen button (if allowed and supported)
+	var fullscreenToggle = document.querySelector('#fullscreen-toggle');
+	if(currentConfiguration.fullscreen_enable[0] == '1' && document.fullscreenEnabled){
+		// Show icon in the corner
+		fullscreenToggle.style.display = 'block';
+	}else{
+		// Show icon in the corner
+		fullscreenToggle.style.display = 'none';
+	}
 
 
 }

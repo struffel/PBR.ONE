@@ -36,24 +36,6 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 		GUI.updateGuiFromCurrentSceneConfiguration();
 	});
 
-	// Toggle fullscreen
-	if(document.fullscreenEnabled){
-
-		var fullscreenToggle = document.querySelector('#fullscreen-toggle');
-
-		// Add relevant event listener
-		fullscreenToggle.addEventListener('click', (e) => {
-			document.fullscreenElement ?
-			document.exitFullscreen() :
-			document.querySelector('body').requestFullscreen();
-		})
-
-		// Show icon in the corner
-		fullscreenToggle.style.display = 'block';
-	}
-	
-
-
 	// Perform the initial loading by simulating a change in the hashstring.
 	var initConfiguration = MISC.parseHashString();
 	var oldAndNew = SCENE_CONFIGURATION.updateConfiguration(initConfiguration,CONSTANTS.updateMode.startFromFoundation);
@@ -63,13 +45,18 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 		oldAndNew.new = preprocessingFunction(oldAndNew.new);
 	}
 
-	// Set defaults for GUI and watermark if none are contained in the initial configuration
+	// Set defaults for GUI, fullscreen and watermark if none are contained in the initial configuration
 	if(!SCENE_CONFIGURATION.getConfiguration().watermark_enable){
 		SCENE_CONFIGURATION.updateConfiguration({'watermark_enable':0},CONSTANTS.updateMode.extendCurrent);
 	}
 	if(!SCENE_CONFIGURATION.getConfiguration().gui_enable){
 		SCENE_CONFIGURATION.updateConfiguration({'gui_enable':1},CONSTANTS.updateMode.extendCurrent);
 	}
+	if(!SCENE_CONFIGURATION.getConfiguration().fullscreen_enable){
+		SCENE_CONFIGURATION.updateConfiguration({'fullscreen_enable':1},CONSTANTS.updateMode.extendCurrent);
+	}
+
+	// Run update function
 	console.debug("Updating scene (old,new): ",oldAndNew.old,oldAndNew.new);
 	updateFunction(oldAndNew.old,oldAndNew.new);
 	GUI.updateGuiFromCurrentSceneConfiguration();
