@@ -8,7 +8,6 @@
 		<title>PBR.ONE Material Shading Preview</title>
 	</head>
 	<body>
-		<script type="module" src="./js/views/material-shading.js"></script>
 		<main id="renderer_target">
 			<nav>
 				<div class="nav-main-elements">
@@ -97,8 +96,10 @@
 					onchange="window.PBR1_CHANGE({'gui_enable':this.checked ? '1' : '0'});"
 				>
 			</nav>
+			<button id="fullscreen-toggle" >⛶</button>
 			<a class="watermark watermark-off" target="_blank" href="https://pbr.one"><img src="./media/logo.png"></a>
 			<span class="message-area" id="messageArea"></span>
 		</main>
+		<script type="module" src="./js/views/material-shading.js"></script>
 	</body>
 </html>

@@ -36,6 +36,23 @@ export function start(initializationFunction,preprocessingFunction,updateFunctio
 		GUI.updateGuiFromCurrentSceneConfiguration();
 	});
 
+	// Toggle fullscreen
+	if(document.fullscreenEnabled){
+
+		var fullscreenToggle = document.querySelector('#fullscreen-toggle');
+
+		// Add relevant event listener
+		fullscreenToggle.addEventListener('click', (e) => {
+			document.fullscreenElement ?
+			document.exitFullscreen() :
+			document.querySelector('body').requestFullscreen();
+		})
+
+		// Show icon in the corner
+		fullscreenToggle.style.display = 'block';
+	}
+	
+
 
 	// Perform the initial loading by simulating a change in the hashstring.
 	var initConfiguration = MISC.parseHashString();
