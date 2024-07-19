@@ -79,6 +79,25 @@ nav label{
 	cursor: pointer;
 }
 
+#fullscreen-toggle{
+
+	/* Off by default, gets turned on by JS,
+	if fullscreen is actually available*/
+	display: none;
+
+	position:absolute;
+	font-family: monospace;
+	font-size: 1.5em;
+	top: 0px;
+	right: 5px;
+	color: #ffffff;
+	padding: 10px;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+}
+
+
 /* Loading notes */
 
 .message-area{
