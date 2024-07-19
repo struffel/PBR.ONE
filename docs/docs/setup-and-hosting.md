@@ -120,6 +120,7 @@ For example, you can create an iframe with the preview and add it to the HTML of
 
 ```
 <iframe
+allow="fullscreen"
 style="width:100%;height:500px;"
 src="https://cdn.pbr.one/main/material-shading.html#
 color_url=https://pbr.one/media/bricks_col.jpg&

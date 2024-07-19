@@ -26,6 +26,7 @@ This view shows an HDR image as-is to evaluate its dynamic range.
 | `environment_exposure` | Exposure offset in EVs. | Any integer or decimal number. Negative values darken the image, positive brighten it. |
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
 | `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled on start (default)<br> `0` = disabled on start<br> `-1` = disabled entirely |
+| `fullscreen_enable` | Enables or disables the fullscreen icon in the top right corner. Requires `allow="fullscreen"` on the iframe tag. | `1` = enabled (default) <br> `0` = disabled |
 
 ## `hdri-shading.html`
 This view shows the HDRI map with three reference balls to evaluate the lighting that it creates.
@@ -41,6 +42,7 @@ This view shows the HDRI map with three reference balls to evaluate the lighting
 | `environment_index`| Describes which environment should be displayed (if multiple are specified in the URL list.) |`0` (for the first environment)<br> `1` (for the second environment)<br> ...|
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
 | `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled on start (default)<br> `0` = disabled on start<br> `-1` = disabled entirely |
+| `fullscreen_enable` | Enables or disables the fullscreen icon in the top right corner. Requires `allow="fullscreen"` on the iframe tag. | `1` = enabled (default) <br> `0` = disabled |
 
 ## `material-shading.html`
 This view shows a full PBR material on a preview object.
@@ -75,6 +77,7 @@ This view shows a full PBR material on a preview object.
 | `clayrender_enable`| Displays a clayrender (by disabling the color map)|`0` or `1`|
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
 | `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled on start (default)<br> `0` = disabled on start<br> `-1` = disabled entirely |
+| `fullscreen_enable` | Enables or disables the fullscreen icon in the top right corner. Requires `allow="fullscreen"` on the iframe tag. | `1` = enabled (default) <br> `0` = disabled |
 
 ## `texture-tiling.html`
 This view shows individual texture maps in a tiled view.
@@ -87,3 +90,4 @@ This view shows individual texture maps in a tiled view.
 | `texture_size` | Default scaling of the texture. | Integer or floating point number. |
 | `watermark_enable` | Enables or disables the PBR.ONE watermark. | `2` = large (default)<br> `1` = small<br> `0` = off |
 | `gui_enable` | Enables or disables the GUI in the top left corner. | `1` = enabled (default)<br> `0` = disabled |
+| `fullscreen_enable` | Enables or disables the fullscreen icon in the top right corner. Requires `allow="fullscreen"` on the iframe tag. | `1` = enabled (default) <br> `0` = disabled |

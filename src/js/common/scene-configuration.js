@@ -2,7 +2,8 @@ import * as CONSTANTS from "./constants.js";
 
 var foundationalConfiguration = {
 	"watermark_enable":['2'],
-	"gui_enable":['1']
+	"gui_enable":['1'],
+	"fullscreen_enable":['1']
 };
 
 var defaultDefinied = false;
