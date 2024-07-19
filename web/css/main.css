@@ -13,6 +13,10 @@ iframe{
 	border:none;
 }
 
+iframe:fullscreen{
+	border-radius: 0px !important;
+}
+
 /* BANNERS */
 
 .banner-forward{
