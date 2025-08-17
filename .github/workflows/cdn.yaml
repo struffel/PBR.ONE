@@ -22,6 +22,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Build using Docker
+        run: docker run --rm -v ${PWD}/src:/app -w /app node:22-alpine sh -c "npm install && npx vite build"
+
       # Runs a single command using the runners shell
       - name: FTP Deploy
         # You may pin to the exact commit or the version.
@@ -36,4 +39,4 @@ jobs:
           password: ${{secrets.WEBSITE_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
           server-dir: /public-releases/${{github.ref_name}}/
-          local-dir: ./src/
+          local-dir: ./src/dist/
