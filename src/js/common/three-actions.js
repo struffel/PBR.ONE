@@ -1,6 +1,6 @@
-import * as THREE from "../threejs/three.module.js";
-import * as RGBE_LOADER from '../threejs/RGBELoader.js';
-import * as EXR_LOADER from '../threejs/EXRLoader.js';
+import * as THREE from "three";
+import * as RGBE_LOADER from 'three/addons/loaders/RGBELoader.js';
+import * as EXR_LOADER from 'three/addons/loaders/EXRLoader.js';
 import * as MISC from "./misc.js";
 import * as LOADING from "./loading.js";
 

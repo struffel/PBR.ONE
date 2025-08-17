@@ -1,6 +1,6 @@
 // IMPORTS
-import * as THREE from "../threejs/three.module.js";
-import * as ORBIT_CONTROLS from '../threejs/OrbitControls.js';
+import * as THREE from "three";
+import * as ORBIT_CONTROLS from 'three/addons/controls/OrbitControls.js';
 import * as MESSAGE from '../common/message.js';
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";

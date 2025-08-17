@@ -1,0 +1,17 @@
+{
+  "name": "pbr-one",
+  "version": "0.6.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^7.1.2"
+  },
+  "dependencies": {
+    "three": "^0.179.1"
+  }
+}

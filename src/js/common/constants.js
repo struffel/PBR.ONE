@@ -1,4 +1,4 @@
-import * as THREE from '../threejs/three.module.js';
+import * as THREE from 'three';
 
 /**
  * Constant to encode 
