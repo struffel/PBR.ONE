@@ -1,0 +1,15 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "pbr-one",
+      "dependencies": {
+        "three": "0.150.0",
+      },
+    },
+  },
+  "packages": {
+    "three": ["three@0.150.0", "", {}, "sha512-12oqqBZom9fb5HtX3rD8qPVnamojuiN5Os7r0x8s3HQ+WHRwnEyzl2XU3aEKocsDkG++rkE9+HWzx77O59NXtw=="],
+  }
+}

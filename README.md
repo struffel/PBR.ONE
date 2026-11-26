@@ -11,3 +11,13 @@ Check out [this simple example](https://cdn.pbr.one/main/material-shading.html#c
 
 # How do I get started?
 Visit the [documentation pages](https://docs.pbr.one) to find out how to get started. No programming knowledge required!
+
+# Development
+The source lives in `/src`. [Three.js](https://threejs.org) is a regular dependency (see `package.json`) that gets bundled into the pages, so the build output in `/dist` is a self-contained folder of HTML files without any external CDN. [Bun](https://bun.sh) is used as the toolchain.
+
+- `bun install` installs the dependencies.
+- `bun run build` creates the deployable folder in `/dist`.
+- `bun run dev` rebuilds on every change and serves `/dist` at `http://localhost:8080`.
+- Alternatively, `docker compose up` starts the same setup in containers (main build on `:8080`, tests on `:8081`, website on `:8082`, docs on `:8083`). File change events from the host are not delivered to containers on some setups (e.g. Docker Desktop with WSL2). In that case use `REBUILD_INTERVAL=2 docker compose up` to rebuild every 2 seconds instead.
+
+To update Three.js, change its version in `package.json` and run `bun install`.

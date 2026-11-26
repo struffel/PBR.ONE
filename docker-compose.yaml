@@ -1,11 +1,29 @@
 version: '3'
 services:
+  # Bundles ./src (including Three.js from node_modules) and rebuilds on changes.
+  # The output goes into a named volume that is shared with PBR.ONE-Dev-Main.
+  PBR.ONE-Dev-Build:
+    image: oven/bun:1
+    working_dir: /app
+    command: sh -c "bun install --frozen-lockfile && bun scripts/build.js --watch"
+    environment:
+      # Optional: rebuild every N seconds instead of relying on file events (e.g. Docker Desktop with WSL),
+      # for example `REBUILD_INTERVAL=2 docker compose up`
+      - REBUILD_INTERVAL
+    volumes:
+      - .:/app
+      # Keep the container's Linux node_modules and the build output off the host bind mount
+      - /app/node_modules
+      - dist:/app/dist
+
   PBR.ONE-Dev-Main:
     image: nginx
     ports:
       - "8080:80"
+    depends_on:
+      - PBR.ONE-Dev-Build
     volumes:
-      - ./src:/etc/nginx/html
+      - dist:/etc/nginx/html:ro
       - ./nginx.conf:/etc/nginx/nginx.conf
 
   PBR.ONE-Dev-Test:
@@ -30,4 +48,6 @@ services:
       - "8083:8000"
     volumes:
       - "./docs:/docs"
-    
+
+volumes:
+  dist:

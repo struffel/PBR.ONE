@@ -33,8 +33,9 @@ https://cdn.pbr.one/0.4.0/hdri-shading.html
 ### Option B: Self-Hosting (More flexible)
 You can host PBR.ONE by simply uploading the files as static assets to your own hosting solution. No backend (Node/PHP/etc.) is required.
 
-1. Clone the latest version of the repository (`git clone github.com/struffel/PBR.ONE`) or download a specific release from the [releases page](https://github.com/struffel/PBR.ONE/releases).
-2. Upload the contents of the `/src` subfolder to a subdirectory like `/preview` on your web server or static file hosting solution of choice (AWS S3, Backblaze B2, etc.).
+1. Download the `pbr-one-<version>.zip` archive of a specific release from the [releases page](https://github.com/struffel/PBR.ONE/releases) and unpack it. It contains a ready-to-upload folder of HTML files and does not depend on any external CDN.
+   Alternatively, build it yourself: clone the repository (`git clone github.com/struffel/PBR.ONE`), install [Bun](https://bun.sh) and run `bun install && bun run build`. The result is placed in the `/dist` subfolder.
+2. Upload the contents of the unpacked archive (or of your `/dist` folder) to a subdirectory like `/preview` on your web server or static file hosting solution of choice (AWS S3, Backblaze B2, etc.).
 
 ## Hosting the Preview Media
 
