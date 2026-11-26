@@ -1,6 +1,6 @@
 // Local development: rebuilds ./dist on changes and serves it with permissive CORS
 // Usage: bun scripts/dev.js [port]
-import { join, resolve, normalize } from 'node:path';
+import { join, resolve, normalize, sep } from 'node:path';
 import { build, watchSources } from './build.js';
 
 const DIST = resolve(import.meta.dir, '..', 'dist');
@@ -23,7 +23,7 @@ Bun.serve({
 		const file = Bun.file(target);
 
 		// Check if the requested file exists and is within the dist folder
-		if (!target.startsWith(DIST) || !(await file.exists())) {
+		if (!target.startsWith(DIST + sep) || !(await file.exists())) {
 			return new Response('Not found', { status: 404, headers });
 		}
 
