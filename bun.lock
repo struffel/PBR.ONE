@@ -5,11 +5,11 @@
     "": {
       "name": "pbr-one",
       "dependencies": {
-        "three": "0.150.0",
+        "three": "0.187.0",
       },
     },
   },
   "packages": {
-    "three": ["three@0.150.0", "", {}, "sha512-12oqqBZom9fb5HtX3rD8qPVnamojuiN5Os7r0x8s3HQ+WHRwnEyzl2XU3aEKocsDkG++rkE9+HWzx77O59NXtw=="],
+    "three": ["three@0.187.0", "", {}, "sha512-Qiu7R+Cmh8CstZsY1uJOSWnVlfo7ZtNLV7mF8Jltk3LB3AtDu9cRZlcnRKkAk8Y4z6KKw35z7Y7Urd7jWY8etA=="],
   }
 }

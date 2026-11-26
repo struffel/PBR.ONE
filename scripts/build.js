@@ -15,13 +15,13 @@ const VIEWS = join(SRC, 'js', 'views');
 // Build the project into the dist folder. Existing files are overwritten but not removed (see the "build" script in package.json).
 export async function build() {
 
-	// Static files: everything in src except the JS sources, which get bundled below.
+	// Copy all the static files
 	await cp(SRC, DIST, {
 		recursive: true,
 		filter: (source) => resolve(source) !== join(SRC, 'js'),
 	});
 
-	// Bundle JS views with Bun's build system
+	// Bundle JS views
 	const entrypoints = (await readdir(VIEWS)).filter(f => f.endsWith('.js')).map(f => join(VIEWS, f));
 	const result = await Bun.build({
 		entrypoints,
