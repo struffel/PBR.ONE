@@ -8,6 +8,10 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/cdn.yaml'
 
   workflow_dispatch:
 
@@ -16,11 +20,20 @@ jobs:
   cdn:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      # Needed to attach the self-hosting archive to a release
+      contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - uses: oven-sh/setup-bun@v2
+
+      # Bundles src/ (including Three.js from node_modules) into the self-contained dist/ folder
+      - name: Build
+        run: bun install --frozen-lockfile && bun run build
 
       # Runs a single command using the runners shell
       - name: FTP Deploy
@@ -36,4 +49,14 @@ jobs:
           password: ${{secrets.WEBSITE_FTP_PASSWORD}}
           # Path to upload to on the server. Must end with trailing slash /
           server-dir: /public-releases/${{github.ref_name}}/
-          local-dir: ./src/
+          local-dir: ./dist/
+
+      # Self-hosters can download this archive and upload its contents to their own web server
+      - name: Attach self-hosting archive to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          (cd dist && zip -r "../pbr-one-${TAG}.zip" .)
+          gh release upload "$TAG" "pbr-one-${TAG}.zip" --clobber

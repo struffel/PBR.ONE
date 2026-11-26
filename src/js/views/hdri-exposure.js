@@ -1,5 +1,5 @@
 // IMPORTS
-import * as THREE from "../threejs/three.module.js";
+import * as THREE from "three";
 import * as MISC from '../common/misc.js';
 import * as BASE from "../common/base.js";
 import * as SCENE_CONFIGURATION from "../common/scene-configuration.js";

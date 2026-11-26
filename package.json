@@ -1,0 +1,15 @@
+{
+  "name": "pbr-one",
+  "private": true,
+  "type": "module",
+  "description": "Simple HTML pages for interactive previews of PBR materials and HDRI environment maps.",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf dist && bun scripts/build.js",
+    "watch": "bun scripts/build.js --watch",
+    "dev": "bun scripts/dev.js"
+  },
+  "dependencies": {
+    "three": "0.187.0"
+  }
+}
