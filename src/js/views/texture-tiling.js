@@ -14,29 +14,21 @@ function moveBackground(x,y){
 }
 
 function scaleBackground(factor){
-	backgroundSize = backgroundSize * factor;
 	var backgroundSizeMin = SCENE_CONFIGURATION.getConfiguration().texture_size_min[0];
 	var backgroundSizeMax = SCENE_CONFIGURATION.getConfiguration().texture_size_max[0];
-	var updatePosition = true;
+	var oldBackgroundSize = backgroundSize;
 
-	if(backgroundSize < backgroundSizeMin){
-		backgroundSize = backgroundSizeMin;
-		updatePosition = false;
-	}
+	backgroundSize = Math.min(Math.max(backgroundSize * factor, backgroundSizeMin), backgroundSizeMax);
 
-	if(backgroundSize > backgroundSizeMax){
-		backgroundSize = backgroundSizeMax;
-		updatePosition = false;
-	}
+	// The position must scale by the factor that was actually applied after clamping,
+	// otherwise the view drifts when the size limits are hit.
+	var effectiveFactor = backgroundSize / oldBackgroundSize;
 
 	targetDomElement.style.backgroundSize = `${backgroundSize}px`;
 
-	if(updatePosition){
-		backgroundPositionY = backgroundPositionY * factor;
-		backgroundPositionX = backgroundPositionX * factor;
-		targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
-	}
-	
+	backgroundPositionY = backgroundPositionY * effectiveFactor;
+	backgroundPositionX = backgroundPositionX * effectiveFactor;
+	targetDomElement.style.backgroundPosition = `${backgroundPositionX + window.innerWidth/2}px ${backgroundPositionY + window.innerHeight/2}px`;
 }
 
 function preprocessSceneConfiguration(sceneConfiguration){
